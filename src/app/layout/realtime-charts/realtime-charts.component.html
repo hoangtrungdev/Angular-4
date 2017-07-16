@@ -1,0 +1,47 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Real time charts - modify by Hoang Trung'" [icon]="'fa-bar-chart-o'"></app-page-header>
+    <div class="form-group">
+        <button type="button" class="btn" [ngClass]="{'btn-primary': isPaused, 'btn-danger': !isPaused}" (click)="isPaused = !isPaused">
+            <span *ngIf="!isPaused"><i class="fa fa-pause-circle"></i> Pause</span>
+            <span *ngIf="isPaused"><i class="fa fa-play-circle"></i> Play</span>
+        </button>
+        <button type="reset" class="btn btn-primary" [disabled]="!isPaused" (click)="randomize()"><i class="fa fa-random"></i> Manual random value </button>
+    </div>
+    <div class="row">
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Bar Chart
+                </div>
+                <div class="card-block">
+                    <canvas baseChart [datasets]="ChartData" [labels]="ChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Radar Chart
+                </div>
+                <div class="card-block">
+                    <canvas baseChart height="150px" [datasets]="ChartData" [labels]="ChartLabels" [chartType]="radarChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-sm-6">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Line Chart
+                </div>
+                <div class="card-block">
+                    <canvas baseChart height="130" [datasets]="ChartData" [labels]="ChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
