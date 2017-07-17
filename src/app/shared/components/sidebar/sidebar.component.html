@@ -6,6 +6,9 @@
         <a [routerLink]="['/realtime-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Real time chart' | translate }}
         </a>
+        <a [routerLink]="['/shipper']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Demo Shipper' | translate }}
+        </a>
 
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">

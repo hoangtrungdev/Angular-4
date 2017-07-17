@@ -8,6 +8,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
+
+import { environment } from '../environments/environment';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
 //     for development
@@ -24,6 +31,9 @@ export function HttpLoaderFactory(http: Http) {
         FormsModule,
         HttpModule,
         AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireDatabaseModule,
+        AngularFireAuthModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -36,4 +46,5 @@ export function HttpLoaderFactory(http: Http) {
     bootstrap: [AppComponent]
 })
 export class AppModule {
+
 }
