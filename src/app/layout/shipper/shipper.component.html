@@ -25,8 +25,8 @@
                             <td>{{item.customer_name}}</td>
                             <td>{{item.customer_phone}}</td>
                             <td>{{item.customer_address}}</td>
-                            <td>{{item.totalcal}}</td>
-                            <td><button class="btn btn-sm btn-primary" *ngIf="item.handle == 0">Gửi đơn hàng</button></td>
+                            <td>{{item.totalcal - item.discount}}</td>
+                            <td><button class="btn btn-sm btn-primary" *ngIf="item.handle == 0" (click)="guiDonHang()">Gửi đơn hàng</button></td>
                         </tr>
                         </tbody>
                     </table>

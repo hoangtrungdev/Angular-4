@@ -5,6 +5,7 @@ import { ShipperComponent } from './shipper.component';
 import { ShipperRoutingModule } from './shipper-routing.module';
 import { PageHeaderModule } from './../../shared';
 
+
 @NgModule({
     imports: [
         CommonModule,
