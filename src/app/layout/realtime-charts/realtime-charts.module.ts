@@ -6,6 +6,8 @@ import { FormsModule }    from '@angular/forms';
 import { RealtimeChartsRoutingModule } from './realtime-charts-routing.module';
 import { RealtimeChartsComponent } from './realtime-charts.component';
 import { PageHeaderModule } from '../../shared';
+import { Daterangepicker } from 'ng2-daterangepicker';
+
 
 @NgModule({
     imports: [
@@ -13,7 +15,8 @@ import { PageHeaderModule } from '../../shared';
         Ng2Charts,
         FormsModule,
         RealtimeChartsRoutingModule,
-        PageHeaderModule
+        PageHeaderModule,
+        Daterangepicker
     ],
     declarations: [RealtimeChartsComponent]
 })

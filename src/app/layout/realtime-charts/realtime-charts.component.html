@@ -1,13 +1,21 @@
 <div [@routerTransition]>
     <app-page-header [heading]="'Real time charts - modify by Hoang Trung'" [icon]="'fa-bar-chart-o'"></app-page-header>
     <div class="row">
-        <div class="col col-sm-6">
+        <div class="col-md-3">
+            <fieldset class="form-group">
+                <label>Date range</label>
+                <input type="text" class="form-control"  name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event)" />
+            </fieldset>
+        </div>
+    </div>
+    <div class="row" *ngIf="daterange.start && daterange.end">
+        <div class="col col-sm-8">
             <div class="card mb-3">
                 <div class="card-header">
                     Bar Chart
                 </div>
                 <div class="card-block">
-                    <canvas baseChart [datasets]="ChartData" [labels]="ChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                    <canvas baseChart [datasets]="ChartData" [labels]="ChartLabels" [options]="ChartOptions" [legend]="ChartLegend" [chartType]="ChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
                     </canvas>
                 </div>
             </div>

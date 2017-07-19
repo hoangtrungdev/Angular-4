@@ -12,41 +12,88 @@ import * as moment from 'moment';
     animations: [routerTransition()]
 })
 export class RealtimeChartsComponent implements OnInit {
-    public items: FirebaseListObservable<any[]>;
-
     constructor(db: AngularFireDatabase ) {
-        this.items = db.list('/newOrder').map((array) => array.reverse()) as FirebaseListObservable<any[]>;
+        this.items = db.list('/newOrder');
+        this.getValueChart();
+    }
+    /* Daterangepicker */
+    public daterange: any =  {
+        start: moment().add(-1, 'months'),
+        end: moment()
+    };
+
+    // can also be setup using the config service to apply to multiple pickers
+    public options: any = {
+        locale: { format: 'DD/MM/YYYY' },
+        alwaysShowCalendars: false,
+        ranges: {
+            'Last 7 days': [moment().add(-7, 'days'), moment()],
+            'Last months': [moment().add(-1, 'months'), moment()],
+            'Last 12 Months': [moment().subtract(12, 'months'), moment()],
+        }
+    };
+
+    public selectedDate(value: any) {
+        this.daterange.start = value.start;
+        this.daterange.end = value.end;
+        this.getValueChart()
+    }
+    public getValueChart() {
         this.items.subscribe(item => {
-            this.ChartData[0].data = item.map((i) => {
+            this.ChartLabels = [];
+            this.ChartData[0].data = [];
+            let seft  = this;
+            let dataMap = item.map((i) => {
                 return {
-                    date : moment(i.startedAt).format('DD-MM-YYYY'),
-                    total : i.totalcal
+                    date : moment(i.startedAt).format('DD/MM/YYYY'),
+                    total : i.totalcal,
+                    discount : i.discount,
+                    fee : i.fee
                 };
             })
 
-            console.log(_.groupBy(this.ChartData[0].data , "date"))
+            let abc : any  = _.groupBy(dataMap , "date");
+            _.mapValues(abc, function (obj, key) {
+                let date = moment(key,'DD/MM/YYYY');
+                if(seft.daterange.start.diff(date, 'days') <= 0 && seft.daterange.end.diff(date, 'days') >= 0){
+                    seft.ChartLabels.push(key);
+                    seft.ChartData[0].data.push(_.sumBy(obj, 'total'));
+                    seft.ChartData[1].data.push(_.sumBy(obj, 'discount'));
+                }
+
+            });
         });
+
+    }
+    /* Firebase */
+    public items: FirebaseListObservable<any[]>;
+    public ChartData: any[] = [
+        { data: [], label: 'Total' },
+        { data: [], label: 'Discount' },
+    ];
+    public ChartLabels: string[] = [];
+    // public ChartData: any[] = [
+    //     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' }
+    // ];
+    // public ChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+
+
+    // events
+    public chartClicked(e: any): void {
+         console.log(e);
     }
 
-    public ChartData: any[] = [
-        { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' }
-    ];
-    public ChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+    public chartHovered(e: any): void {
+        // console.log(e);
+    }
 
     // bar chart
-    public barChartOptions: any = {
+    public ChartOptions: any = {
         scaleShowVerticalLines: false,
         responsive: true
     };
-    public barChartType: string = 'bar';
-    public barChartLegend: boolean = true;
-
-
-
-    private totalPrice = function(total, item){
-    return total + item.totalcal;
-}
-
+    public ChartType: string = 'bar';
+    public ChartLegend: boolean = true;
 
     ngOnInit() {
 
