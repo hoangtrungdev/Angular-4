@@ -7,6 +7,7 @@ const routes: Routes = [
         path: '', component: LayoutComponent,
         children: [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+            { path: 'random-charts', loadChildren: './random-charts/random-charts.module#RandomChartsModule' },
             { path: 'realtime-charts', loadChildren: './realtime-charts/realtime-charts.module#RealtimeChartsModule' },
             { path: 'shipper', loadChildren: './shipper/shipper.module#ShipperModule' },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },
