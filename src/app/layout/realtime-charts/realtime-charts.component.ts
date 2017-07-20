@@ -13,18 +13,18 @@ import * as moment from 'moment';
 })
 export class RealtimeChartsComponent implements OnInit {
     constructor(db: AngularFireDatabase ) {
-        this.items = db.list('/newOrder');
+        this.items = db.list('/sales');
         this.getValueChart();
     }
     /* Daterangepicker */
     public daterange: any =  {
-        start: moment().add(-1, 'months'),
+        start: moment().add(-7, 'days'),
         end: moment()
     };
 
     // can also be setup using the config service to apply to multiple pickers
     public options: any = {
-        locale: { format: 'DD/MM/YYYY' },
+        locale: { format: 'DD-MM-YYYY' },
         alwaysShowCalendars: false,
         ranges: {
             'Last 7 days': [moment().add(-7, 'days'), moment()],
@@ -42,23 +42,27 @@ export class RealtimeChartsComponent implements OnInit {
         this.items.subscribe(item => {
             this.ChartLabels = [];
             this.ChartData[0].data = [];
+            this.ChartData[1].data = [];
             let seft  = this;
             let dataMap = item.map((i) => {
-                return {
-                    date : moment(i.startedAt).format('DD/MM/YYYY'),
-                    total : i.totalcal,
-                    discount : i.discount,
-                    fee : i.fee
-                };
+                if(i.status == 3){
+                    return {
+                        date : i.dayend,
+                        endedAt : i.endedAt,
+                        income : i.income,
+                        profit : i.profit
+                    };
+                }
             })
 
-            let abc : any  = _.groupBy(dataMap , "date");
+            let abc : any  = _.groupBy(_.sortBy(dataMap, 'endedAt') , "date");
             _.mapValues(abc, function (obj, key) {
-                let date = moment(key,'DD/MM/YYYY');
-                if(seft.daterange.start.diff(date, 'days') <= 0 && seft.daterange.end.diff(date, 'days') >= 0){
+                let date = moment(key,'DD-MM-YYYY');
+                if(seft.daterange.start.diff(date, 'days') < 0 && seft.daterange.end.diff(date, 'days') >= 0){
                     seft.ChartLabels.push(key);
-                    seft.ChartData[0].data.push(_.sumBy(obj, 'total'));
-                    seft.ChartData[1].data.push(_.sumBy(obj, 'discount'));
+                    console.log(obj)
+                    seft.ChartData[0].data.push(_.sumBy(obj, 'income'));
+                    seft.ChartData[1].data.push(_.sumBy(obj, 'profit'));
                 }
 
             });
@@ -69,7 +73,7 @@ export class RealtimeChartsComponent implements OnInit {
     public items: FirebaseListObservable<any[]>;
     public ChartData: any[] = [
         { data: [], label: 'Total' },
-        { data: [], label: 'Discount' },
+        { data: [], label: 'Profit' },
     ];
     public ChartLabels: string[] = [];
     // public ChartData: any[] = [
