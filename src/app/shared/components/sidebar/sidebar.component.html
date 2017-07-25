@@ -1,12 +1,12 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
     <ul class="list-group">
-        <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/admin/dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'dashboard' | translate }}
         </a>
-        <a [routerLink]="['/realtime-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/admin/realtime-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Real time chart' | translate }}
         </a>
-        <a [routerLink]="['/order']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/admin/order']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Demo Order' | translate }}
         </a>
         <div class="nested-menu">
@@ -15,31 +15,31 @@
             </a>
             <li class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
-                    <a [routerLink]="['/random-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <a [routerLink]="['/admin/random-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                         <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Random chart' | translate }}
                     </a>
-                    <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <a [routerLink]="['/admin/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                         <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'charts' | translate }}
                     </a>
-                    <a [routerLink]="['/tables']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <a [routerLink]="['/admin/tables']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                         <i class="fa fa-fw fa-table"></i>&nbsp;{{ 'tables' | translate }}
                     </a>
-                    <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <a [routerLink]="['/admin/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                         <i class="fa fa-fw fa-edit"></i>&nbsp;{{ 'forms' | translate }}
                     </a>
-                    <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <a [routerLink]="['/admin/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                         <i class="fa fa-fw fa-desktop"></i>&nbsp;{{ 'boostrapElement' | translate }}
                     </a>
-                    <a [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <a [routerLink]="['/admin/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                         <i class="fa fa-fw fa-wrench"></i>&nbsp;{{ 'boostrapGrid' | translate }}
                     </a>
-                    <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                    <a [routerLink]="['/admin/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                         <i class="fa fa-th-list"></i>&nbsp;{{ 'component' | translate }}
                     </a>
                 </ul>
             </li>
         </div>
-        <a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/admin/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-file-o"></i>&nbsp;{{ 'blankpage' | translate }}
         </a>
         <a class="list-group-item more-themes" href="http://www.strapui.com/" >
