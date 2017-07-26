@@ -11,6 +11,8 @@ import { Http , Headers , RequestOptions } from '@angular/http';
     animations: [routerTransition()]
 })
 export class OrderComponent implements OnInit {
+    public phoneInput : any ;
+    public nameInput : any ;
     constructor(db: AngularFireDatabase , private http: Http ) {
         db.list('/newOrder').subscribe(items => {
             this.items = items ;

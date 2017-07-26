@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { routerTransition } from '../router.animations';
+
 
 @Component({
-    selector: 'app-default',
+    selector: 'app-Default',
     templateUrl: './default.component.html',
-    styleUrls: ['./default.component.scss'],
-    animations: [routerTransition()]
+    styleUrls: ['./default.component.scss']
 })
 export class DefaultComponent implements OnInit {
 
-    constructor(public router: Router) {
-    }
+    constructor(public router: Router) { }
 
     ngOnInit() {
-    }
-
-    onLoggedin() {
-        localStorage.setItem('isLoggedin', 'true');
+        if (this.router.url === '/') {
+            this.router.navigate(['/trang-chu']);
+        }
     }
 
 }

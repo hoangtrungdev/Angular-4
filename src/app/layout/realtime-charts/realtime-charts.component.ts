@@ -60,7 +60,6 @@ export class RealtimeChartsComponent implements OnInit {
                 let date = moment(key,'DD-MM-YYYY');
                 if(seft.daterange.start.diff(date, 'days') < 0 && seft.daterange.end.diff(date, 'days') >= 0){
                     seft.ChartLabels.push(key);
-                    console.log(obj)
                     seft.ChartData[0].data.push(_.sumBy(obj, 'income'));
                     seft.ChartData[1].data.push(_.sumBy(obj, 'profit'));
                 }

@@ -4,7 +4,7 @@ import { LayoutComponent } from './layout.component';
 
 const routes: Routes = [
     {
-        path: '', component: LayoutComponent , loadChildren: './dashboard/dashboard.module#DashboardModule',
+        path: '', component: LayoutComponent ,
         children: [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'random-charts', loadChildren: './random-charts/random-charts.module#RandomChartsModule' },
