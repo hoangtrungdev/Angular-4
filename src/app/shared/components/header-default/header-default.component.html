@@ -1,71 +1,10 @@
 <div class="pos-f-t fixed-top header">
     <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md">
+        <button class="navbar-toggler navbar-toggler-right" (click)="toggleSidebar()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <a class="navbar-brand" href="javascript:void(0)"  [routerLink]="['/trang-chu']">
             <img src="/assets/default/images/logo_small.png" alt="">
         </a>
-
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown" ngbDropdown>
-                    <!-- <div class="dropdown"> -->
-                    <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
-                        Túi <b class="caret"></b><span class="sr-only">(current)</span>
-                    </a>
-                    <ul class="dropdown-menu messages">
-                        <li class="media" [routerLink]="['/danh-muc']">
-                            <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-1">Túi đựng máy tính bảng</h5>
-                                <p class="last"> Túi đựng máy tính bảng description chất lượng là ưu tiên hàng đầu ...</p>
-                            </div>
-                        </li>
-                        <li class="media" [routerLink]="['/danh-muc']">
-                            <img class="d-flex align-self-center mr-3 nav-img" src="/assets/default/images/laptop-bag-14.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-1">Túi đựng laptop</h5>
-                                <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
-                            </div>
-                        </li>
-                        <li class="media" [routerLink]="['/danh-muc']">
-                            <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-1">Túi đựng máy ảnh</h5>
-                                <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown" ngbDropdown>
-                    <!-- <div class="dropdown"> -->
-                    <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
-                        Balo <b class="caret"></b><span class="sr-only">(current)</span>
-                    </a>
-                    <ul class="dropdown-menu messages">
-                        <li class="media" [routerLink]="['/danh-muc']">
-                            <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-1">Túi đựng máy tính bảng</h5>
-                                <p class="last"> Túi đựng máy tính bảng description chất lượng là ưu tiên hàng đầu ...</p>
-                            </div>
-                        </li>
-                        <li class="media" [routerLink]="['/danh-muc']">
-                            <img class="d-flex align-self-center mr-3 nav-img" src="/assets/default/images/laptop-bag-14.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-1">Túi đựng laptop</h5>
-                                <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
-                            </div>
-                        </li>
-                        <li class="media" [routerLink]="['/danh-muc']">
-                            <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-1">Túi đựng máy ảnh</h5>
-                                <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-        </div>
     </nav>
 </div>

@@ -1,0 +1,13 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+    <ul class="list-group">
+        <a [routerLink]="['/trang-chu']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-home"></i> Trang Chủ
+        </a>
+        <a [routerLink]="['/danh-muc']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-shopping-bag"></i> Túi
+        </a>
+        <a [routerLink]="['/chi-tiet','12']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-shopping-basket"></i> Balo
+        </a>
+    </ul>
+</nav>

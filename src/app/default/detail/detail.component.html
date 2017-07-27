@@ -1,7 +1,85 @@
-<div class="main-container default-container" [@routerTransition]>
+<div [@routerTransition] id="detail-page">
     <div class="main container">
-        <div style="padding: 10px">
-            Trang Chi tiet . <a [routerLink]="['/trang-chu']"> Trang Chu</a>
+        <div class="row">
+            <div class="col-main col-sm-12">
+                <div class="row">
+                    <div class="product-img-box col-sm-4">
+                        <img src="/assets/default/products/19/103_avatar.jpg" alt="">
+                    </div>
+                    <div class="product-shop col-sm-4">
+                        {{items | json}}
+                        <div class="add-to-box">
+                            <div class="std">
+                                <h4 class="product_code">Mã sản phẩm: 103</h4>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="add-to-box" style="color:red;">
+                                <p class="special-price">
+                                    <span class="price">150,000</span>
+                                    <del>290,000</del>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="clearer"></div>
+                        <div class="clearer"></div>
+                        <br>
+                        <div class="product-info-luuy">
+                            <strong><span class="fa fa-exclamation-circle"></span> <i>Lưu ý:</i></strong>
+                            Halley Store là kho hàng, bạn không nên đến tận nơi mới chọn mẫu,
+                            chỉ nên đến tận nơi để xem mẫu đã chọn.
+                        </div>
+
+                    </div>
+                    <div class="sidebar col-sm-4">
+                        <div class="custom-block custom-block-1">
+                            <div class="pointer">
+                                <i class="fa fa-road"></i>
+                                <h3>Phí giao hàng tận nơi</h3>
+                            </div>
+                            <div class="pointer">
+                                <i class="fa fa-refresh"></i>
+                                <h3>Đổi trả, bảo hành</h3>
+                            </div>
+                            <div class="pointer">
+                                <i class="fa fa-phone"></i>
+                                <h3>097.456.9396</h3>
+                            </div>
+                        </div>
+
+                        <div class="product-info-gia-re">
+                            <div class="title"><span class="fa fa-thumbs-up"></span> Giá rẻ và luôn rẻ so với chất lượng vì:</div>
+                            <div class="line">
+                                <span><span class="fa fa-check"></span> Halley Store xây dựng theo mô hình kho hàng, tiết kiệm tối đa chi phí.</span>
+                            </div>
+                            <div class="line">
+                                <span><span class="fa fa-check"></span> Hàng hoá được sản xuất hoặc nhập số lượng lớn, giảm chi phí đầu vào.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" id="info-detail">
+            <div class="col col-xs-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <span class="fa fa-exclamation-circle"></span> Thông tin chi tiết
+                    </div>
+                    <div class="card-block">
+                        <p><img alt="" class="img-responsive" src="http://halley.vn/public/default/ckeditor/images/IMG_8267_r.jpg" style="margin:0 auto"></p>
+
+                        <p><img alt="" class="img-responsive" src="http://halley.vn/public/default/ckeditor/images/IMG_8270_r.jpg" style="margin:0 auto"></p>
+
+                        <p><img alt="" class="img-responsive" src="http://halley.vn/public/default/ckeditor/images/IMG_8271_r.jpg" style="margin:0 auto"></p>
+
+                        <p><img alt="" class="img-responsive" src="http://halley.vn/public/default/ckeditor/images/IMG_8270_size.jpg" style="margin:0 auto"></p>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

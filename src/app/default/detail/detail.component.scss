@@ -1,7 +1,59 @@
-.default-container {
-    padding-top: 55px;
+#detail-page {margin-top: 10px}
+.gift-messages-form .item .product-img-box{float:left;width:75px}
+.product-shop {
+    margin-top: 20px;
 }
-.product-image img {
-    max-width: 100%;
-    height: auto;
+.product-img-box img{ width: 100%}
+.product-info-luuy{
+    margin-top: 10px;
+}
+.product-info-gia-re{
+    margin-top: 10px;
+    .title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .line {
+        margin-left: 10px;
+    }
+}
+.add-to-box{padding:0 0 5px 0;margin-top:10px;border-bottom:1px solid #ebebeb}
+.col1-layout .product-options-bottom,.col1-layout .add-to-box{float:left;width:350px;border:0;}
+.add-to-box .add-to-cart{float:left}
+.add-to-box .or{float:left;font-weight:bold;margin:0 7px;color:#666}
+.add-to-box .add-to-links{float:left;margin:0;font-size:12px !important;line-height:1.25 !important;text-align:left !important}
+.add-to-box .add-to-links li .separator{display:none !important}
+
+.sidebar .custom-block.custom-block-1{padding-bottom:20px}
+.sidebar .custom-block.custom-block-1{padding-bottom:20px}
+.sidebar .custom-block-1 .pointer{margin-top:20px;clear:both}
+.sidebar .custom-block-1 .pointer i{font-size:30px;color:#000;float:left;width:50px;height:50px;line-height:48px;border:1px solid #bbb;border-radius:50%;text-align:center;margin-right:10px}
+.sidebar .custom-block-1 .pointer h3{color:#313131;font-size:16px;margin:0;line-height:1.5;margin-left:50px;padding-top:15px}
+.sidebar .custom-block-1 .pointer p{font-size:12px;margin:0;margin-left:50px;line-height:1}
+
+#info-detail {
+    margin-top: 20px;
+    .img-responsive {
+        max-width: 100%;
+    }
+    .card-header{
+        padding: 7px 10px;
+        font-size: 14px;
+        font-weight: bolder;
+    }
+    .card-block {
+        text-align: center;
+    }
+}
+
+
+@media (max-width:1199px){
+    .col1-layout .product-shop .product-options-bottom,.col1-layout .add-to-box{float:none;width:auto;border-bottom:1px solid #ebebeb}
+}
+
+@media (max-width:767px){
+    .product-view .product-img-box{margin-bottom:30px}
+    .product-img-box .etalage:hover + .etalage-control + .product-view-zoom-area{display:none}
+    .product-view .product-img-box .etalage-control{visibility:visible}
+    .product-view .product-img-box .etalage.vertical+.etalage-control a.etalage-prev{left:0}
 }

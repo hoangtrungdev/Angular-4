@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { DefaultRoutingModule } from './default-routing.module';
 import { DefaultComponent } from './default.component';
-import { HeaderDefaultComponent } from '../shared';
+import { HeaderDefaultComponent, SidebarDefaultComponent } from '../shared';
 
 @NgModule({
     imports: [
@@ -17,6 +17,7 @@ import { HeaderDefaultComponent } from '../shared';
     declarations: [
         DefaultComponent,
         HeaderDefaultComponent,
+        SidebarDefaultComponent
     ]
 })
 export class DefaultModule { }
