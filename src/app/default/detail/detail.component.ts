@@ -3,7 +3,6 @@ import { routerTransition } from '../../router.animations';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-
 @Component({
     selector: 'app-detail',
     templateUrl: './detail.component.html',
@@ -13,18 +12,30 @@ import { AngularFireDatabase } from 'angularfire2/database';
 export class DetailComponent implements OnInit, OnDestroy{
     public id: any;
     private sub: any;
-    public items: any[];
+    public detailInfo: any;
+    public loading = false;
+
 
     constructor(private route: ActivatedRoute, db: AngularFireDatabase) {
-        db.list('/products').subscribe(items => {
-            this.items = items ;
+        this.sub = this.route.params.subscribe(params => {
+            this.id = params['id'];
+        });
+        this.loading = true;
+        db.list('/products',{
+            query: {
+                orderByChild: 'pid',
+                equalTo: this.id
+            }
+        }).subscribe(items => {
+            this.detailInfo = items && items[0] ? items[0] : null ;
+            if(this.detailInfo && this.detailInfo.detail_img){
+                this.detailInfo.detail_img = this.detailInfo.detail_img.split(';');
+            }
+            this.loading = false;
         });
     }
     ngOnInit() {
-        this.sub = this.route.params.subscribe(params => {
-            this.id = params['id']; // (+) converts string 'id' to a number
 
-        });
     }
     ngOnDestroy() {
         this.sub.unsubscribe();

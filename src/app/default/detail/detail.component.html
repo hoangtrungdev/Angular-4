@@ -1,23 +1,23 @@
-<div [@routerTransition] id="detail-page">
+<app-loading *ngIf="loading" ></app-loading>
+<div [@routerTransition] id="detail-page" *ngIf="detailInfo">
     <div class="main container">
         <div class="row">
             <div class="col-main col-sm-12">
                 <div class="row">
                     <div class="product-img-box col-sm-4">
-                        <img src="/assets/default/products/19/103_avatar.jpg" alt="">
+                        <img src="/assets/default/products/{{detailInfo.avatar}}" alt="">
                     </div>
                     <div class="product-shop col-sm-4">
-                        {{items | json}}
                         <div class="add-to-box">
                             <div class="std">
-                                <h4 class="product_code">Mã sản phẩm: 103</h4>
+                                <h4 class="product_code">Mã sản phẩm: {{detailInfo.pid}}</h4>
                             </div>
                         </div>
                         <div class="product-info">
                             <div class="add-to-box" style="color:red;">
                                 <p class="special-price">
-                                    <span class="price">150,000</span>
-                                    <del>290,000</del>
+                                    <span class="price">{{detailInfo.sale_price | number : '1.0-0' }}</span>
+                                    <del>{{detailInfo.price | number : '1.0-0' }}</del>
                                 </p>
                             </div>
                         </div>
@@ -69,13 +69,7 @@
                         <span class="fa fa-exclamation-circle"></span> Thông tin chi tiết
                     </div>
                     <div class="card-block">
-                        <p><img alt="" class="img-responsive" src="http://halley.vn/public/default/ckeditor/images/IMG_8267_r.jpg" style="margin:0 auto"></p>
-
-                        <p><img alt="" class="img-responsive" src="http://halley.vn/public/default/ckeditor/images/IMG_8270_r.jpg" style="margin:0 auto"></p>
-
-                        <p><img alt="" class="img-responsive" src="http://halley.vn/public/default/ckeditor/images/IMG_8271_r.jpg" style="margin:0 auto"></p>
-
-                        <p><img alt="" class="img-responsive" src="http://halley.vn/public/default/ckeditor/images/IMG_8270_size.jpg" style="margin:0 auto"></p>
+                        <p><img *ngFor="let image of detailInfo.detail_img" alt="" class="img-responsive" src="/assets/default/products_detail/{{image}}" style="margin:0 auto"></p>
 
                     </div>
                 </div>
