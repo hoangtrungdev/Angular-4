@@ -7,8 +7,9 @@ const routes: Routes = [
         path: '', component: DefaultComponent ,
         children: [
             { path: 'trang-chu', loadChildren: './index/index.module#IndexModule' },
-            { path: 'danh-muc', loadChildren: './category/category.module#CategoryModule' },
+            { path: 'danh-muc/:id', loadChildren: './category/category.module#CategoryModule' },
             { path: 'chi-tiet/:id', loadChildren: './detail/detail.module#DetailModule' },
+            { path: 'gio-hang', loadChildren: './cart/cart.module#CartModule' },
         ]
     }
 ];

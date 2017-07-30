@@ -20,10 +20,18 @@
                                     <del>{{detailInfo.price | number : '1.0-0' }}</del>
                                 </p>
                             </div>
+                            <div class="cart-box">
+                                <button class="btn btn-primary btn-dat-hang" *ngIf="detailInfo.quantity > 0" (click)="addToCart(detailInfo)">
+                                    <i class="fa fa-mail-forward"></i>
+                                    Đặt hàng
+                                </button>
+                                <span *ngIf="detailInfo.quantity <= 0">
+                                    <i class="fa fa-exclamation-circle"></i>
+                                    Sản phẩm tạm hết hàng .
+                                </span>
+                            </div>
                         </div>
-                        <div class="clearer"></div>
-                        <div class="clearer"></div>
-                        <br>
+
                         <div class="product-info-luuy">
                             <strong><span class="fa fa-exclamation-circle"></span> <i>Lưu ý:</i></strong>
                             Halley Store là kho hàng, bạn không nên đến tận nơi mới chọn mẫu,

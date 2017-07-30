@@ -3,8 +3,24 @@
         <a [routerLink]="['/trang-chu']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-home"></i> Trang Chủ
         </a>
-        <a [routerLink]="['/danh-muc']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-shopping-bag"></i> Túi
+        <a [routerLink]="['/gio-hang']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-shopping-cart"></i> Giỏ Hàng
         </a>
+        <div class="text-center" *ngIf="loading">
+            <img src="/assets/default/images/loading-animation.gif" style="width: 20px" />
+        </div>
+        <div class="nested-menu" *ngFor="let cate of cateArray">
+            <a class="list-group-item" (click)="addExpandClass(cate.name)">
+                <span><i class="fa fa fa-fw fa-shopping-bag"></i>&nbsp;{{cate.name}}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === cate.name">
+                <ul class="submenu">
+                    <a  *ngFor="let sub of cate.subArray | async" [routerLink]="['/danh-muc', sub.$key]" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <i class="fa fa-fw fa-check"></i>&nbsp;{{sub.name}}
+                    </a>
+                </ul>
+            </li>
+        </div>
+
     </ul>
 </nav>
