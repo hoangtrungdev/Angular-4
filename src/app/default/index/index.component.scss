@@ -1,19 +1,12 @@
 .default-container {
     padding-top: 55px;
 }
-.img-desc-home3 {
-    margin-top: -88px;
-    padding: 0 25px;
-    h3 {
-        font-size: 24px;
-    }
-    hr {
-        width: 90px;
-        margin: 15px 0;
-    }
-    p, a {
-        font-size: 15px;
-    }
+.price{
+    font-size: 1.3em;
+}
+
+.sold-out{
+    opacity: 0.5;
 }
 
 .image-link {
