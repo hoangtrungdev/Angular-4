@@ -62,8 +62,12 @@
                                     </td>
                                     <td><img src="/assets/default/products/{{item.avatar}}" class="img-cart"></td>
                                     <td>{{item.sale_price | number : '1.0-0'}}</td>
-                                    <td><input type="number" class="cart-quantity" placeholder="Tên khách hàng" (change)="changeCartItem()"
-                                               name="itemQuantity" [(ngModel)]="item.quantity" min="1"></td>
+                                    <td class="td-quantity" >
+                                        <i class="fa fa-minus" (click)="changeQuantityCartItem(item, -1)"></i>
+                                        {{item.quantity}}
+                                        <i class="fa fa-plus" (click)="changeQuantityCartItem(item, 1)"></i>
+
+                                    </td>
                                     <td>{{(item.quantity * item.sale_price) | number : '1.0-0' }}</td>
                                 </tr>
                                 </tbody>

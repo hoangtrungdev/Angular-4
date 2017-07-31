@@ -74,6 +74,14 @@
         border: 1px solid #CCC;
         border-radius: 5px;
     }
+    .td-quantity {
+        white-space: nowrap;
+        i {
+            margin: 5px;
+            cursor: pointer;
+        }
+    }
+;
 
 }
 .no-product {

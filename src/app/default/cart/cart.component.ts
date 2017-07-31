@@ -66,7 +66,12 @@ export class CartComponent implements OnInit {
         this.cartArray.splice(index, 1);
         localStorage.setItem('cartInfo', JSON.stringify(this.cartArray));
     }
-    public changeCartItem() {
+    public changeQuantityCartItem(item, value) {
+        if( value == -1 && item.quantity == 1) {
+
+        } else {
+            item.quantity  += value ;
+        }
         localStorage.setItem('cartInfo', JSON.stringify(this.cartArray));
     }
     public nextStep(step) {
