@@ -1,30 +1,36 @@
 <app-loading *ngIf="loading" ></app-loading>
 <div [@routerTransition]  *ngIf="productArray">
     <div class="main container">
-        <div class="row">
-            <div class="col-sm-3"  *ngFor="let product of productArray">
-                <div class="item-area">
-                    <div class="product-image-area">
-                        <a [routerLink]="['/chi-tiet', product.pid ]" title="" class="product-image">
-                            <img src="/assets/default/products/{{product.avatar}}" alt="" class="img-responsive" style="margin: 0px auto;">
-                        </a>
-                    </div>
-                    <div class="details-area text-center">
-                        <h3 class="product-name">
-                            <a [routerLink]="['/chi-tiet', product.pid ]" title="">{{product.pid}}</a>
-                        </h3>
-                        <div class="action-area">
-                            <div class="price-box">
-                                <p class="special-price">
-                                    <span class="price">{{product.sale_price | number : '1.0-0' }}</span>
-                                    <del>{{product.price | number : '1.0-0' }}</del>
-                                </p>
+        <div class="row"
+                 infinite-scroll
+                 [infiniteScrollDistance]="10"
+                 [infiniteScrollThrottle]="500"
+                 (scrolled)="onScrollDown()">
+                <div class="col-sm-3"  *ngFor="let product of productArray ; let i = index" >
+                    <template [ngIf]="i < numberShow">
+                        <div class="item-area">
+                            <div class="product-image-area">
+                                <a [routerLink]="['/chi-tiet', product.pid ]" title="" class="product-image">
+                                    <img src="/assets/default/products/{{product.avatar}}" alt="" class="img-responsive" style="margin: 0px auto;">
+                                </a>
                             </div>
+                            <div class="details-area text-center">
+                                <h3 class="product-name">
+                                    <a [routerLink]="['/chi-tiet', product.pid ]" title="">{{product.pid}}</a>
+                                </h3>
+                                <div class="action-area">
+                                    <div class="price-box">
+                                        <p class="special-price">
+                                            <span class="price">{{product.sale_price | number : '1.0-0' }}</span>
+                                            <del>{{product.price | number : '1.0-0' }}</del>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearer"></div>
                         </div>
-                    </div>
-                    <div class="clearer"></div>
+                    </template>
                 </div>
-            </div>
         </div>
     </div>
 </div>

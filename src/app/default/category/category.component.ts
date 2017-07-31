@@ -14,6 +14,8 @@ export class CategoryComponent implements OnInit {
     private sub: any;
     public productArray: any;
     public loading = false;
+    public perPage = 2 ;
+    public numberShow = 2 ;
 
     constructor(private route: ActivatedRoute, db: AngularFireDatabase) {
 
@@ -33,6 +35,12 @@ export class CategoryComponent implements OnInit {
         });
 
     }
+    //--------------------
+
+    onScrollDown () {
+        this.numberShow += this.perPage ;
+    }
+
     ngOnInit() {
     }
 }
