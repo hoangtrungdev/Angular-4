@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 text-center btn-load-more-div">
+            <div class="col-sm-12 text-center btn-load-more-div" *ngIf="productArray.length >= numberShow">
                 <button class="btn btn-default" (click)="showMore()"><i class="fa fa-eye" aria-hidden="true"></i> Xem thêm</button>
             </div>
         </div>
