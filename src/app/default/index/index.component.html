@@ -2,8 +2,7 @@
 <div [@routerTransition]  *ngIf="!loading">
     <div class="main container">
         <div class="row">
-            <div class="col-sm-3"  *ngFor="let product of productArray; let i = index">
-            <div *ngIf="i < perPage">
+            <div class="col-sm-3"  *ngFor="let product of productArray; let i = index" [hidden]="i >= perPage">
                 <a [routerLink]="['/chi-tiet', product.pid ]" title="" class="product-image">
                     <img src="/assets/default/products/{{product.avatar}}" [ngClass]="{'sold-out':product.quantity == '0'}" class="img-fluid" style="margin: 0px auto;">
                 </a>
@@ -19,12 +18,10 @@
                         </div>
                     </div>
                 </div>
-            </div>    
             </div>
-            <div style="text-align: center;" class="col-sm-12">
+            <div class="col-sm-12 text-center btn-load-more-div">
                 <button class="btn btn-default" (click)="showMore()"><i class="fa fa-eye" aria-hidden="true"></i> Xem thêm</button>
             </div>
         </div>
-        <br>
     </div>
 </div>

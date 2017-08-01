@@ -1,36 +1,27 @@
 <app-loading *ngIf="loading" ></app-loading>
-<div [@routerTransition]  *ngIf="productArray">
+<div [@routerTransition]  *ngIf="productArray.length > 0 ">
     <div class="main container">
-        <div class="row"
-                 infinite-scroll
-                 [infiniteScrollDistance]="10"
-                 [infiniteScrollThrottle]="500"
-                 (scrolled)="onScrollDown()">
-                <div class="col-sm-3"  *ngFor="let product of productArray ; let i = index" >
-                    <template [ngIf]="i < numberShow">
-                        <div class="item-area">
-                            <div class="product-image-area">
-                                <a [routerLink]="['/chi-tiet', product.pid ]" title="" class="product-image">
-                                    <img src="/assets/default/products/{{product.avatar}}" alt="" class="img-responsive" style="margin: 0px auto;">
-                                </a>
-                            </div>
-                            <div class="details-area text-center">
-                                <h3 class="product-name">
-                                    <a [routerLink]="['/chi-tiet', product.pid ]" title="">{{product.pid}}</a>
-                                </h3>
-                                <div class="action-area">
-                                    <div class="price-box">
-                                        <p class="special-price">
-                                            <span class="price">{{product.sale_price | number : '1.0-0' }}</span>
-                                            <del>{{product.price | number : '1.0-0' }}</del>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearer"></div>
+        <div class="row">
+            <div class="col-sm-3"  *ngFor="let product of productArray; let i = index" [hidden]="i >= numberShow">
+                <a [routerLink]="['/chi-tiet', product.pid ]" title="" class="product-image">
+                    <img src="/assets/default/products/{{product.avatar}}" [ngClass]="{'sold-out':product.quantity == '0'}" class="img-fluid" style="margin: 0px auto;">
+                </a>
+                <div class="details-area text-center">
+                    <span style="font-size: 1.5em;">{{product.pid}}</span>
+                    <div class="action-area">
+                        <div class="price-box">
+                            <p class="special-price" *ngIf="product.quantity!='0'">
+                                <span class="price">{{product.sale_price | number : '1.0-0' }}</span>
+                                <del>{{product.price | number : '1.0-0' }}</del>
+                            </p>
+                            <p *ngIf="product.quantity=='0'" style="font-size: 1.2em;">Hết hàng</p>
                         </div>
-                    </template>
+                    </div>
                 </div>
+            </div>
+            <div class="col-sm-12 text-center btn-load-more-div">
+                <button class="btn btn-default" (click)="showMore()"><i class="fa fa-eye" aria-hidden="true"></i> Xem thêm</button>
+            </div>
         </div>
     </div>
 </div>
