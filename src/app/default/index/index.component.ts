@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { AngularFireDatabase } from 'angularfire2/database';
+import  *  as _ from 'lodash';
 
 @Component({
     selector: 'app-index',
@@ -12,9 +13,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 export class IndexComponent implements OnInit {
 
 	public loading = false;
-	public showButton = true;
 	public productArray: any;
-	public allProduct: any;
 	public perPage = 8;
 
     constructor(db: AngularFireDatabase) {
@@ -22,13 +21,14 @@ export class IndexComponent implements OnInit {
         this.productArray = [];
         db.list('/products').subscribe(items => {
         	this.productArray = items.filter( item => item.show ==true );
+        	this.productArray = _.orderBy(this.productArray, ['quantity'], ['desc']);
             this.loading = false;
         });
     }
 
     public showMore(): void {
     	this.perPage += 8;
-    	
+
     }
 
     ngOnInit() {
