@@ -20,11 +20,7 @@ export class IndexComponent implements OnInit {
     constructor(db: AngularFireDatabase) {
    		this.loading = true;
         this.productArray = [];
-        db.list('/products',{
-                query: {
-                    orderBy: '-quantity'
-                }
-            }).subscribe(items => {
+        db.list('/products').subscribe(items => {
         	this.productArray = items.filter( item => item.show ==true );
             this.loading = false;
         });

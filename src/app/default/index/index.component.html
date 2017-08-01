@@ -15,14 +15,13 @@
                                 <span class="price">{{product.sale_price | number : '1.0-0' }}</span>
                                 <del>{{product.price | number : '1.0-0' }}</del>
                             </p>
-                            <p *ngIf="product.quantity=='0'">Hết hàng</p>
+                            <p *ngIf="product.quantity=='0'" style="font-size: 1.2em;">Hết hàng</p>
                         </div>
                     </div>
                 </div>
             </div>    
             </div>
-            <br>
-            <div style="margin:0 auto;">
+            <div style="text-align: center;" class="col-sm-12">
                 <button class="btn btn-default" (click)="showMore()"><i class="fa fa-eye" aria-hidden="true"></i> Xem thêm</button>
             </div>
         </div>
