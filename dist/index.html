@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>HT demo</title>
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="styles.0f3bce124a9ac691330d.bundle.css" rel="stylesheet"/></head>
+    <body>
+        <app-root></app-root>
+    <script type="text/javascript" src="inline.6ee97c13e6daef633650.bundle.js"></script><script type="text/javascript" src="polyfills.d89c82bcd3f48b8f9ddc.bundle.js"></script><script type="text/javascript" src="scripts.9b01032849c62974f8fe.bundle.js"></script><script type="text/javascript" src="vendor.d2a832575f5fd1c66b12.bundle.js"></script><script type="text/javascript" src="main.9ff3279ac1c10e6c907b.bundle.js"></script></body>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                console.log('Service Worker registered');
+            }).catch(function(err) {
+                console.log('Service Worker registration failed: ', err);
+            });
+        }
+    </script>
+</html>
