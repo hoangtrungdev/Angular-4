@@ -18,8 +18,8 @@ export class CategoryComponent implements OnInit {
     public numberShow = 8 ;
 
     constructor(private route: ActivatedRoute, db: AngularFireDatabase) {
-
         this.sub = this.route.params.subscribe(params => {
+            this.numberShow = 8;
             this.id = params['id'];
             this.loading = true;
             this.productArray = [];

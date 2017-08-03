@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 export function routerTransition() {
-    return slideToBottom();
+    return slideToTop();
 
 }
 export function fadeIn() {
@@ -23,12 +23,8 @@ export function slideToRight() {
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [
-            style({ transform: 'translateX(-20%)' }),
-            animate('0.3s ease-in-out', style({ transform: 'translateX(0%)' }))
-        ]),
-        transition(':leave', [
-            style({ transform: 'translateX(0%)' }),
-            animate('0.3s ease-in-out', style({ transform: 'translateX(20%)' }))
+            style({ transform: 'translateX(-100%)' }),
+            animate('0.5s ease-in-out', style({ transform: 'translateX(0%)' }))
         ])
     ]);
 }
@@ -38,12 +34,8 @@ export function slideToLeft() {
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [
-            style({ transform: 'translateX(20%)' }),
-            animate('0.3s ease-in-out', style({ transform: 'translateX(0%)' }))
-        ]),
-        transition(':leave', [
-            style({ transform: 'translateX(0%)' }),
-            animate('0.3s ease-in-out', style({ transform: 'translateX(-20%)' }))
+            style({ transform: 'translateX(100%)' }),
+            animate('0.5s ease-in-out', style({ transform: 'translateX(0%)' }))
         ])
     ]);
 }
@@ -53,12 +45,8 @@ export function slideToBottom() {
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [
-            style({ transform: 'translateY(-20%)' }),
-            animate('0.3s ease-in-out', style({ transform: 'translateY(0%)' }))
-        ]),
-        transition(':leave', [
-            style({ transform: 'translateY(0%)' }),
-            animate('0.3s ease-in-out', style({ transform: 'translateY(20%)' }))
+            style({ transform: 'translateY(-100%)' }),
+            animate('0.5s ease-in-out', style({ transform: 'translateY(0%)' }))
         ])
     ]);
 }
@@ -68,12 +56,8 @@ export function slideToTop() {
         state('void', style({})),
         state('*', style({})),
         transition(':enter', [
-            style({ transform: 'translateY(20%)' }),
-            animate('0.3s ease-in-out', style({ transform: 'translateY(0%)' }))
-        ]),
-        transition(':leave', [
-            style({ transform: 'translateY(0%)' }),
-            animate('0.3s ease-in-out', style({ transform: 'translateY(-20%)' }))
+            style({ transform: 'translateY(100%)' }),
+            animate('0.5s ease-in-out', style({ transform: 'translateY(0%)' }))
         ])
     ]);
 }
