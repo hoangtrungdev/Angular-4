@@ -11,8 +11,13 @@
                     <div class="action-area">
                         <div class="price-box">
                             <p class="special-price" *ngIf="product.quantity!='0'">
-                                <span class="price">{{product.sale_price | number : '1.0-0' }}</span>
-                                <del>{{product.price | number : '1.0-0' }}</del>
+                                <span *ngIf="product.saleoff">
+                                    <span class="price">{{product.sale_price | number : '1.0-0' }}</span>
+                                    <del>{{product.price | number : '1.0-0' }}</del>
+                                </span>
+                                <span *ngIf="!product.saleoff">
+                                    <span class="price">{{product.price | number : '1.0-0' }}</span>
+                                </span>
                             </p>
                             <p *ngIf="product.quantity=='0'" style="font-size: 1.2em;">Hết hàng</p>
                         </div>
