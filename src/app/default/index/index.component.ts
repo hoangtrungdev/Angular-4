@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../../router.animations';
 import { AngularFireDatabase } from 'angularfire2/database';
 import  *  as _ from 'lodash';
+import { fxArray } from "../../../prefx"
 
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
-    animations: [routerTransition()]
+    animations: [
+        fxArray
+    ]
 
 })
 export class IndexComponent implements OnInit {

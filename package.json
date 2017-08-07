@@ -10,7 +10,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "sw": "sw-precache --root=dist --config=sw-precache-config.js"
+    "sw": "sw-precache --root=dist --config=sw-precache-config.js",
+      "build:prefx": "ack-angular-fx --out ./src/prefx.ts",
+    "ack-webpack": "ack-webpack"
   },
   "private": true,
   "dependencies": {
@@ -27,6 +29,8 @@
     "@ngx-translate/core": "^7.0.0",
     "@ngx-translate/http-loader": "^0.1.0",
     "@types/lodash": "^4.14.70",
+    "ack-angular-fx": "^1.2.6",
+    "ack-webpack": "^1.1.47",
     "angular2-infinite-scroll": "^0.3.5",
     "angular2-toaster": "^4.0.1",
     "angularfire2": "^4.0.0-rc.1",
@@ -47,6 +51,8 @@
     "@angular/language-service": "^4.0.0",
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
+    "ack-angular-fx": "^1.2.6",
+    "ack-webpack": "^1.1.47",
     "codelyzer": "~3.0.1",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
@@ -61,5 +67,8 @@
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
     "typescript": "~2.3.3"
+  },
+  "jsDependencies": {
+    "ack-angular-fx": "1.2.6"
   }
 }
