@@ -3,11 +3,8 @@
         <a [routerLink]="['/admin/dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'dashboard' | translate }}
         </a>
-        <a [routerLink]="['/admin/realtime-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Real time chart' | translate }}
-        </a>
-        <a [routerLink]="['/admin/order']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Demo Order' | translate }}
+        <a [routerLink]="['/admin/coupon']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;Coupon
         </a>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')">
@@ -15,6 +12,12 @@
             </a>
             <li class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
+                    <a [routerLink]="['/admin/realtime-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Real time chart' | translate }}
+                    </a>
+                    <a [routerLink]="['/admin/order']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+                        <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Demo Order' | translate }}
+                    </a>
                     <a [routerLink]="['/admin/random-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
                         <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Random chart' | translate }}
                     </a>
@@ -39,11 +42,5 @@
                 </ul>
             </li>
         </div>
-        <a [routerLink]="['/admin/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-file-o"></i>&nbsp;{{ 'blankpage' | translate }}
-        </a>
-        <a class="list-group-item more-themes" href="http://www.strapui.com/" >
-            {{ 'moretheme' | translate }}
-        </a>
     </ul>
 </nav>

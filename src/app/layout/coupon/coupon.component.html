@@ -1,0 +1,52 @@
+<toaster-container></toaster-container>
+<div [@routerTransition]>
+    <app-page-header [heading]="'Coupon list'" [icon]="'fa-table'"></app-page-header>
+    <div class="row">
+        <div class="col-md-2">
+            <fieldset class="form-group">
+                <input [(ngModel)]="couponValue"  type="text" class="form-control" placeholder="Giá trị giảm" />
+            </fieldset>
+        </div>
+        <div class="col-md-2">
+            <fieldset class="form-group">
+                <input [(ngModel)]="couponPid"  type="text" class="form-control" placeholder="Sản phẩm áp dụng" />
+            </fieldset>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary" (click)="addCoupon()">Add coupon</button>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Orders list
+                </div>
+                <div class="card-block table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>#</th>
+                            <th>Coupon</th>
+                            <th>Giá trị giảm</th>
+                            <th>Sản phẩm áp dụng</th>
+                            <th>Tình trạng</th>
+                        </tr>
+                        <tr class="text" *ngFor="let item of couponArray| async | paginate: { itemsPerPage: 10, currentPage: currentPage } ; let stt = index">
+                            <td>{{stt + 1}}</td>
+                            <td>{{item.$key}}</td>
+                            <td>{{item.value | number : '1.0-0' }}</td>
+                            <td>{{item.pid}}</td>
+                            <td>{{item.status}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls *ngIf="items && items.length > 0" (pageChange)="currentPage = $event"></pagination-controls>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

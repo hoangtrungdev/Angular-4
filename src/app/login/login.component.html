@@ -1,3 +1,4 @@
+<toaster-container></toaster-container>
 <div class="login-page" [@routerTransition]>
     <div class="row">
         <div class="col-md-4 push-md-4">
@@ -6,14 +7,14 @@
             <form role="form">
                 <div class="form-content">
                     <div class="form-group">
-                        <input type="text" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="Email">
+                        <input type="text" name="name" [(ngModel)]="name" class="form-control input-underline input-lg"  placeholder="Email">
                     </div>
 
                     <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Password">
+                        <input type="password" name="password" [(ngModel)]="password" class="form-control input-underline input-lg"  placeholder="Password">
                     </div>
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> Log in </a>
+                <a class="btn rounded-btn" (click)="onLoggedin()"> Log in </a>
                 &nbsp;
                 <a class="btn rounded-btn" [routerLink]="['/signup']">Register</a>
             </form>
