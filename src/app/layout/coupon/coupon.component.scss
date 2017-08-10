@@ -1,0 +1,14 @@
+#tbl-coupon {
+    th, td {
+        vertical-align: middle;
+    }
+    .td-delete {
+        font-size: 16px;
+        text-align: center;
+        width: 50px;
+        a {
+            cursor: pointer;
+        }
+    }
+}
+

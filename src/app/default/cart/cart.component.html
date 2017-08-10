@@ -36,6 +36,23 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="card-footer">
+                            <div [hidden]="couponStep != 'quest'">
+                                Bạn có mã giảm giá ? <a class="question-link" (click)="couponStep = 'input'">Áp dụng</a>
+                            </div>
+                            <div [hidden]="couponStep != 'input'">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Nhập mã giảm giá..."
+                                           name="couponText" [(ngModel)]="couponText">
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-info" type="button" (click)="checkCoupon()">Áp dụng</button>
+                                      </span>
+                                </div>
+                                <div class="coupon-error-message" *ngIf="couponErrorMessage">
+                                    {{couponErrorMessage}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-9">
@@ -56,7 +73,7 @@
                                 </tr>
                                 <tr class="text" *ngFor="let item of cartArray ; let stt = index">
                                     <td>
-                                        <a class="delete-cart" (click)="deleteCartItem(index)">
+                                        <a class="delete-cart" (click)="deleteCartItem(stt)">
                                             <i class="fa fa-times-circle-o"></i>
                                         </a>
                                     </td>

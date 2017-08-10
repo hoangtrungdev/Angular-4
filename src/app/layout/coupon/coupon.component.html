@@ -12,8 +12,13 @@
                 <input [(ngModel)]="couponPid"  type="text" class="form-control" placeholder="Sản phẩm áp dụng" />
             </fieldset>
         </div>
+        <div class="col-md-1">
+            <fieldset class="form-group">
+                <input [(ngModel)]="couponLength"  type="text" class="form-control" placeholder="Độ dài code" />
+            </fieldset>
+        </div>
         <div class="col-md-2">
-            <button class="btn btn-primary" (click)="addCoupon()">Add coupon</button>
+            <button class="btn btn-primary" (click)="addCoupon()">Tạo coupon</button>
 
         </div>
     </div>
@@ -24,7 +29,7 @@
                     Orders list
                 </div>
                 <div class="card-block table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="tbl-coupon">
                         <tbody>
                         <tr>
                             <th>#</th>
@@ -32,13 +37,19 @@
                             <th>Giá trị giảm</th>
                             <th>Sản phẩm áp dụng</th>
                             <th>Tình trạng</th>
+                            <th></th>
                         </tr>
                         <tr class="text" *ngFor="let item of couponArray| async | paginate: { itemsPerPage: 10, currentPage: currentPage } ; let stt = index">
                             <td>{{stt + 1}}</td>
-                            <td>{{item.$key}}</td>
+                            <td>{{item.code}}</td>
                             <td>{{item.value | number : '1.0-0' }}</td>
                             <td>{{item.pid}}</td>
                             <td>{{item.status}}</td>
+                            <td class="td-delete">
+                                <a (click)="deleteCoupon(item.$key)">
+                                    <i class="fa fa-times-circle"></i>
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

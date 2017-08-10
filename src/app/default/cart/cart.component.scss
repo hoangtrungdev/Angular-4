@@ -1,6 +1,16 @@
 
 #cart-detail {
     margin-top: 20px;
+    .question-link {
+        color: #5bc0de;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+    .coupon-error-message {
+        font-size: 11px;
+        color: #b52525;
+        padding: 3px;
+    }
     .img-cart {
         max-width: 40px;
         width: 100%;

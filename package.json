@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "sw": "sw-precache --root=dist --config=sw-precache-config.js",
-      "build:prefx": "ack-angular-fx --out ./src/prefx.ts",
+    "build:prefx": "ack-angular-fx --out ./src/prefx.ts",
     "ack-webpack": "ack-webpack"
   },
   "private": true,

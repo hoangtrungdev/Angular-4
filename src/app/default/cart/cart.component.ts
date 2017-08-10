@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import {ToasterService} from 'angular2-toaster';
 import { AngularFireDatabase } from 'angularfire2/database';
-
+import * as _ from 'lodash';
 
 @Component({
     selector: 'app-cart',
@@ -14,6 +14,9 @@ import { AngularFireDatabase } from 'angularfire2/database';
 export class CartComponent implements OnInit {
     public db : any ;
     public cartArray : any = [] ;
+    public couponStep = 'quest';
+    public couponText = '';
+    public couponErrorMessage = '';
     public step = 'step1';
     public fee = 0;
     public customerPhone : any  = '';
@@ -48,6 +51,32 @@ export class CartComponent implements OnInit {
     ngOnInit() {
     }
 
+    public checkCoupon() {
+        if (!this.couponText) {
+            this.couponErrorMessage = 'Vui lòng nhập mã giảm giá.'
+        } else {
+            this.db.list('/coupons',{
+                query: {
+                    orderByChild: 'code',
+                    equalTo: this.couponText
+                }
+            }).subscribe(items => {
+               if(items && items.length > 0 && items[0]) {
+                   let couponDetail = items[0];
+                   if(_.includes(_.map(this.cartArray, 'pid'), couponDetail.pid)) {
+                       this.couponErrorMessage = '';
+                       this.toasterService.pop('success', 'Thông báo !', 'Nhập mã giảm giá thành công .');
+                   } else {
+                       this.couponErrorMessage = 'Rất tiếc, mã giảm giá này không áp dụng cho sản phẩm bạn chọn.'
+                   }
+
+               } else {
+                   this.couponErrorMessage = 'Mã giảm giá không tồn tại. Vui lòng nhập lại mã giảm giá.'
+               }
+            });
+        }
+    }
+
     public getTotalCart(array) {
         let totalObj = {
             price : 0 ,
@@ -63,7 +92,7 @@ export class CartComponent implements OnInit {
     }
 
     public deleteCartItem(index) {
-        this.cartArray.splice(index, 1);
+        this.cartArray.splice(index , 1);
         localStorage.setItem('cartInfo', JSON.stringify(this.cartArray));
     }
     public changeQuantityCartItem(item, value) {
@@ -92,7 +121,12 @@ export class CartComponent implements OnInit {
                         town : '' ,
                         city : ''
                     }
-                    this.customerArray.subscribe(items => {
+                    this.db.list('/customers',{
+                        query: {
+                            orderByChild: 'phone',
+                            equalTo: this.customerPhone
+                        }
+                    }).subscribe(items => {
                         items.map( cus => {
                             if ( cus.phone == this.customerPhone) {
                                 this.customerInfo = {
