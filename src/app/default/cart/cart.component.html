@@ -1,5 +1,5 @@
 <toaster-container></toaster-container>
-<div class="page" [@routerTransition]>
+<div class="page" [@1000]="'bounceInDown'">
     <div class="main container">
 
         <div [hidden]="step == 'final'">
@@ -68,9 +68,9 @@
                         <div class="card-header">
                             <span class="fa fa-shopping-cart"></span>  Thông tin đơn hàng
                         </div>
-                        <div class="card-block">
+                        <div class="card-block" id="cart-detail-block">
                             <!-- step 1-->
-                            <table class="table table-cart" [hidden]="step != 'step1'">
+                            <table class="table table-cart" [@1000]="'bounceInLeft'" *ngIf="step == 'step1'">
                                 <tbody>
                                 <tr>
                                     <th class="td-stt"></th>
@@ -104,7 +104,7 @@
                                 </tfoot>
                             </table>
                             <!-- step 2-->
-                            <div [hidden]="step != 'step2'">
+                            <div [@1000]="'bounceInLeft'" *ngIf="step == 'step2'">
                                 <div class="row">
                                     <div class="col-12 col-lg-8 offset-lg-2">
                                         <form role="form">
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <!-- step 3-->
-                            <div [hidden]="step != 'step3'">
+                            <div [@1000]="'bounceInLeft'" *ngIf="step == 'step3'">
                                 <div class="row">
                                     <div class="col-12 col-lg-8 offset-lg-2">
                                         <form role="form">
@@ -169,7 +169,7 @@
                                 </div>
                             </div>
                             <!-- step 4-->
-                            <div [hidden]="step != 'step4'" class="text-left">
+                            <div [@1000]="'bounceInLeft'" *ngIf="step == 'step4'" class="text-left">
                                 <p>
                                     <span class="fa fa-user"></span> Người nhận: <strong>{{customerInfo.name}}</strong>
                                 </p>
@@ -201,11 +201,11 @@
 
                         </div>
                         <div class="card-footer text-right">
-                            <button class="btn btn-default" (click)="prevStep(step)" [hidden]="step =='step1'" >
+                            <button class="btn btn-default" (click)="prevStep(step, 1000)" [hidden]="step =='step1'" >
                                 <i class="fa fa-mail-reply"></i>
                                 Quay lại
                             </button>
-                            <button class="btn btn-info" (click)="nextStep(step)">
+                            <button class="btn btn-info" (click)="nextStep(step, 1000)">
                                 <i class="fa fa-check"></i>
                                 <span [hidden]="step =='step4'">Tiếp tục</span>
                                 <span [hidden]="step !='step4'">OK, đặt hàng</span>

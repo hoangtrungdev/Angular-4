@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../../router.animations';
 import {ToasterService} from 'angular2-toaster';
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as _ from 'lodash';
+import { fxArray } from "../../../prefx"
+
 
 @Component({
     selector: 'app-cart',
     templateUrl: './cart.component.html',
     styleUrls: ['./cart.component.scss'],
-    animations: [routerTransition()]
+    animations: [fxArray]
 
 })
 export class CartComponent implements OnInit {
@@ -122,136 +123,146 @@ export class CartComponent implements OnInit {
         }
         localStorage.setItem('cartInfo', JSON.stringify(this.cartArray));
     }
-    public nextStep(step) {
-        switch(step) {
-            case 'step1': {
-                this.step = 'step2';
-                break;
-            }
-            case 'step2': {
-                if( this.checkPhoneNumber( this.customerPhone ) && this.customerPhone != ''){
-                    this.step = 'step3';
-                    localStorage.setItem('customerPhone', this.customerPhone);
-                    this.toasterService.pop('success', 'Thông báo !', 'Nhập số điện thoại thành công .');
-                    this.customerInfo = {
-                        address : '' ,
-                        name : '' ,
-                        district : '' ,
-                        town : '' ,
-                        city : ''
-                    }
-                    this.db.list('/customers',{
-                        query: {
-                            orderByChild: 'phone',
-                            equalTo: this.customerPhone
+    public nextStep(step, delay = 0) {
+        let self = this ;
+        self.step = '';
+        setTimeout(function(){
+            switch(step) {
+                case 'step1': {
+                    self.step = 'step2';
+                    break;
+                }
+                case 'step2': {
+                    if( self.checkPhoneNumber( self.customerPhone ) && self.customerPhone != ''){
+                        self.step = 'step3';
+                        localStorage.setItem('customerPhone', self.customerPhone);
+                        self.toasterService.pop('success', 'Thông báo !', 'Nhập số điện thoại thành công .');
+                        self.customerInfo = {
+                            address : '' ,
+                            name : '' ,
+                            district : '' ,
+                            town : '' ,
+                            city : ''
                         }
-                    }).subscribe(items => {
-                        items.map( cus => {
-                            if ( cus.phone == this.customerPhone) {
-                                this.customerInfo = {
-                                    hasHistory : true ,
-                                    address : cus.address ,
-                                    name : cus.name ,
-                                    district : cus.district ,
-                                    town : cus.town ,
-                                    city : cus.city
-                                }
-                                this.changeCity(cus.city);
-                                this.changeDistrict(cus.district);
-                                this.changeTown(cus.town);
+                        self.db.list('/customers',{
+                            query: {
+                                orderByChild: 'phone',
+                                equalTo: self.customerPhone
                             }
+                        }).subscribe(items => {
+                            items.map( cus => {
+                                if ( cus.phone == self.customerPhone) {
+                                    self.customerInfo = {
+                                        hasHistory : true ,
+                                        address : cus.address ,
+                                        name : cus.name ,
+                                        district : cus.district ,
+                                        town : cus.town ,
+                                        city : cus.city
+                                    }
+                                    self.changeCity(cus.city);
+                                    self.changeDistrict(cus.district);
+                                    self.changeTown(cus.town);
+                                }
+                            })
+                        });
+
+                    }else {
+                        self.toasterService.pop('error', 'Thông báo !', 'Vui lòng nhập số điện thoại đúng định dạng .');
+                    }
+                    break;
+                }
+                case 'step3': {
+                    if( self.customerInfo.name != '' && self.customerInfo.address != '' && self.customerInfo.city != '' && self.customerInfo.city != '' && self.customerInfo.city != ''){
+                        self.step = 'step4';
+                    }else {
+                        self.toasterService.pop('error', 'Thông báo !', 'Vui lòng nhập đầy đủ thông tin .');
+                    }
+                    break;
+                }
+                case 'step4': {
+                    let arrayCartSave =[] ;
+                    self.cartArray.map(item => {
+                        arrayCartSave.push({
+                            "code": item.pid,
+                            "id": item.pid,
+                            "avatar": item.avatar,
+                            "saleoff": '1',
+                            "normal_price": item.price,
+                            "sale_price": item.sale_price,
+                            "quantity": item.quantity
                         })
                     });
+                    self.db.list('newOrder').push({
+                        itemsincart: JSON.stringify(arrayCartSave),
+                        totalcal: self.getTotalCart(self.cartArray).price,
+                        discount: self.getTotalCart(self.cartArray).promotion_price,
+                        coupon : self.cartCoupon,
+                        customer_name: self.customerInfo.name,
+                        customer_address: self.customerInfo.address,
+                        customer_phone: self.customerPhone,
+                        fee: self.fee,
+                        city: self.customerInfo.city,
+                        district: self.customerInfo.district,
+                        town: self.customerInfo.town,
+                        handle: 0,
+                        startedAt: new Date().getTime()
+                    });
+                    self.step = 'final';
 
-                }else {
-                    this.toasterService.pop('error', 'Thông báo !', 'Vui lòng nhập số điện thoại đúng định dạng .');
-                }
-                break;
-            }
-            case 'step3': {
-                if( this.customerInfo.name != '' && this.customerInfo.address != '' && this.customerInfo.city != '' && this.customerInfo.city != '' && this.customerInfo.city != ''){
-                    this.step = 'step4';
-                }else {
-                    this.toasterService.pop('error', 'Thông báo !', 'Vui lòng nhập đầy đủ thông tin .');
-                }
-                break;
-            }
-            case 'step4': {
-                let arrayCartSave =[] ;
-                this.cartArray.map(item => {
-                    arrayCartSave.push({
-                        "code": item.pid,
-                        "id": item.pid,
-                        "avatar": item.avatar,
-                        "saleoff": '1',
-                        "normal_price": item.price,
-                        "sale_price": item.sale_price,
-                        "quantity": item.quantity
-                    })
-                });
-                this.db.list('newOrder').push({
-                    itemsincart: JSON.stringify(arrayCartSave),
-                    totalcal: this.getTotalCart(this.cartArray).price,
-                    discount: this.getTotalCart(this.cartArray).promotion_price,
-                    coupon : this.cartCoupon,
-                    customer_name: this.customerInfo.name,
-                    customer_address: this.customerInfo.address,
-                    customer_phone: this.customerPhone,
-                    fee: this.fee,
-                    city: this.customerInfo.city,
-                    district: this.customerInfo.district,
-                    town: this.customerInfo.town,
-                    handle: 0,
-                    startedAt: new Date().getTime()
-                });
-                this.step = 'final';
+                    // reset value
+                    self.cartArray = [] ;
+                    localStorage.setItem('cartInfo', JSON.stringify(self.cartArray));
+                    self.fee = 0;
+                    self.customerPhone  = '';
+                    self.customerInfo  = {};
+                    self.currentInfo = {
+                        city : {} ,
+                        district : {} ,
+                        town : {}
+                    };
+                    self.toasterService.pop('success', 'Thông báo !', 'Đặt hàng thành công .');
+                    //reset coupon
+                    if(self.cartCoupon && self.cartCoupon.keyCoupon) {
+                        self.db.object('/coupons/'+ self.cartCoupon.keyCoupon).update({
+                            status : 'used'
+                        }).then(function () {
+                            self.resetCoupon();
+                        });
+                    }
 
-                // reset value
-                this.cartArray = [] ;
-                localStorage.setItem('cartInfo', JSON.stringify(this.cartArray));
-                this.fee = 0;
-                this.customerPhone  = '';
-                this.customerInfo  = {};
-                this.currentInfo = {
-                    city : {} ,
-                    district : {} ,
-                    town : {}
-                };
-                this.toasterService.pop('success', 'Thông báo !', 'Đặt hàng thành công .');
-                //reset coupon
-                let seft = this ;
-                this.db.object('/coupons/'+ this.cartCoupon.keyCoupon).update({
-                    status : 'used'
-                }).then(function () {
-                    seft.resetCoupon();
-                });
-                break;
+                    break;
+                }
+                default: {
+                    self.step = 'step1' ;
+                    break;
+                }
             }
-            default: {
-                this.step = 'step1' ;
-                break;
-            }
-        }
+        }, delay);
     }
-    public prevStep(step) {
-        switch(step) {
-            case 'step2': {
-                this.step = 'step1';
-                break;
+    public prevStep(step, delay = 0) {
+        let self = this ;
+        self.step = '';
+        setTimeout(function(){
+            switch(step) {
+                case 'step2': {
+                    self.step = 'step1';
+                    break;
+                }
+                case 'step3': {
+                    self.step = 'step2';
+                    break;
+                }
+                case 'step4': {
+                    self.step = 'step3';
+                    break;
+                }
+                default: {
+                    self.step = 'step1' ;
+                    break;
+                }
             }
-            case 'step3': {
-                this.step = 'step2';
-                break;
-            }
-            case 'step4': {
-                this.step = 'step3';
-                break;
-            }
-            default: {
-                this.step = 'step1' ;
-                break;
-            }
-        }
+        }, delay);
     }
 
     // check phonenumber

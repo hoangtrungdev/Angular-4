@@ -11,6 +11,10 @@
         color: #b52525;
         padding: 3px;
     }
+    #cart-detail-block {
+        transition: all 0.5s ease;
+        -webkit-transition: all 0.5s ease;
+    }
     .img-cart {
         max-width: 40px;
         width: 100%;
