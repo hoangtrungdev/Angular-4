@@ -23,7 +23,11 @@
                                 </tr>
                                 <tr>
                                     <td class="tbl-total-label">Giảm giá</td>
-                                    <td class="tbl-total-price">{{getTotalCart(cartArray).promotion_price | number : '1.0-0' }}</td>
+                                    <td class="tbl-total-price">-{{getTotalCart(cartArray).promotion_price | number : '1.0-0' }}</td>
+                                </tr>
+                                <tr *ngIf="cartCoupon">
+                                    <td class="tbl-total-label">Mã giảm giá</td>
+                                    <td class="tbl-total-price">-{{cartCoupon.value | number : '1.0-0' }}</td>
                                 </tr>
                                 <tr *ngIf="fee">
                                     <td class="tbl-total-label">Phí giao hàng</td>
@@ -31,26 +35,30 @@
                                 </tr>
                                 <tr>
                                     <td class="tbl-total-label">Tiền thanh toán </td>
-                                    <td class="tbl-total-price total-real">{{getTotalCart(cartArray).sale_price + fee  | number : '1.0-0' }}</td>
+                                    <td class="tbl-total-price total-real">{{getTotalCart(cartArray).sale_price + fee - ((cartCoupon && cartCoupon.value) ? cartCoupon.value : 0) | number : '1.0-0' }}</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="card-footer">
-                            <div [hidden]="couponStep != 'quest'">
+                            <div *ngIf="couponStep == 'quest'">
                                 Bạn có mã giảm giá ? <a class="question-link" (click)="couponStep = 'input'">Áp dụng</a>
                             </div>
-                            <div [hidden]="couponStep != 'input'">
+                            <div *ngIf="couponStep == 'input'">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Nhập mã giảm giá..."
                                            name="couponText" [(ngModel)]="couponText">
-                                      <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                         <button class="btn btn-info" type="button" (click)="checkCoupon()">Áp dụng</button>
                                       </span>
                                 </div>
                                 <div class="coupon-error-message" *ngIf="couponErrorMessage">
                                     {{couponErrorMessage}}
                                 </div>
+                            </div>
+                            <div *ngIf="couponStep == 'final'">
+                                Mã giảm giá : {{cartCoupon.code}}
+                                <a class="question-link" (click)="resetCoupon()">Chỉnh sửa</a>
                             </div>
                         </div>
                     </div>

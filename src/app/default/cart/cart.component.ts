@@ -14,6 +14,7 @@ import * as _ from 'lodash';
 export class CartComponent implements OnInit {
     public db : any ;
     public cartArray : any = [] ;
+    public cartCoupon : any = null ;
     public couponStep = 'quest';
     public couponText = '';
     public couponErrorMessage = '';
@@ -40,6 +41,10 @@ export class CartComponent implements OnInit {
             this.cartArray = JSON.parse(localStorage.getItem('cartInfo'));
         if(localStorage.getItem('customerPhone'))
             this.customerPhone = localStorage.getItem('customerPhone');
+        if(localStorage.getItem('cartCoupon')){
+            this.cartCoupon = JSON.parse(localStorage.getItem('cartCoupon'));
+            this.couponStep = 'final';
+        }
 
         // load cities
         this.cityArray = db.list('/city');
@@ -50,25 +55,39 @@ export class CartComponent implements OnInit {
 
     ngOnInit() {
     }
-
+    public resetCoupon() {
+        this.cartCoupon = null ;
+        this.couponStep = 'input';
+        localStorage.removeItem('cartCoupon');
+    }
     public checkCoupon() {
         if (!this.couponText) {
             this.couponErrorMessage = 'Vui lòng nhập mã giảm giá.'
         } else {
             this.db.list('/coupons',{
+                preserveSnapshot: true,
                 query: {
                     orderByChild: 'code',
                     equalTo: this.couponText
                 }
             }).subscribe(items => {
                if(items && items.length > 0 && items[0]) {
-                   let couponDetail = items[0];
-                   if(_.includes(_.map(this.cartArray, 'pid'), couponDetail.pid)) {
-                       this.couponErrorMessage = '';
-                       this.toasterService.pop('success', 'Thông báo !', 'Nhập mã giảm giá thành công .');
+                   let couponDetail = items[0].val();
+                   couponDetail.keyCoupon = items[0].key;
+                   if (couponDetail.status == 'enable') {
+                       if (_.includes(_.map(this.cartArray, 'pid'), couponDetail.pid)) {
+                           this.couponErrorMessage = '';
+                           this.cartCoupon = couponDetail ;
+                           localStorage.setItem('cartCoupon', JSON.stringify(this.cartCoupon));
+                           this.couponStep = 'final';
+                           this.toasterService.pop('success', 'Thông báo !', 'Nhập mã giảm giá thành công .');
+                       } else {
+                           this.couponErrorMessage = 'Rất tiếc, mã giảm giá này không áp dụng cho sản phẩm bạn chọn.'
+                       }
                    } else {
-                       this.couponErrorMessage = 'Rất tiếc, mã giảm giá này không áp dụng cho sản phẩm bạn chọn.'
+                       this.couponErrorMessage = 'Rất tiếc, mã giảm giá này đã được sử dụng.'
                    }
+
 
                } else {
                    this.couponErrorMessage = 'Mã giảm giá không tồn tại. Vui lòng nhập lại mã giảm giá.'
@@ -174,6 +193,7 @@ export class CartComponent implements OnInit {
                     itemsincart: JSON.stringify(arrayCartSave),
                     totalcal: this.getTotalCart(this.cartArray).price,
                     discount: this.getTotalCart(this.cartArray).promotion_price,
+                    coupon : this.cartCoupon,
                     customer_name: this.customerInfo.name,
                     customer_address: this.customerInfo.address,
                     customer_phone: this.customerPhone,
@@ -198,8 +218,13 @@ export class CartComponent implements OnInit {
                     town : {}
                 };
                 this.toasterService.pop('success', 'Thông báo !', 'Đặt hàng thành công .');
-
-
+                //reset coupon
+                let seft = this ;
+                this.db.object('/coupons/'+ this.cartCoupon.keyCoupon).update({
+                    status : 'used'
+                }).then(function () {
+                    seft.resetCoupon();
+                });
                 break;
             }
             default: {
