@@ -2,8 +2,8 @@
 <div class="animated bounceInDown"  *ngIf="!loading">
     <div class="main container">
         <div class="row">
-            <div class="col-sm-3"  *ngFor="let product of productArray; let i = index" >
-                <div *ngIf="i < perPage" class="animated fadeIn">
+            <div class="col-sm-3 hvr-bounce-in"  *ngFor="let product of productArray; let i = index" >
+                <div *ngIf="i < perPage" class="div-product animated fadeIn">
                     <a [routerLink]="['/chi-tiet', product.pid ]" title="" class="product-image">
                         <img [src]="'/assets/default/products/'+product.avatar" [ngClass]="{'sold-out':product.quantity == '0'}" class="img-fluid" style="margin: 0px auto;">
                     </a>
