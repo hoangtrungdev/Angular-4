@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { routerTransition } from '../../router.animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 
@@ -7,7 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
     selector: 'app-detail',
     templateUrl: './detail.component.html',
     styleUrls: ['./detail.component.scss'],
-    animations: [routerTransition()]
+    animations: []
 })
 export class DetailComponent implements OnInit, OnDestroy{
     public id: any;

@@ -1,5 +1,5 @@
 <app-loading *ngIf="loading" ></app-loading>
-<div [@routerTransition] id="detail-page" *ngIf="detailInfo">
+<div class="animated bounceInDown" id="detail-page" *ngIf="detailInfo">
     <div class="main container">
         <div class="row">
             <div class="col-main col-sm-12">
@@ -15,10 +15,14 @@
                         </div>
                         <div class="product-info">
                             <div class="add-to-box" style="color:red;">
-                                <p class="special-price">
+                                <p class="special-price" *ngIf="detailInfo.saleoff">
                                     <span class="price">{{detailInfo.sale_price | number : '1.0-0' }}</span>
                                     <del>{{detailInfo.price | number : '1.0-0' }}</del>
                                 </p>
+                                <p class="special-price" *ngIf="!detailInfo.saleoff">
+                                    <span class="price">{{detailInfo.price | number : '1.0-0' }}</span>
+                                </p>
+
                             </div>
                             <div class="cart-box">
                                 <button class="btn btn-primary btn-dat-hang" *ngIf="detailInfo.quantity > 0" (click)="addToCart(detailInfo)">

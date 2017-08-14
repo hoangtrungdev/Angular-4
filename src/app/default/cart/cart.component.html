@@ -1,8 +1,8 @@
 <toaster-container></toaster-container>
-<div class="page" [@1000]="'bounceInDown'">
+<div class="page">
     <div class="main container">
 
-        <div [hidden]="step == 'final'">
+        <div [hidden]="step == 'final'" class="animated bounceInDown">
             <div [hidden]="cartArray.length != 0">
                 <div class="no-product">
                     Bạn chưa có sản phẩm trong giỏ hàng .
@@ -21,7 +21,7 @@
                                     <td class="tbl-total-label">Tổng tiền</td>
                                     <td class="tbl-total-price">{{getTotalCart(cartArray).price | number : '1.0-0' }}</td>
                                 </tr>
-                                <tr>
+                                <tr *ngIf="getTotalCart(cartArray).promotion_price && getTotalCart(cartArray).promotion_price > 0 ">
                                     <td class="tbl-total-label">Giảm giá</td>
                                     <td class="tbl-total-price">-{{getTotalCart(cartArray).promotion_price | number : '1.0-0' }}</td>
                                 </tr>
@@ -70,7 +70,7 @@
                         </div>
                         <div class="card-block" id="cart-detail-block">
                             <!-- step 1-->
-                            <table class="table table-cart" [@1000]="'bounceInLeft'" *ngIf="step == 'step1'">
+                            <table class="table table-cart animated bounceInLeft" *ngIf="step == 'step1'">
                                 <tbody>
                                 <tr>
                                     <th class="td-stt"></th>
@@ -86,14 +86,14 @@
                                         </a>
                                     </td>
                                     <td><img src="/assets/default/products/{{item.avatar}}" class="img-cart"></td>
-                                    <td>{{item.sale_price | number : '1.0-0'}}</td>
+                                    <td>{{ ( item.saleoff ? item.sale_price : item.price )  | number : '1.0-0'}}</td>
                                     <td class="td-quantity" >
                                         <i class="fa fa-minus" (click)="changeQuantityCartItem(item, -1)"></i>
                                         {{item.quantity}}
                                         <i class="fa fa-plus" (click)="changeQuantityCartItem(item, 1)"></i>
 
                                     </td>
-                                    <td>{{(item.quantity * item.sale_price) | number : '1.0-0' }}</td>
+                                    <td>{{(item.quantity * ( item.saleoff ? item.sale_price : item.price )) | number : '1.0-0' }}</td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
@@ -104,7 +104,7 @@
                                 </tfoot>
                             </table>
                             <!-- step 2-->
-                            <div [@1000]="'bounceInLeft'" *ngIf="step == 'step2'">
+                            <div class="animated bounceInLeft" *ngIf="step == 'step2'">
                                 <div class="row">
                                     <div class="col-12 col-lg-8 offset-lg-2">
                                         <form role="form">
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <!-- step 3-->
-                            <div [@1000]="'bounceInLeft'" *ngIf="step == 'step3'">
+                            <div class="animated bounceInLeft" *ngIf="step == 'step3'">
                                 <div class="row">
                                     <div class="col-12 col-lg-8 offset-lg-2">
                                         <form role="form">
@@ -169,7 +169,7 @@
                                 </div>
                             </div>
                             <!-- step 4-->
-                            <div [@1000]="'bounceInLeft'" *ngIf="step == 'step4'" class="text-left">
+                            <div class="text-left animated bounceInLeft" *ngIf="step == 'step4'">
                                 <p>
                                     <span class="fa fa-user"></span> Người nhận: <strong>{{customerInfo.name}}</strong>
                                 </p>
@@ -215,7 +215,7 @@
                 </div>
             </div>
         </div>
-        <div [hidden]="step != 'final'"  style="margin-top: 40px" >
+        <div [hidden]="step != 'final'" class="animated bounceInDown"  style="margin-top: 40px" >
             <div class="text-center">
                 <img alt="" src="/assets/default/images/thank-you-page.png" style="margin:0 auto;" class="img-responsive">
             </div>

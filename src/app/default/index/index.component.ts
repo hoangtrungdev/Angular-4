@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import  *  as _ from 'lodash';
-import { fxArray } from "../../../prefx"
 
 @Component({
     selector: 'app-index',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss'],
-    animations: [
-        fxArray
-    ]
+    animations: []
 
 })
 export class IndexComponent implements OnInit {

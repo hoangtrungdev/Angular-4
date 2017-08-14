@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../../router.animations';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
 
@@ -7,7 +6,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
     selector: 'app-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.scss'],
-    animations: [routerTransition()]
+    animations: []
 })
 export class CategoryComponent implements OnInit {
     public id: any;
