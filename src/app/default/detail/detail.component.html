@@ -62,20 +62,39 @@
                 </div>
             </div>
         </div>
+        <div id="info-detail">
+            <ngb-tabset >
+                <ngb-tab>
+                    <ng-template ngbTabTitle>
+                        <div class="tab-title">
+                            <span class='fa fa-exclamation-circle'></span> Thông tin chi tiết
 
+                        </div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="text-center">
+                            <p><img *ngFor="let image of detailInfo.detail_img" alt="" class="img-responsive" src="/assets/default/products_detail/{{image}}" style="margin:0 auto"></p>
+                        </div>
+                    </ng-template>
+                </ngb-tab>
+                <ngb-tab *ngIf="detailInfo.video &&  detailInfo.video != 0 &&  detailInfo.video != '' ">
+                    <ng-template ngbTabTitle>
+                        <div class="tab-title">
+                            <span class='fa fa-video-camera'></span> Video
+                        </div>
+                    </ng-template>
+                    <ng-template ngbTabContent>
+                        <div class="content-video">
+                            <div style="position:relative;height:0;padding-bottom:56.25%">
+                                <iframe [src]="('https://www.youtube.com/embed/'+detailInfo.video+'?ecver=2') | safe"
+                                        width="640" height="360" frameborder="0"
+                                        style="position:absolute;width:100%;height:100%;left:0" allowfullscreen></iframe>
+                            </div>
+                        </div>
 
-        <div class="row" id="info-detail">
-            <div class="col col-xs-12">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <span class="fa fa-exclamation-circle"></span> Thông tin chi tiết
-                    </div>
-                    <div class="card-block">
-                        <p><img *ngFor="let image of detailInfo.detail_img" alt="" class="img-responsive" src="/assets/default/products_detail/{{image}}" style="margin:0 auto"></p>
-
-                    </div>
-                </div>
-            </div>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
         </div>
     </div>
 </div>
