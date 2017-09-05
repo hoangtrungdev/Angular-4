@@ -174,7 +174,7 @@ export class CartComponent implements OnInit {
                 break;
             }
             case 'step3': {
-                if( self.customerInfo.name != '' && self.customerInfo.address != '' && self.customerInfo.city != '' && self.customerInfo.city != '' && self.customerInfo.city != ''){
+                if( self.customerInfo.name != '' && self.customerInfo.address != '' && self.customerInfo.city != '' && self.customerInfo.town != '' && self.customerInfo.district != ''){
                     self.step = 'step4';
                 }else {
                     self.toasterService.pop('error', 'Thông báo !', 'Vui lòng nhập đầy đủ thông tin .');
@@ -288,6 +288,12 @@ export class CartComponent implements OnInit {
     public changeCity(city){
         this.db.object('/city/'+city).subscribe(item => {
             this.currentInfo.city = item ;
+            this.districtArray = this.db.list('district',{
+                query: {
+                    orderByChild: 'city',
+                    equalTo: city
+                }
+            })
         })
 
     }
