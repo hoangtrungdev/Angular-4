@@ -70,7 +70,7 @@
                         </div>
                         <div class="card-block" id="cart-detail-block">
                             <!-- step 1-->
-                            <table class="table table-cart animated bounceInLeft" *ngIf="step == 'step1'">
+                            <table class="table table-cart animated fadeIn" *ngIf="step == 'step1'">
                                 <tbody>
                                 <tr>
                                     <th class="td-stt"></th>
@@ -104,7 +104,7 @@
                                 </tfoot>
                             </table>
                             <!-- step 2-->
-                            <div class="animated bounceInLeft" *ngIf="step == 'step2'">
+                            <div class="animated fadeIn" *ngIf="step == 'step2'">
                                 <div class="row">
                                     <div class="col-12 col-lg-8 offset-lg-2">
                                         <form role="form">
@@ -126,7 +126,7 @@
                                 </div>
                             </div>
                             <!-- step 3-->
-                            <div class="animated bounceInLeft" *ngIf="step == 'step3'">
+                            <div class="animated fadeIn" *ngIf="step == 'step3'">
                                 <div class="row">
                                     <div class="col-12 col-lg-8 offset-lg-2">
                                         <form role="form">
@@ -169,7 +169,7 @@
                                 </div>
                             </div>
                             <!-- step 4-->
-                            <div class="text-left animated bounceInLeft" *ngIf="step == 'step4'">
+                            <div class="text-left animated fadeIn" *ngIf="step == 'step4'">
                                 <p>
                                     <span class="fa fa-user"></span> Người nhận: <strong>{{customerInfo.name}}</strong>
                                 </p>
@@ -201,11 +201,11 @@
 
                         </div>
                         <div class="card-footer text-right">
-                            <button class="btn btn-default" (click)="prevStep(step, 1000)" [hidden]="step =='step1'" >
+                            <button class="btn btn-default" (click)="prevStep(step)" [hidden]="step =='step1'" >
                                 <i class="fa fa-mail-reply"></i>
                                 Quay lại
                             </button>
-                            <button class="btn btn-info" (click)="nextStep(step, 1000)">
+                            <button class="btn btn-info" (click)="nextStep(step)">
                                 <i class="fa fa-check"></i>
                                 <span [hidden]="step =='step4'">Tiếp tục</span>
                                 <span [hidden]="step !='step4'">OK, đặt hàng</span>

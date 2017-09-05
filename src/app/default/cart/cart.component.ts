@@ -31,6 +31,7 @@ export class CartComponent implements OnInit {
         district : {} ,
         town : {}
     };
+    public loadingCart : any = {};
 
     private toasterService: ToasterService;
 
@@ -126,7 +127,7 @@ export class CartComponent implements OnInit {
         }
         localStorage.setItem('cartInfo', JSON.stringify(this.cartArray));
     }
-    public nextStep(step, delay = 0) {
+    public nextStep(step) {
         let self = this ;
         switch(step) {
             case 'step1': {
@@ -151,6 +152,7 @@ export class CartComponent implements OnInit {
                             equalTo: self.customerPhone
                         }
                     }).subscribe(items => {
+
                         items.map( cus => {
                             if ( cus.phone == self.customerPhone) {
                                 self.customerInfo = {
@@ -161,8 +163,8 @@ export class CartComponent implements OnInit {
                                     town : cus.town ,
                                     city : cus.city
                                 }
-                                self.changeCity(cus.city);
-                                self.changeDistrict(cus.district);
+                                self.changeCity(cus.city, false);
+                                self.changeDistrict(cus.district, false);
                                 self.changeTown(cus.town);
                             }
                         })
@@ -240,7 +242,7 @@ export class CartComponent implements OnInit {
             }
         }
     }
-    public prevStep(step, delay = 0) {
+    public prevStep(step) {
         let self = this ;
         switch(step) {
             case 'step2': {
@@ -272,34 +274,48 @@ export class CartComponent implements OnInit {
             return false;
         }
     }
-    public changeDistrict(district){
-        this.db.object('/district/'+district).subscribe(item => {
-            this.currentInfo.district = item ;
-            this.fee  = +item.fee;
-            this.townArray = this.db.list('town',{
-                query: {
-                    orderByChild: 'district',
-                    equalTo: district
-                }
-            })
-        })
-
-    }
-    public changeCity(city){
-        this.db.object('/city/'+city).subscribe(item => {
-            this.currentInfo.city = item ;
-            this.districtArray = this.db.list('district',{
+    public changeCity(city, reset: any = true){
+        let self = this;
+        self.db.object('/city/'+city).subscribe(item => {
+            self.currentInfo.city = item ;
+            // reset gia tri mac dinh
+            if ( reset ) {
+                self.customerInfo.district = '' ;
+                self.customerInfo.town = '' ;
+            }
+            self.districtArray = self.db.list('district',{
                 query: {
                     orderByChild: 'city',
                     equalTo: city
                 }
-            })
+            });
+
+        })
+    }
+    public changeDistrict(district, reset : any = true){
+        let self = this;
+        self.db.object('/district/'+district).subscribe(item => {
+            self.currentInfo.district = item ;
+            self.fee  = +item.fee;
+            // reset gia tri mac dinh
+            if ( reset ) {
+                self.customerInfo.town = '' ;
+            }
+            self.townArray = self.db.list('town',{
+                query: {
+                    orderByChild: 'district',
+                    equalTo: district
+                }
+            });
+
         })
 
     }
+
     public changeTown(town){
-        this.db.object('/town/'+town).subscribe(item => {
-            this.currentInfo.town = item ;
+        let self = this;
+        self.db.object('/town/'+town).subscribe(item => {
+            self.currentInfo.town = item ;
         })
 
     }
