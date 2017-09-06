@@ -31,6 +31,7 @@
     "@types/lodash": "^4.14.70",
     "ack-angular-fx": "^1.2.6",
     "ack-webpack": "^1.1.47",
+    "angular-sortablejs": "^2.0.6",
     "angular2-infinite-scroll": "^0.3.5",
     "angular2-toaster": "^4.0.1",
     "angularfire2": "^4.0.0-rc.1",
@@ -45,6 +46,7 @@
     "ng2-daterangepicker": "^2.0.7",
     "ngx-pagination": "^3.0.1",
     "rxjs": "^5.1.0",
+    "sortablejs": "^1.6.1",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../../router.animations';
 import {ToasterService} from 'angular2-toaster';
 
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -8,7 +7,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
     selector: 'app-coupon',
     templateUrl: './coupon.component.html',
     styleUrls: ['./coupon.component.scss'],
-    animations: [routerTransition()]
+    animations: []
 })
 export class CouponComponent implements OnInit {
     public couponLength : any = 8 ;
