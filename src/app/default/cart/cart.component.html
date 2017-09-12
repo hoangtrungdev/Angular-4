@@ -85,7 +85,11 @@
                                             <i class="fa fa-times-circle-o"></i>
                                         </a>
                                     </td>
-                                    <td><img src="/assets/default/products/{{item.avatar}}" class="img-cart"></td>
+                                    <td>
+                                        <a  [routerLink]="['/chi-tiet', item.pid ]" >
+                                            <img src="/assets/default/products/{{item.avatar}}" class="img-cart">
+                                        </a>
+                                    </td>
                                     <td>{{ ( item.saleoff ? item.sale_price : item.price )  | number : '1.0-0'}}</td>
                                     <td class="td-quantity" >
                                         <i class="fa fa-minus" (click)="changeQuantityCartItem(item, -1)"></i>

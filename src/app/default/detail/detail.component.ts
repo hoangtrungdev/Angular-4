@@ -44,7 +44,7 @@ export class DetailComponent implements OnInit, OnDestroy{
         let exist = false ;
         cartArray.map( item => {
             if (item.pid == detailInfo.pid){
-                item.quantity += 1 ;
+                item.quantity = 1 ;
                 exist = true ;
             }
         });

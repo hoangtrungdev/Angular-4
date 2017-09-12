@@ -10,6 +10,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 })
 export class CategoryComponent implements OnInit {
     public id: any;
+    public cateInfo: any;
     private sub: any;
     public productArray: any;
     public loading = false;
@@ -22,6 +23,10 @@ export class CategoryComponent implements OnInit {
             this.id = params['id'];
             this.loading = true;
             this.productArray = [];
+            db.object('/cates/'+this.id).subscribe(item => {
+                this.cateInfo = item ;
+            })
+
             db.list('/products',{
                 query: {
                     orderByChild: 'cate',
