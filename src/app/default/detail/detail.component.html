@@ -30,10 +30,10 @@
                                 <div *ngIf="detailInfo.quantity=='0'" style="font-size: 1.2em;">Hết hàng</div>
                             </div>
                             <div class="detail-box">
-                                <button class="btn-dat-hang" *ngIf="detailInfo.quantity > 0" (click)="addToCart(detailInfo)">
+                                <a class="btn-dat-hang hvr-shutter-out-horizontal" *ngIf="detailInfo.quantity > 0" (click)="addToCart(detailInfo)">
                                     <i class="fa fa-mail-forward"></i>
                                     Đặt hàng
-                                </button>
+                                </a>
                                 <span *ngIf="detailInfo.quantity <= 0">
                                     <i class="fa fa-exclamation-circle"></i>
                                     Sản phẩm tạm hết hàng .

@@ -192,15 +192,15 @@
 
                         </div>
                         <div class="cart-footer text-right">
-                            <button class="btn-prev" (click)="prevStep(step)" [hidden]="step =='step1'" >
+                            <a class="btn-prev hvr-shutter-out-horizontal" (click)="prevStep(step)" [hidden]="step =='step1'" >
                                 <i class="fa fa-mail-reply"></i>
                                 Quay lại
-                            </button>
-                            <button class="btn-next" (click)="nextStep(step)">
+                            </a>
+                            <a class="btn-next hvr-shutter-out-horizontal" (click)="nextStep(step)">
                                 <i class="fa fa-check"></i>
                                 <span [hidden]="step =='step4'">Tiếp tục</span>
                                 <span [hidden]="step !='step4'">OK, đặt hàng</span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

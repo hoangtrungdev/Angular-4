@@ -69,6 +69,7 @@
 .btn-load-more-div {
     margin-top: 10px;
     margin-bottom: 20px;
+    cursor: pointer;
     .btn-load-more {
         width: 181px;
         background: #fff;
@@ -77,8 +78,11 @@
         border: 1px solid #834453;
         font-weight: bold;
         outline: none;
+        &:hover {
+            color: #FFF;
+            border:1px solid #2098d1;
+        }
     }
-
 }
 
 .sold-out{

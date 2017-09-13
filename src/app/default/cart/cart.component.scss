@@ -76,6 +76,11 @@
         border: 1px solid #DDD;
         font-weight: bold;
         outline: none;
+        cursor: pointer;
+        &:hover {
+            color: #FFF;
+            border:1px solid #2098d1;
+        }
 
     }
     .info-text {
