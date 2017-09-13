@@ -8,6 +8,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer} from '@angular/platform-browser';
+import { FacebookModule } from 'ngx-facebook';
+
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -20,6 +22,7 @@ export class SafePipe implements PipeTransform {
 
 @NgModule({
     imports: [
+        FacebookModule.forRoot(),
         CommonModule,
         DetailRoutingModule,
         LoadingModule,

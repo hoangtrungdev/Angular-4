@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { FacebookService, InitParams } from 'ngx-facebook';
 
 @Component({
     selector: 'app-detail',
@@ -15,7 +16,8 @@ export class DetailComponent implements OnInit, OnDestroy{
     public loading = false;
 
 
-    constructor(private router: Router, private route: ActivatedRoute, db: AngularFireDatabase) {
+    constructor(private fb: FacebookService,private router: Router, private route: ActivatedRoute, db: AngularFireDatabase) {
+
         this.sub = this.route.params.subscribe(params => {
             this.id = params['id'];
             this.detailInfo = null;
@@ -31,6 +33,14 @@ export class DetailComponent implements OnInit, OnDestroy{
                     this.detailInfo.detail_img = this.detailInfo.detail_img.split(';');
                 }
                 this.loading = false;
+                // init facebook
+                let initParams: InitParams = {
+                    appId: '127095484689647',
+                    xfbml: true,
+                    version: 'v2.8'
+                };
+
+                fb.init(initParams);
             });
         });
 
