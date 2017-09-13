@@ -1,20 +1,45 @@
 <toaster-container></toaster-container>
 <div class="page">
     <div class="main container">
-
         <div [hidden]="step == 'final'" class="animated bounceInDown">
+            <div class="tab-title clearfix">
+                <h2 class="title">GIỎ HÀNG</h2>
+            </div>
             <div [hidden]="cartArray.length != 0">
                 <div class="no-product">
                     Bạn chưa có sản phẩm trong giỏ hàng .
                 </div>
             </div>
             <div class="row" id="cart-detail"  [hidden]="cartArray.length == 0">
-                <div class="col-12 col-lg-3">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <span class="fa fa-shopping-cart"></span> Đơn hàng
+                <div class="col-12 col-lg-6" id="cart-info">
+                    <div class="cart-block">
+                        <div class="cart-header">
+                            Thông tin đơn hàng
                         </div>
-                        <div class="card-block">
+                        <div class="cart-body">
+                            <table class="tbl-cart-info">
+                                <tbody>
+                                <tr *ngFor="let item of cartArray ; let stt = index">
+                                    <td>
+                                        <a class="delete-cart" (click)="deleteCartItem(stt)">
+                                            <i class="fa fa-times-circle-o"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a  [routerLink]="['/chi-tiet', item.pid ]" >
+                                            <img src="/assets/default/products/{{item.avatar}}" class="img-cart">
+                                        </a>
+                                    </td>
+                                    <td>{{ ( item.saleoff ? item.sale_price : item.price )  | number : '1.0-0'}}</td>
+                                    <td class="td-quantity" >
+                                        <i class="fa fa-minus" (click)="changeQuantityCartItem(item, -1)"></i>
+                                        {{item.quantity}}
+                                        <i class="fa fa-plus" (click)="changeQuantityCartItem(item, 1)"></i>
+
+                                    </td>
+                                    <td class="text-right">{{(item.quantity * ( item.saleoff ? item.sale_price : item.price )) | number : '1.0-0' }}</td>
+                                </tr>
+                            </table>
                             <table class="table table-total">
                                 <tbody>
                                 <tr>
@@ -23,11 +48,11 @@
                                 </tr>
                                 <tr *ngIf="getTotalCart(cartArray).promotion_price && getTotalCart(cartArray).promotion_price > 0 ">
                                     <td class="tbl-total-label">Giảm giá</td>
-                                    <td class="tbl-total-price">-{{getTotalCart(cartArray).promotion_price | number : '1.0-0' }}</td>
+                                    <td class="tbl-total-price">- {{getTotalCart(cartArray).promotion_price | number : '1.0-0' }}</td>
                                 </tr>
                                 <tr *ngIf="cartCoupon">
                                     <td class="tbl-total-label">Mã giảm giá</td>
-                                    <td class="tbl-total-price">-{{cartCoupon.value | number : '1.0-0' }}</td>
+                                    <td class="tbl-total-price">- {{cartCoupon.value | number : '1.0-0' }}</td>
                                 </tr>
                                 <tr *ngIf="fee">
                                     <td class="tbl-total-label">Phí giao hàng</td>
@@ -40,7 +65,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="card-footer">
+                        <div class="cart-footer">
                             <div *ngIf="couponStep == 'quest'">
                                 Bạn có mã giảm giá ? <a class="question-link" (click)="couponStep = 'input'">Áp dụng</a>
                             </div>
@@ -63,54 +88,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-lg-9">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <span class="fa fa-shopping-cart"></span>  Thông tin đơn hàng
+                <div class="col-12 col-lg-6" >
+                    <div class="cart-block">
+                        <div class="cart-header">
+                            Thông tin giao hàng
                         </div>
-                        <div class="card-block" id="cart-detail-block">
+                        <div class="cart-body">
                             <!-- step 1-->
-                            <table class="table table-cart animated fadeIn" *ngIf="step == 'step1'">
-                                <tbody>
-                                <tr>
-                                    <th class="td-stt"></th>
-                                    <th>Sản phẩm</th>
-                                    <th>Đơn giá</th>
-                                    <th>Số lượng</th>
-                                    <th>Thành tiền</th>
-                                </tr>
-                                <tr class="text" *ngFor="let item of cartArray ; let stt = index">
-                                    <td>
-                                        <a class="delete-cart" (click)="deleteCartItem(stt)">
-                                            <i class="fa fa-times-circle-o"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a  [routerLink]="['/chi-tiet', item.pid ]" >
-                                            <img src="/assets/default/products/{{item.avatar}}" class="img-cart">
-                                        </a>
-                                    </td>
-                                    <td>{{ ( item.saleoff ? item.sale_price : item.price )  | number : '1.0-0'}}</td>
-                                    <td class="td-quantity" >
-                                        <i class="fa fa-minus" (click)="changeQuantityCartItem(item, -1)"></i>
-                                        {{item.quantity}}
-                                        <i class="fa fa-plus" (click)="changeQuantityCartItem(item, 1)"></i>
-
-                                    </td>
-                                    <td>{{(item.quantity * ( item.saleoff ? item.sale_price : item.price )) | number : '1.0-0' }}</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr class="tr-total">
-                                    <td colspan="4" class="text-right"> Tổng tiền </td>
-                                    <td>{{getTotalCart(cartArray).sale_price | number : '1.0-0' }}</td>
-                                </tr>
-                                </tfoot>
-                            </table>
-                            <!-- step 2-->
-                            <div class="animated fadeIn" *ngIf="step == 'step2'">
+                            <div class="animated fadeIn" *ngIf="step == 'step1'">
                                 <div class="row">
-                                    <div class="col-12 col-lg-8 offset-lg-2">
+                                    <div class="col-12">
                                         <form role="form">
                                             <fieldset class="form-group">
                                                 <p class="help-block">Số điện thoại liên hệ ( viết liền không cách, ví dụ: 0974569396 ).</p>
@@ -129,10 +116,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- step 3-->
-                            <div class="animated fadeIn" *ngIf="step == 'step3'">
+                            <!-- step 2-->
+                            <div class="animated fadeIn" *ngIf="step == 'step2'">
                                 <div class="row">
-                                    <div class="col-12 col-lg-8 offset-lg-2">
+                                    <div class="col-12">
                                         <form role="form">
                                             <div class="step3-info" [hidden]="!customerInfo.hasHistory">
                                                 <i class="fa fa-thumbs-up"></i>
@@ -172,8 +159,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- step 4-->
-                            <div class="text-left animated fadeIn" *ngIf="step == 'step4'">
+                            <!-- step 3-->
+                            <div class="text-left animated fadeIn" *ngIf="step == 'step3'">
                                 <p>
                                     <span class="fa fa-user"></span> Người nhận: <strong>{{customerInfo.name}}</strong>
                                 </p>
@@ -204,12 +191,12 @@
 
 
                         </div>
-                        <div class="card-footer text-right">
-                            <button class="btn btn-default" (click)="prevStep(step)" [hidden]="step =='step1'" >
+                        <div class="cart-footer text-right">
+                            <button class="btn-prev" (click)="prevStep(step)" [hidden]="step =='step1'" >
                                 <i class="fa fa-mail-reply"></i>
                                 Quay lại
                             </button>
-                            <button class="btn btn-info" (click)="nextStep(step)">
+                            <button class="btn-next" (click)="nextStep(step)">
                                 <i class="fa fa-check"></i>
                                 <span [hidden]="step =='step4'">Tiếp tục</span>
                                 <span [hidden]="step !='step4'">OK, đặt hàng</span>

@@ -5,10 +5,10 @@
 .tab-title {
     h2.title, .title.h2 {
         color: #834453;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: 600;
         letter-spacing: 0;
-        line-height: 26px;
+        line-height: 20px;
         margin: 0 0 10px;
         padding: 7px 50px;
         position: relative;
@@ -21,14 +21,15 @@
         color: #834453;
         content: "\f005";
         font-family: 'FontAwesome';
-        font-size: 15px;
-        height: 42px;
+        font-size: 13px;
         left: -1px;
-        padding: 8px 10px;
+        padding: 8px 7px 5px;
         position: absolute;
         text-align: center;
         top: -1px;
-        width: 42px;
+        width: 36px;
+        height: 36px;
+
     }
 }
 .div-product {
@@ -75,6 +76,7 @@
         padding: 8px;
         border: 1px solid #834453;
         font-weight: bold;
+        outline: none;
     }
 
 }

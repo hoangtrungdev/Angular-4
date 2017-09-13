@@ -131,12 +131,8 @@ export class CartComponent implements OnInit {
         let self = this ;
         switch(step) {
             case 'step1': {
-                self.step = 'step2';
-                break;
-            }
-            case 'step2': {
                 if( self.checkPhoneNumber( self.customerPhone ) && self.customerPhone != ''){
-                    self.step = 'step3';
+                    self.step = 'step2';
                     localStorage.setItem('customerPhone', self.customerPhone);
                     self.toasterService.pop('success', 'Thông báo !', 'Nhập số điện thoại thành công .');
                     self.customerInfo = {
@@ -175,15 +171,15 @@ export class CartComponent implements OnInit {
                 }
                 break;
             }
-            case 'step3': {
+            case 'step2': {
                 if( self.customerInfo.name != '' && self.customerInfo.address != '' && self.customerInfo.city != '' && self.customerInfo.town != '' && self.customerInfo.district != ''){
-                    self.step = 'step4';
+                    self.step = 'step3';
                 }else {
                     self.toasterService.pop('error', 'Thông báo !', 'Vui lòng nhập đầy đủ thông tin .');
                 }
                 break;
             }
-            case 'step4': {
+            case 'step3': {
                 let arrayCartSave =[] ;
                 self.cartArray.map(item => {
                     arrayCartSave.push({
@@ -251,10 +247,6 @@ export class CartComponent implements OnInit {
             }
             case 'step3': {
                 self.step = 'step2';
-                break;
-            }
-            case 'step4': {
-                self.step = 'step3';
                 break;
             }
             default: {

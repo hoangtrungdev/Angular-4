@@ -12,6 +12,9 @@ export class DefaultComponent implements OnInit {
     constructor(public router: Router) { }
 
     ngOnInit() {
+        this.router.events.subscribe((e) => {
+            window.scrollTo(0, 0)
+        });
         if (this.router.url === '/') {
             this.router.navigate(['/trang-chu']);
         }

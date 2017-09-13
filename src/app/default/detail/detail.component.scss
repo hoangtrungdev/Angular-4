@@ -1,3 +1,33 @@
+
+.tab-title {
+    h2.title, .title.h2 {
+        color: #834453;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 20px;
+        margin: 0 0 10px;
+        padding: 7px 50px;
+        position: relative;
+        text-transform: uppercase;
+        border: 1px dashed #dddddd;
+        &:before{
+            background: transparent;
+            border: 1px solid #834453;
+            color: #834453;
+            content: "\f005";
+            font-family: 'FontAwesome';
+            font-size: 13px;
+            left: -1px;
+            padding: 8px 7px 5px;
+            position: absolute;
+            text-align: center;
+            top: -1px;
+            width: 36px;
+            height: 36px;
+        }
+    }
+}
 #detail-page {margin-top: 10px ; padding: 10px}
 .gift-messages-form .item .product-img-box{float:left;width:75px}
 .product-shop {
@@ -22,11 +52,32 @@
     padding-bottom: 10px;
     border-bottom: 1px solid #ebebeb;
 }
-.add-to-box{
+.product-price {
+    padding: 10px;
+    border-bottom: 1px solid #ebebeb;
+    .sale-price {
+        color: #333;
+        font-size: 15px;
+        padding: 2px 5px;
+    }
+    .price {
+        font-size: 20px;
+        font-weight: 300;
+        color: #834453;
+    }
+}
+.detail-box{
     padding:0 0 5px 0;
     margin-top:10px;
     border-bottom:1px solid #ebebeb;
     .btn-dat-hang {
+        width: 181px;
+        background: #fff;
+        color: #000;
+        padding: 8px;
+        border: 1px solid #DDD;
+        font-weight: bold;
+        outline: none;
         i {
             margin-right: 3px;
         }
@@ -72,4 +123,43 @@
     .product-img-box .etalage:hover + .etalage-control + .product-view-zoom-area{display:none}
     .product-view .product-img-box .etalage-control{visibility:visible}
     .product-view .product-img-box .etalage.vertical+.etalage-control a.etalage-prev{left:0}
+}
+
+:host ::ng-deep .nav-tabs{
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 21px;
+    margin: 0 0 10px;
+    padding: 7px 50px;
+    position: relative;
+    text-transform: uppercase;
+    border: 1px dashed #dddddd;
+    &:before{
+        background: transparent;
+        border: 1px solid #834453;
+        color: #834453;
+        content: "\f005";
+        font-family: 'FontAwesome';
+        font-size: 13px;
+        left: -1px;
+        padding: 8px 7px 5px;
+        position: absolute;
+        text-align: center;
+        top: -1px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .nav-link {
+        color: #ABABAB;
+        border: none;
+        padding: 0 20px 0 0;
+        &:hover {
+            color: #000;
+        }
+        &.active {
+            color: #834453;
+        }
+    }
 }
