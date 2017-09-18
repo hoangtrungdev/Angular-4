@@ -19,8 +19,8 @@ export class IndexComponent implements OnInit {
    		this.loading = true;
         this.productArray = [];
         db.list('/products').subscribe(items => {
-        	this.productArray = items.filter( item => item.show ==true );
-        	this.productArray = _.orderBy(this.productArray, ['quantity'], ['desc']);
+        	this.productArray = items.filter( item => item.show == true );
+        	this.productArray = _.orderBy(this.productArray, ['sortValue'], ['asc']);
             this.loading = false;
         });
     }
