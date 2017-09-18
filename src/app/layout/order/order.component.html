@@ -23,7 +23,7 @@
                     <th class="hide-in-mobile">Số DT</th>
                     <th class="hide-in-mobile">Địa chỉ</th>
                     <th class="hide-in-mobile">Tổng tiền</th>
-                    <th>Tình trạng</th>
+                    <th class="text-center">Tình trạng</th>
                 </tr>
                 <tr class="text" *ngFor="let item of filteredItems | paginate: { itemsPerPage: 10, currentPage: currentPage } ; let stt = index">
                     <td>{{stt + 1}}</td>
@@ -32,7 +32,11 @@
                     <td class="hide-in-mobile">{{item.customer_phone}}</td>
                     <td class="hide-in-mobile">{{item.customer_address}}</td>
                     <td class="hide-in-mobile">{{(item.totalcal - item.discount) | number : '1.0-0' }}</td>
-                    <td class="text-center">{{item.handle}}</td>
+                    <td class="text-center td-action">
+                        <span *ngIf="item.handle == '0'" class="fa fa-eye-slash" (click)="open(content); selectItem(item) "></span>
+                        <span *ngIf="item.handle == '2'" class="fa fa-ban-circle"></span>
+                        <span *ngIf="item.handle == '3'" class="fa fa-check"></span>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -41,5 +45,77 @@
     <div class="text-center">
         <pagination-controls maxSize="5" *ngIf="items && items.length > 0" (pageChange)="currentPage = $event"></pagination-controls>
     </div>
-</div>
 
+    <ng-template #content let-c="close" let-d="dismiss" style="width: 900px">
+        <div class="modal-header">
+            <h4 class="modal-title">Chi tiết đơn đặt hàng</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" c>
+            <div class="div-detail"><span class="span-title">Tên : </span>{{curentItem.customer_name}}</div>
+            <div class="div-detail"><span class="span-title">Điện thoại : </span>{{curentItem.customer_phone}}</div>
+            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{curentItem.customer_address}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}</div>
+            <div class="row row-detail">
+                <table class="table table-bordered tbl-cart-detail">
+                    <tbody>
+                    <tr>
+                        <td></td>
+                        <td>Sản phẩm</td>
+                        <td>Đơn giá</td>
+                        <td>Số lượng</td>
+                        <td>Thành tiền</td>
+                    </tr>
+                    <tr *ngFor="let item of curentItem.itemsincart ; let stt = index">
+                        <td>
+                            <a [routerLink]="['/chi-tiet', item.pid ]" >
+                                <img src="/assets/default/products/{{item.avatar}}" class="img-cart">
+                            </a>
+                        </td>
+                        <td>
+                            <a [routerLink]="['/chi-tiet', item.pid ]">{{item.id}}</a>
+                        </td>
+                        <td>
+                            <div *ngIf="item.saleoff">
+                                <del>{{ item.normal_price | number : '1.0-0'}}</del>
+                                {{ item.sale_price   | number : '1.0-0'}}
+                            </div>
+                            <div *ngIf="!item.saleoff">
+                                {{ item.normal_price | number : '1.0-0'}}
+                            </div>
+                        </td>
+                        <td>{{item.quantity}}</td>
+                        <td>{{(item.quantity * ( item.saleoff ? item.sale_price : item.normal_price )) | number : '1.0-0' }}</td>
+                    </tr>
+                    <!--<tr>-->
+                    <!--<td class="tbl-total-label">Tổng tiền</td>-->
+                    <!--<td class="tbl-total-price">{{getTotalCart(cartArray).price | number : '1.0-0' }}</td>-->
+                    <!--</tr>-->
+                    <!--<tr *ngIf="getTotalCart(cartArray).promotion_price && getTotalCart(cartArray).promotion_price > 0 ">-->
+                    <!--<td class="tbl-total-label">Giảm giá</td>-->
+                    <!--<td class="tbl-total-price">- {{getTotalCart(cartArray).promotion_price | number : '1.0-0' }}</td>-->
+                    <!--</tr>-->
+                    <!--<tr *ngIf="cartCoupon">-->
+                    <!--<td class="tbl-total-label">Mã giảm giá</td>-->
+                    <!--<td class="tbl-total-price">- {{cartCoupon.value | number : '1.0-0' }}</td>-->
+                    <!--</tr>-->
+                    <!--<tr *ngIf="fee">-->
+                    <!--<td class="tbl-total-label">Phí giao hàng</td>-->
+                    <!--<td class="tbl-total-price">{{fee | number : '1.0-0' }}</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                    <!--<td class="tbl-total-label">Tiền thanh toán </td>-->
+                    <!--<td class="tbl-total-price total-real">{{getTotalCart(cartArray).sale_price + fee - ((cartCoupon && cartCoupon.value) ? cartCoupon.value : 0) | number : '1.0-0' }}</td>-->
+                    <!--</tr>-->
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+        </div>
+    </ng-template>
+
+</div>

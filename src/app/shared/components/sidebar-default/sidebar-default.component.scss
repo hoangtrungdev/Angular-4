@@ -27,29 +27,13 @@ $topnav-background-color: #FFF;
             color: #000;
             padding-left: 10px;
             text-decoration: none;
-            position: relative;
-            z-index: 1001;
-            &:after {
-                position: absolute;
-                content: '';
-                top:0;
-                left: 0;
-                width: 0;
-                height: 100%;
-                background: darken($topnav-background-color, 5%);
-                transform-origin:left;
-                transition:width 0.3s ease;
-                z-index: -1;
-            }
             .fa {
                 margin-right: 10px;
             }
         }
         a:hover {
             color: #000;
-            &:after {
-                width: 100%;
-            }
+            background: darken($topnav-background-color, 5%);
         }
         a.router-link-active {
             background: darken($topnav-background-color, 5%);

@@ -1,23 +1,68 @@
 import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../../router.animations';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 
 @Component({
     selector: 'app-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.scss'],
-    animations: [routerTransition()]
+    animations: []
 })
 export class OrderComponent implements OnInit {
     public phoneInput : any ;
     public nameInput : any ;
-    constructor(db: AngularFireDatabase  ) {
+    public closeResult: string;
+    public curentItem: any;
+    public db : any ;
+    public currentCity : any = {};
+    public currentDistrict : any = {} ;
+    public currentTown : any  = {};
+
+
+    constructor(db: AngularFireDatabase, private modalService: NgbModal  ) {
+        this.db = db ;
         db.list('/newOrder').subscribe(items => {
             this.items = items.reverse() ;
             this.assignCopy()
         });
     }
+    public selectItem(item) {
+        let self = this;
+        item.itemsincart = JSON.parse(item.itemsincart);
+        this.curentItem = item;
+
+        self.db.object('/city/' + item.city).subscribe(item => {
+            self.currentCity = item ;
+        })
+        self.db.object('/district/' + item.district).subscribe(item => {
+            self.currentDistrict = item ;
+        })
+        self.db.object('/town/' + item.town).subscribe(item => {
+            self.currentTown = item ;
+        })
+    }
+    /* modal*/
+    open(content) {
+        this.modalService.open(content, { windowClass: 'modify-modal'}).result.then((result) => {
+            this.closeResult = `Closed with: ${result}`;
+        }, (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        });
+    }
+
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return 'by pressing ESC';
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return 'by clicking on a backdrop';
+        } else {
+            return  `with: ${reason}`;
+        }
+    }
+
+
+
     public items: any[];
     public currentPage: number = 1;
 
@@ -47,10 +92,13 @@ export class OrderComponent implements OnInit {
         return str;
     }
 
-    public assignCopy(){
-            this.filteredItems = Object.assign([], this.items);
-        }
-        ngOnInit() {
 
-        }
+
+
+    public assignCopy(){
+        this.filteredItems = Object.assign([], this.items);
     }
+    ngOnInit() {
+
+    }
+}
