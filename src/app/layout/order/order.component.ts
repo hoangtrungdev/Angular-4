@@ -29,7 +29,8 @@ export class OrderComponent implements OnInit {
     }
     public selectItem(item) {
         let self = this;
-        item.itemsincart = JSON.parse(item.itemsincart);
+        if(typeof item.itemsincart == 'string')
+            item.itemsincart = JSON.parse(item.itemsincart);
         this.curentItem = item;
 
         self.db.object('/city/' + item.city).subscribe(item => {
