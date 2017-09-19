@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../../router.animations';
 
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import * as _ from "lodash";
@@ -9,37 +8,50 @@ import * as moment from 'moment';
     selector: 'app-realtime-charts',
     templateUrl: './realtime-charts.component.html',
     styleUrls: ['./realtime-charts.component.scss'],
-    animations: [routerTransition()]
+    animations: []
 })
 export class RealtimeChartsComponent implements OnInit {
+    /* Firebase */
+    public items: FirebaseListObservable<any[]>;
+    public dataStatistical: any = {};
+    public ChartData: any[] = [
+        { data: [], label: 'Doanh thu' },
+        { data: [], label: 'Lợi nhuận' },
+    ];
+    public ChartLabels: string[] = [];
+
+
+    /* Daterangepicker */
+    public daterange: any =  {
+        start: moment().startOf('month'),
+        end: moment()
+    };
     constructor(db: AngularFireDatabase ) {
         this.items = db.list('/sales');
         this.getValueChart();
     }
-    /* Daterangepicker */
-    public daterange: any =  {
-        start: moment().add(-7, 'days'),
-        end: moment()
-    };
 
     // can also be setup using the config service to apply to multiple pickers
     public options: any = {
-        locale: { format: 'DD-MM-YYYY' },
+        locale: { format: 'DD/MM/YYYY' },
         alwaysShowCalendars: false,
         ranges: {
-            'Last 7 days': [moment().add(-7, 'days'), moment()],
-            'Last months': [moment().add(-1, 'months'), moment()],
-            'Last 12 Months': [moment().subtract(12, 'months'), moment()],
+            'Tuần này': [moment().startOf('week'), moment()],
+            'Tháng này': [moment().startOf('month'), moment()],
+            '7 ngày trước': [moment().add(-7, 'days'), moment()],
+            '1 tháng trước': [moment().add(-1, 'months'), moment()]
         }
     };
 
     public selectedDate(value: any) {
+        console.log('value.end', value.end)
         this.daterange.start = value.start;
         this.daterange.end = value.end;
         this.getValueChart()
     }
     public getValueChart() {
         this.items.subscribe(item => {
+            // data chart
             this.ChartLabels = [];
             this.ChartData[0].data = [];
             this.ChartData[1].data = [];
@@ -58,28 +70,29 @@ export class RealtimeChartsComponent implements OnInit {
             let abc : any  = _.groupBy(_.sortBy(dataMap, 'endedAt') , "date");
             _.mapValues(abc, function (obj, key) {
                 let date = moment(key,'DD-MM-YYYY');
-                if(seft.daterange.start.diff(date, 'days') < 0 && seft.daterange.end.diff(date, 'days') >= 0){
+                if(seft.daterange.start.diff(date, 'days') <= 0 && seft.daterange.end.diff(date, 'days') >= 0){
                     seft.ChartLabels.push(key);
                     seft.ChartData[0].data.push(_.sumBy(obj, 'income'));
                     seft.ChartData[1].data.push(_.sumBy(obj, 'profit'));
                 }
-
             });
+            // data thong ke
+            let dataFilterDate = item.filter(val => {
+                if (val.endedAt) {
+                    let date = moment(val.dayend,'DD-MM-YYYY');
+                    return (seft.daterange.start.diff(date, 'days') <= 0 && seft.daterange.end.diff(date, 'days') >= 0)
+                } else {
+                    return false;
+                }
+            });
+            this.dataStatistical = {
+                totalIncome : _.sumBy(dataFilterDate.filter(val => val.status == 3), 'income'),
+                totalProfit : _.sumBy(dataFilterDate.filter(val => val.status == 3), 'profit'),
+                totalSuccess : dataFilterDate.filter(val => val.status == 3).length
+            };
         });
 
     }
-    /* Firebase */
-    public items: FirebaseListObservable<any[]>;
-    public ChartData: any[] = [
-        { data: [], label: 'Total' },
-        { data: [], label: 'Profit' },
-    ];
-    public ChartLabels: string[] = [];
-    // public ChartData: any[] = [
-    //     { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' }
-    // ];
-    // public ChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-
 
     // events
     public chartClicked(e: any): void {

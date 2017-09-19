@@ -154,6 +154,7 @@ export class CartComponent implements OnInit {
                                 self.customerInfo = {
                                     hasHistory : true ,
                                     address : cus.address ,
+                                    id : cus.$key ,
                                     name : cus.name ,
                                     district : cus.district ,
                                     town : cus.town ,
@@ -192,7 +193,7 @@ export class CartComponent implements OnInit {
                         "quantity": item.quantity
                     })
                 });
-                self.db.list('newOrder').push({
+                let dataPush : any = {
                     itemsincart: JSON.stringify(arrayCartSave),
                     totalcal: self.getTotalCart(self.cartArray).price,
                     discount: self.getTotalCart(self.cartArray).promotion_price,
@@ -206,7 +207,11 @@ export class CartComponent implements OnInit {
                     town: self.customerInfo.town,
                     handle: 0,
                     startedAt: new Date().getTime()
-                });
+                }
+                if (self.customerInfo.id) {
+                    dataPush.customer_id = self.customerInfo.id
+                }
+                self.db.list('newOrder').push(dataPush);
                 self.step = 'final';
 
                 // reset value

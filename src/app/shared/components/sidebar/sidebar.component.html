@@ -1,14 +1,16 @@
 <nav class="sidebar">
     <ul class="list-group">
-
         <a [routerLink]="['/admin/dashboard']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'dashboard' | translate }}
         </a>
         <a [routerLink]="['/admin/order']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-dashboard"></i> Đơn đặt hàng
+            <i class="fa fa-fw fa-shopping-bag"></i> Đơn đặt hàng
+        </a>
+        <a [routerLink]="['/admin/realtime-charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart"></i> Thống kê
         </a>
         <a [routerLink]="['/admin/position']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-map-marker"></i>&nbsp;Position
+            <i class="fa fa-fw fa-map-marker"></i>&nbsp;Sắp xếp sản phẩm
         </a>
         <a [routerLink]="['/admin/coupon']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;Coupon

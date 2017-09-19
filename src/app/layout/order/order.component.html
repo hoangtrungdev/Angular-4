@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col col-xl-12 col-lg-12">
+        <div class="col col-12">
             <table class="table table-bordered">
                 <tbody>
                 <tr>
@@ -31,11 +31,12 @@
                     <td>{{item.customer_name}}</td>
                     <td class="hide-in-mobile">{{item.customer_phone}}</td>
                     <td class="hide-in-mobile">{{item.customer_address}}</td>
-                    <td class="hide-in-mobile">{{(item.totalcal - item.discount) | number : '1.0-0' }}</td>
-                    <td class="text-center td-action">
-                        <span *ngIf="item.handle == '0'" class="fa fa-eye-slash" (click)="open(content); selectItem(item) "></span>
-                        <span *ngIf="item.handle == '2'" class="fa fa-ban-circle"></span>
-                        <span *ngIf="item.handle == '3'" class="fa fa-check"></span>
+                    <td class="hide-in-mobile">{{(item.totalcal ? item.totalcal : 0) - (item.discount? item.discount : 0)
+                        + (item.fee? item.fee : 0) - (item.coupon? item.coupon.value : 0) | number : '1.0-0' }}</td>
+                    <td class="text-center td-action" >
+                        <span *ngIf="item.handle == '0'" class="fa fa-eye-slash" (click)="open(content); selectItem(item)"></span>
+                        <span *ngIf="item.handle == '2'" class="fa fa-ban-circle" (click)="open(content); selectItem(item)"></span>
+                        <span *ngIf="item.handle == '3'" class="fa fa-check" (click)="open(content); selectItem(item)"></span>
                     </td>
                 </tr>
                 </tbody>
@@ -53,7 +54,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body" c>
+        <div class="modal-body">
             <div class="div-detail"><span class="span-title">Tên : </span>{{curentItem.customer_name}}</div>
             <div class="div-detail"><span class="span-title">Điện thoại : </span>{{curentItem.customer_phone}}</div>
             <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{curentItem.customer_address}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}</div>
@@ -63,20 +64,20 @@
                     <tr>
                         <td></td>
                         <td>Sản phẩm</td>
-                        <td>Đơn giá</td>
+                        <td class="hide-in-mobile">Đơn giá</td>
                         <td>Số lượng</td>
                         <td>Thành tiền</td>
                     </tr>
                     <tr *ngFor="let item of curentItem.itemsincart ; let stt = index">
                         <td>
-                            <a [routerLink]="['/chi-tiet', item.pid ]" >
+                            <a [routerLink]="['/chi-tiet', item.id ]" target="_blank">
                                 <img src="/assets/default/products/{{item.avatar}}" class="img-cart">
                             </a>
                         </td>
                         <td>
-                            <a [routerLink]="['/chi-tiet', item.pid ]">{{item.id}}</a>
+                            <a [routerLink]="['/chi-tiet', item.id ]" target="_blank">{{item.id}}</a>
                         </td>
-                        <td>
+                        <td class="hide-in-mobile">
                             <div *ngIf="item.saleoff">
                                 <del>{{ item.normal_price | number : '1.0-0'}}</del>
                                 {{ item.sale_price   | number : '1.0-0'}}
@@ -88,33 +89,61 @@
                         <td>{{item.quantity}}</td>
                         <td>{{(item.quantity * ( item.saleoff ? item.sale_price : item.normal_price )) | number : '1.0-0' }}</td>
                     </tr>
-                    <!--<tr>-->
-                    <!--<td class="tbl-total-label">Tổng tiền</td>-->
-                    <!--<td class="tbl-total-price">{{getTotalCart(cartArray).price | number : '1.0-0' }}</td>-->
-                    <!--</tr>-->
-                    <!--<tr *ngIf="getTotalCart(cartArray).promotion_price && getTotalCart(cartArray).promotion_price > 0 ">-->
-                    <!--<td class="tbl-total-label">Giảm giá</td>-->
-                    <!--<td class="tbl-total-price">- {{getTotalCart(cartArray).promotion_price | number : '1.0-0' }}</td>-->
-                    <!--</tr>-->
-                    <!--<tr *ngIf="cartCoupon">-->
-                    <!--<td class="tbl-total-label">Mã giảm giá</td>-->
-                    <!--<td class="tbl-total-price">- {{cartCoupon.value | number : '1.0-0' }}</td>-->
-                    <!--</tr>-->
-                    <!--<tr *ngIf="fee">-->
-                    <!--<td class="tbl-total-label">Phí giao hàng</td>-->
-                    <!--<td class="tbl-total-price">{{fee | number : '1.0-0' }}</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                    <!--<td class="tbl-total-label">Tiền thanh toán </td>-->
-                    <!--<td class="tbl-total-price total-real">{{getTotalCart(cartArray).sale_price + fee - ((cartCoupon && cartCoupon.value) ? cartCoupon.value : 0) | number : '1.0-0' }}</td>-->
-                    <!--</tr>-->
                     </tbody>
                 </table>
 
             </div>
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <table class="table table-bordered" style="width: 100%">
+                        <tbody>
+                        <tr>
+                            <td class="tbl-total-label">
+                                Tổng tiền
+                                <div class="pull-right">{{ curentItem.totalcal  | number : '1.0-0' }}</div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="curentItem.discount">
+                            <td>
+                                Giảm giá
+                                <div class="pull-right">- {{ curentItem.discount | number : '1.0-0' }}</div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="curentItem.coupon">
+                            <td>
+                                Coupon giảm giá
+                                <div class="pull-right">- {{ curentItem.coupon.value | number : '1.0-0' }}</div>
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="curentItem.fee">
+                            <td >
+                                Phí giao hàng
+                                <div class="pull-right">{{curentItem.fee | number : '1.0-0' }}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Tiền thanh toán
+                                <div class="pull-right">{{(curentItem.totalcal ? curentItem.totalcal : 0) - (curentItem.discount? curentItem.discount : 0)
+                                    + (curentItem.fee? curentItem.fee : 0) - (curentItem.coupon? curentItem.coupon.value : 0)   | number : '1.0-0' }}</div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="form-group">
+                        <label >Ghi chú xử lý</label>
+                        <textarea class="form-control" rows="5"></textarea>
+                        <small id="emailHelp" class="form-text text-muted">Cập nhật ghi chú nếu có.</small>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+            <button type="button" class="btn btn-primary" *ngIf="curentItem.handle == '0'" (click)="createSale(curentItem)">Tạo đơn giao hàng</button>
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Tắt</button>
         </div>
     </ng-template>
 

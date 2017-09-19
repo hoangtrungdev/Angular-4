@@ -3,6 +3,9 @@
 }
 .td-action {
     font-size: 15px;
+    span {
+        cursor: pointer;
+    }
 }
 .div-detail {
     padding: 5px;

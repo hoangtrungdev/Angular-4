@@ -1,22 +1,42 @@
-<div [@routerTransition]>
-    <app-page-header [heading]="'Real time charts - modify by Hoang Trung'" [icon]="'fa-bar-chart-o'"></app-page-header>
+<div class="animated bounceInDown">
+    <app-page-header [heading]="'Thống kê'" [icon]="'fa-bar-chart-o'"></app-page-header>
     <div class="row">
         <div class="col-md-3">
             <fieldset class="form-group">
-                <label>Date range</label>
-                <input type="text" class="form-control"  name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event)" />
+                <label>Chọn khoảng thời gian</label>
+                    <div class="input-group"  daterangepicker
+                         [options]="options" (selected)="selectedDate($event)">
+                        <span class="form-control uneditable-input"  name="daterange" >
+                            {{ daterange.start | date:'dd/MM/y' }} - {{ daterange.end| date:'dd/MM/y' }}
+                        </span>
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </span>
+                    </div>
             </fieldset>
         </div>
     </div>
     <div class="row" *ngIf="daterange.start && daterange.end">
-        <div class="col col-sm-8">
+        <div class="col-8 hide-in-mobile">
             <div class="card mb-3">
                 <div class="card-header">
-                    Bar Chart
+                    Biểu đồ doanh thu & lợi nhuận từ {{ daterange.start | date:'dd/MM/y' }} đến  {{ daterange.end| date:'dd/MM/y' }}
                 </div>
                 <div class="card-block">
                     <canvas baseChart [datasets]="ChartData" [labels]="ChartLabels" [options]="ChartOptions" [legend]="ChartLegend" [chartType]="ChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
                     </canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Thống kê số liệu từ {{ daterange.start | date:'dd/MM/y' }} đến  {{ daterange.end| date:'dd/MM/y' }}
+                </div>
+                <div class="card-block">
+                    <div class="div-detail"><span class="span-title">Tổng doanh thu : </span>{{dataStatistical.totalIncome | number : '1.0-0'}}</div>
+                    <div class="div-detail"><span class="span-title">Tổng lợi nhuận : </span>{{dataStatistical.totalProfit | number : '1.0-0'}}</div>
+                    <div class="div-detail"><span class="span-title">Tổng đơn hàng thành công : </span>{{dataStatistical.totalSuccess | number : '1.0-0'}}</div>
                 </div>
             </div>
         </div>

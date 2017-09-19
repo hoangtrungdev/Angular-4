@@ -1,0 +1,13 @@
+@media screen and (max-width: 992px) {
+    .hide-in-mobile {
+        display: none;
+    }
+}
+.div-detail {
+    padding: 5px;
+    border-bottom: 1px dashed #DDD;
+    .span-title {
+        font-weight: bold;
+        margin-right: 3px;
+    }
+}
