@@ -1,6 +1,6 @@
 <toaster-container></toaster-container>
 <div class="animated bounceInDown no-print">
-    <app-page-header [heading]="'Đơn đặt hàng'" [icon]="'fa-table'"></app-page-header>
+    <app-page-header [heading]="'Hóa đơn bán hàng'"></app-page-header>
     <div class="row">
         <div class="col-md-2">
             <fieldset class="form-group">
@@ -18,40 +18,29 @@
             <table class="table table-bordered">
                 <tbody>
                 <tr>
-                    <th></th>
                     <th class="hide-in-mobile">#</th>
                     <th>Thời gian</th>
                     <th>Tên khách hàng</th>
-                    <th class="hide-in-mobile">Số DT</th>
-                    <th class="hide-in-mobile">Địa chỉ</th>
-                    <th class="hide-in-mobile">Tổng tiền</th>
-                    <th class="text-center">Tình trạng</th>
+                    <th class="hide-in-mobile">Tổng thu</th>
+                    <th class="text-center">Hình thức</th>
+                    <th class="text-center" class="hide-in-mobile">Tình trạng</th>
                 </tr>
                 <tr class="text" *ngFor="let item of filteredItems | paginate: { itemsPerPage: 10, currentPage: currentPage } ; let stt = index">
-                    <td>
-                        <a class="delete-cart"
-                           mwlConfirmationPopover
-                           [title]="'Thông báo'"
-                           [message]="'Bạn muốn chắc chắn muốn xóa dữ liệu này ?'"
-                           [confirmText]="'Có'"
-                           [cancelText]="'Không'"
-                           placement="right"
-                           (confirm)="deleteOrder(item.$key)"
-                        >
-                            <i class="fa fa-times-circle-o"></i>
-                        </a>
+                    <td class="hide-in-mobile" (click)="open(content); selectItem(item)">{{stt + 1}}</td>
+                    <td (click)="open(content); selectItem(item)">{{item.startedAt | date: 'dd/MM/yyyy'}}</td>
+                    <td (click)="open(content); selectItem(item)">{{(item.customerInfo && item.customerInfo.name) ? item.customerInfo.name : 'Chưa xác định'}}</td>
+                    <td class="hide-in-mobile" (click)="open(content); selectItem(item)">{{item.income | number : '1.0-0' }}</td>
+                    <td class="text-center" (click)="open(content); selectItem(item)">
+                        <span *ngIf="item.type == '1'">Cửa hàng</span>
+                        <span *ngIf="item.type == '2'">Tự giao</span>
+                        <span *ngIf="item.type == '4'">Bên thứ 3</span>
                     </td>
-                    <td class="hide-in-mobile">{{stt + 1}}</td>
-                    <td>{{item.startedAt | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{item.customer_name}}</td>
-                    <td class="hide-in-mobile">{{item.customer_phone}}</td>
-                    <td class="hide-in-mobile">{{item.customer_address}}</td>
-                    <td class="hide-in-mobile">{{(item.totalcal ? item.totalcal : 0) - (item.discount? item.discount : 0)
-                        + (item.fee? item.fee : 0) - (item.coupon? item.coupon.value : 0) | number : '1.0-0' }}</td>
-                    <td class="text-center td-action" >
-                        <span *ngIf="item.handle == '0'" class="fa fa-eye-slash" (click)="open(content); selectItem(item)"></span>
-                        <span *ngIf="item.handle == '2'" class="fa fa-ban-circle" (click)="open(content); selectItem(item)"></span>
-                        <span *ngIf="item.handle == '3'" class="fa fa-check" (click)="open(content); selectItem(item)"></span>
+                    <td class="text-center"  class="hide-in-mobile" (click)="open(content); selectItem(item)">
+                        <span *ngIf="item.status == '1'">Đã xác nhận</span>
+                        <span *ngIf="item.status == '2'">Đang giao hàng</span>
+                        <span *ngIf="item.status == '3'">Hoàn tất</span>
+                        <span *ngIf="item.status == '4'">Khách hủy</span>
+                        <span *ngIf="item.status == '5'">Xóa</span>
                     </td>
                 </tr>
                 </tbody>
@@ -70,9 +59,10 @@
             </button>
         </div>
         <div class="modal-body">
-            <div class="div-detail"><span class="span-title">Tên : </span>{{curentItem.customer_name}}</div>
-            <div class="div-detail"><span class="span-title">Điện thoại : </span>{{curentItem.customer_phone}}</div>
-            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{curentItem.customer_address}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}</div>
+            <div class="div-detail"><span class="span-title">Tên : </span>{{(curentItem.customerInfo && curentItem.customerInfo.name) ? curentItem.customerInfo.name : 'Chưa xác định'}}</div>
+            <div class="div-detail"><span class="span-title">Điện thoại : </span>{{(curentItem.customerInfo && curentItem.customerInfo.phone) ? curentItem.customerInfo.phone : 'Chưa xác định'}}</div>
+            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{(curentItem.customerInfo && curentItem.customerInfo.address) ? curentItem.customerInfo.address : 'Chưa xác định'}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}</div>
+            <div class="div-detail"><span class="span-title">Ghi chú :</span>{{curentItem.note}}</div>
             <div class="row row-detail">
                 <table class="table table-bordered tbl-cart-detail">
                     <tbody>
@@ -127,44 +117,35 @@
                         <tr *ngIf="curentItem.coupon">
                             <td>
                                 Coupon giảm giá
-                                <div class="pull-right">- {{ curentItem.coupon.value | number : '1.0-0' }}</div>
+                                <div class="pull-right">- {{ curentItem.coupon | number : '1.0-0' }}</div>
                             </td>
                         </tr>
 
-                        <tr *ngIf="curentItem.fee">
+                        <tr *ngIf="curentItem.deliveryfee">
                             <td >
                                 Phí giao hàng
-                                <div class="pull-right">{{curentItem.fee | number : '1.0-0' }}</div>
+                                <div class="pull-right">{{curentItem.deliveryfee | number : '1.0-0' }}</div>
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 Tiền thanh toán
                                 <div class="pull-right">{{(curentItem.totalcal ? curentItem.totalcal : 0) - (curentItem.discount? curentItem.discount : 0)
-                                    + (curentItem.fee? curentItem.fee : 0) - (curentItem.coupon? curentItem.coupon.value : 0)   | number : '1.0-0' }}</div>
+                                    + (curentItem.deliveryfee? curentItem.deliveryfee : 0) - (curentItem.coupon? curentItem.coupon : 0)   | number : '1.0-0' }}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Lợi nhuận
+                                <div class="pull-right">{{curentItem.profit | number : '1.0-0' }}</div>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="col-12 col-md-6 col-lg-6">
-                    <div class="form-group">
-                        <label >Ghi chú xử lý</label>
-                        <textarea class="form-control" rows="5"></textarea>
-                        <small id="emailHelp" class="form-text text-muted">Cập nhật ghi chú nếu có.</small>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="modal-footer">
-            <div ngbDropdown  [up]="true" class="d-inline-block" *ngIf="curentItem.handle == '0'">
-                <button class="btn btn-outline-primary" id="dropdownMenu" ngbDropdownToggle>Tạo đơn giao hàng</button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                    <button class="dropdown-item" (click)="createSale(curentItem, 2)">Tự giao</button>
-                    <div class="dropdown-divider"></div>
-                    <button class="dropdown-item" (click)="createSale(curentItem, 4)">Bên thứ 3</button>
-                </div>
-            </div>
             <button type="button" class="btn btn-secondary" (click)="printDiv('printContent')">In hóa đơn</button>
             <button type="button" class="btn btn-secondary" (click)="c('Close click')">Tắt</button>
         </div>
@@ -192,15 +173,15 @@
             Hóa đơn giao hàng
         </div>
         <div>
-            <strong>Khách hàng:</strong><span> {{curentItem.customer_name}}</span>
+            <strong>Khách hàng:</strong><span> {{(curentItem.customerInfo && curentItem.customerInfo.name) ? curentItem.customerInfo.name : 'Chưa xác định'}}</span>
         </div>
         <div>
-            <strong>Điện thoại: </strong><span>{{curentItem.customer_phone}}</span>
+            <strong>Điện thoại: </strong><span>{{(curentItem.customerInfo && curentItem.customerInfo.phone) ? curentItem.customerInfo.phone : 'Chưa xác định'}}</span>
         </div>
         <div>
             <strong>Địa chỉ giao hàng: </strong>
             <span>
-                    {{curentItem.customer_address}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}
+                    {{(curentItem.customerInfo && curentItem.customerInfo.address) ? curentItem.customerInfo.address : 'Chưa xác định'}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}
                 </span>
         </div>
         <div ng-show="note!=null" class="ng-hide">
@@ -268,15 +249,15 @@
                     <strong>Mã giảm giá:</strong>
                 </td>
                 <td style="text-align:right;">
-                    <strong  >- {{ curentItem.coupon.value | number : '1.0-0' }} đ</strong>
+                    <strong  >- {{ curentItem.coupon | number : '1.0-0' }} đ</strong>
                 </td>
             </tr>
-            <tr *ngIf="curentItem.fee">
+            <tr *ngIf="curentItem.deliveryfee">
                 <td style="text-align:right;">
                     <strong>Phí giao hàng:</strong>
                 </td>
                 <td style="text-align:right;">
-                    <strong  >{{curentItem.fee | number : '1.0-0' }} đ</strong>
+                    <strong  >{{curentItem.deliveryfee | number : '1.0-0' }} đ</strong>
                 </td>
             </tr>
             <tr>
@@ -285,7 +266,7 @@
                 </td>
                 <td style="text-align:right;">
                     <strong  >{{(curentItem.totalcal ? curentItem.totalcal : 0) - (curentItem.discount? curentItem.discount : 0)
-                        + (curentItem.fee? curentItem.fee : 0) - (curentItem.coupon? curentItem.coupon.value : 0)   | number : '1.0-0' }} đ</strong>
+                        + (curentItem.deliveryfee? curentItem.deliveryfee : 0) - (curentItem.coupon? curentItem.coupon : 0)   | number : '1.0-0' }} đ</strong>
                 </td>
             </tr>
             </tbody>

@@ -1,0 +1,37 @@
+:host ::ng-deep .ngx-pagination {
+    padding-left: 0;
+}
+.td-action {
+    font-size: 15px;
+    span {
+        cursor: pointer;
+    }
+}
+.div-detail {
+    padding: 5px;
+    border-bottom: 1px dashed #DDD;
+    .span-title {
+        font-weight: bold;
+        margin-right: 3px;
+    }
+}
+.row-detail {
+    padding: 5px;
+    .tbl-cart-detail {
+        margin-top: 10px;
+        .img-cart {
+            height: 50px;
+        }
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    }
+}
+@media screen and (max-width: 992px) {
+    .hide-in-mobile {
+        display: none;
+    }
+}
+
+

@@ -10,6 +10,7 @@ const routes: Routes = [
             { path: 'random-charts', loadChildren: './random-charts/random-charts.module#RandomChartsModule' },
             { path: 'realtime-charts', loadChildren: './realtime-charts/realtime-charts.module#RealtimeChartsModule' },
             { path: 'order', loadChildren: './order/order.module#OrderModule' },
+            { path: 'sales', loadChildren: './sales/sales.module#SalesModule' },
             { path: 'position', loadChildren: './position/position.module#PositionModule' },
             { path: 'coupon', loadChildren: './coupon/coupon.module#CouponModule' },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },

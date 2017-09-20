@@ -8,12 +8,12 @@ import * as _ from "lodash";
 import * as moment from 'moment';
 
 @Component({
-    selector: 'app-order',
-    templateUrl: './order.component.html',
-    styleUrls: ['./order.component.scss'],
+    selector: 'app-sales',
+    templateUrl: './sales.component.html',
+    styleUrls: ['./sales.component.scss'],
     animations: []
 })
-export class OrderComponent implements OnInit {
+export class SalesComponent implements OnInit {
     public phoneInput : any ;
     public nameInput : any ;
     public closeResult: string;
@@ -22,14 +22,26 @@ export class OrderComponent implements OnInit {
     public currentCity : any = {};
     public currentDistrict : any = {} ;
     public currentTown : any  = {};
+    public arrayCustomer : any ;
 
     private toasterService: ToasterService;
     constructor(toasterService: ToasterService, db: AngularFireDatabase, private modalService: NgbModal  ) {
+        this.contructorFunction(toasterService, db  )
+    }
+    async contructorFunction(toasterService, db ) {
         this.db = db ;
         this.toasterService = toasterService;
-
-        db.list('/newOrder').subscribe(items => {
+        this.arrayCustomer =  await this.getData('/customers');
+        db.list('/sales').subscribe(items => {
+            items = items.filter(item => item.status != '5');
             this.items = items.slice().reverse();
+            this.items.map(item => {
+                let dataCustomer : any =_.find(this.arrayCustomer, {'$key': item.customerID});
+                if (dataCustomer) {
+                    item.customerInfo = dataCustomer;
+                }
+
+            });
             this.assignCopy()
         });
     }
@@ -42,21 +54,24 @@ export class OrderComponent implements OnInit {
             itemClone.itemsincart = JSON.parse(itemClone.itemsincart);
         this.curentItem = itemClone;
 
-        self.db.object('/city/' + itemClone.city).subscribe(val => {
-            self.currentCity = val ;
-        })
-        self.db.object('/district/' + itemClone.district).subscribe(val => {
-            self.currentDistrict = val ;
-        })
-        self.db.object('/town/' + itemClone.town).subscribe(val => {
-            self.currentTown = val ;
-        })
+        if(itemClone.customerInfo) {
+            self.db.object('/city/' + itemClone.customerInfo.city).subscribe(val => {
+                self.currentCity = val ;
+            });
+            self.db.object('/district/' + itemClone.customerInfo.district).subscribe(val => {
+                self.currentDistrict = val ;
+            });
+            self.db.object('/town/' + itemClone.customerInfo.town).subscribe(val => {
+                self.currentTown = val ;
+            })
+        }
+
     }
     // tạo hóa đơn
-    private getlistProduct() {
+    private getData(dataRef) {
         const self = this;
         return new Promise((resolve) =>{
-                self.db.list('/products').subscribe(val => {
+                self.db.list(dataRef).subscribe(val => {
                     resolve(val) ;
                 });
             }
@@ -87,71 +102,8 @@ export class OrderComponent implements OnInit {
     })
 }
 
-    public async createSale(data, type) {
-        const self = this;
-        let arrayProduct: any = await this.getlistProduct();
-        let income = (data.totalcal ? data.totalcal : 0)
-            - (data.discount ? data.discount : 0)
-            - ((data.coupon && data.coupon.value) ? data.coupon.value : 0);
-
-        let totalquantity = 0;
-        let total_inprice = 0;
-
-        if ( data.itemsincart && data.itemsincart.length > 0 ) {
-            data.itemsincart.forEach(cart => {
-                let dataProduct : any =_.find(arrayProduct, {'pid': cart.id});
-                total_inprice += dataProduct.inprice * cart.quantity;
-                let newQuantity = dataProduct.quantity - cart.quantity;
-                self.updateData('/products/' + dataProduct.$key, {quantity : newQuantity});
-
-            })
-        }
-        let profit = income - total_inprice;
-        let customerID : any ;
-
-        if(!data.customer_id) {
-            let customerInput : any = {
-                name: data.customer_name,
-                phone: data.customer_phone,
-                address: data.customer_address,
-                city: data.city,
-                district: data.district,
-                town: data.town
-            };
-            customerID = await this.addData('/customers',customerInput);
-        } else {
-            customerID = data.customer_id;
-        }
-        let salesInput : any = {
-            totalcal: data.totalcal,
-            discount: data.discount,
-            coupon: ((data.coupon && data.coupon.value) ? data.coupon.value : 0),
-            profit: profit,
-            income: income,
-            totalquantity: totalquantity,
-            deliveryfee: data.fee,
-            type: type,
-            status: '1',
-            note: data.note ? data.note : '',
-            payment: '1',
-            customerID: customerID,
-            startedAt: new Date().getTime(),
-            daystart: moment().format('DD-MM-YYYY'),
-            endedAt: '0',
-            dayend: '0',
-            itemsincart: JSON.stringify(data.itemsincart)
-        };
-
-        await this.addData('/sales',salesInput);
-        await this.updateData('/newOrder/' + data.key,{ handle: 3 });
-        window.print()
-        this.currentModal.close();
-        this.toasterService.pop('success', 'Thông báo !', 'Tạo hóa đơn thành công.');
-
-    }
     public async deleteOrder(key) {
-        await this.deleteData('/newOrder/', key);
-        this.toasterService.pop('success', 'Thông báo !', 'Xóa đơn đặt hàng thành công.');
+
     }
     public printDiv(): any {
         window.print()

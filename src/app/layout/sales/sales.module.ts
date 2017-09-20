@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { OrderComponent } from './order.component';
-import { OrderRoutingModule } from './order-routing.module';
+import { SalesComponent } from './sales.component';
+import { SalesRoutingModule } from './sales-routing.module';
 import { PageHeaderModule } from './../../shared';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     imports: [
         CommonModule,
         NgbDropdownModule.forRoot(),
-        OrderRoutingModule,
+        SalesRoutingModule,
         PageHeaderModule,
         FormsModule,
         ToasterModule,
@@ -25,6 +25,6 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
             confirmButtonType: 'danger' // set defaults here
         })
     ],
-    declarations: [OrderComponent]
+    declarations: [SalesComponent]
 })
-export class OrderModule { }
+export class SalesModule { }
