@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ToasterService} from 'angular2-toaster';
+import { ToasterService } from 'angular2-toaster';
 import { AngularFireDatabase } from 'angularfire2/database';
 import * as _ from 'lodash';
 

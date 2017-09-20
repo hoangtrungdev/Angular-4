@@ -10,3 +10,22 @@
     margin: 10px auto;
     max-width: 800px;
 }
+#printContent {display: none; }
+@media print{
+    .main-container{
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    #printContent {
+        display: block !important;
+    }
+    .no-print {
+        display: none !important;
+    }
+    .modal-backdrop{
+        display: none !important;
+    }
+    .modal {
+        display: none !important;
+    }
+}

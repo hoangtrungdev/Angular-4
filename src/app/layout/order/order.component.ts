@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ToasterService } from 'angular2-toaster';
+
 
 import * as _ from "lodash";
 import * as moment from 'moment';
@@ -21,9 +23,11 @@ export class OrderComponent implements OnInit {
     public currentDistrict : any = {} ;
     public currentTown : any  = {};
 
-
-    constructor(db: AngularFireDatabase, private modalService: NgbModal  ) {
+    private toasterService: ToasterService;
+    constructor(toasterService: ToasterService, db: AngularFireDatabase, private modalService: NgbModal  ) {
         this.db = db ;
+        this.toasterService = toasterService;
+
         db.list('/newOrder').subscribe(items => {
             this.items = items.slice().reverse();
             this.assignCopy()
@@ -88,8 +92,8 @@ export class OrderComponent implements OnInit {
             data.itemsincart.forEach(cart => {
                 let dataProduct : any =_.find(arrayProduct, {'pid': cart.id});
                 total_inprice += dataProduct.inprice * cart.quantity;
-                let newquantity = dataProduct.quantity - cart.quantity;
-                self.updateData('/products/' + data.key,{quantity : newquantity});
+                let newQuantity = dataProduct.quantity - cart.quantity;
+                self.updateData('/products/' + dataProduct.$key, {quantity : newQuantity});
 
             })
         }
@@ -131,46 +135,19 @@ export class OrderComponent implements OnInit {
 
         await this.addData('/sales',salesInput);
         await this.updateData('/newOrder/' + data.key,{ handle: 3 });
+        window.print()
+        this.currentModal.close();
+        this.toasterService.pop('success', 'Thông báo !', 'Tạo hóa đơn thành công.');
 
-
-        //         $firebaseArray(saleref).$add({
-        //             totalcal: data.totalcal,
-        //             discount: data.discount,
-        //             coupon: coupon_saleoff,
-        //             profit: profit,
-        //             income: income,
-        //             totalquantity: totalquantity,
-        //             deliveryfee: data.fee,
-        //             type: $scope.way,
-        //             status: '1',
-        //             note: note,
-        //             payment: '1',
-        //             customerID: value.key(),
-        //             startedAt: Firebase.ServerValue.TIMESTAMP,
-        //             daystart: $scope.day,
-        //             endedAt: '0',
-        //             dayend: '0',
-        //             itemsincart: angular.toJson(itemsincart)
-        //         }).then(function(data) {
-        //             for (var i = 0; i < itemsincart.length; i++) {
-        //                 for (var j = 0; j < $scope.products.length; j++) {
-        //                     if($scope.itemsincart[i].code==$scope.products[j].pid){
-        //                         var newquantity = parseInt($scope.products[j].quantity) - parseInt(itemsincart[i].quantity);
-        //                         var quantityref = new Firebase(FURL+'/products/'+ $scope.products[j].$id);
-        //                         quantityref.update({quantity : newquantity}, function(){});
-        //                     }
-        //                 }
-        //             }
-        //             window.print();
-        //             ref.child('newOrder/' + orderID).update({ handle: 3}, function(){});
-        //             toastr.info("Tạo đơn hàng thành công!");
-        //             $scope.note = '';
-        //         });
     }
-
+    public printDiv(): any {
+        window.print()
+    }
     /* modal*/
-    open(content) {
-        this.modalService.open(content, { windowClass: 'modify-modal'}).result.then((result) => {
+    public currentModal: any;
+    public open(content) {
+        this.currentModal = this.modalService.open(content, { windowClass: 'modify-modal'});
+        this.currentModal.result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
         }, (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

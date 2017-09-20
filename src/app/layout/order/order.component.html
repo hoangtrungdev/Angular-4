@@ -1,4 +1,5 @@
-<div class="animated bounceInDown">
+<toaster-container></toaster-container>
+<div class="animated bounceInDown no-print">
     <app-page-header [heading]="'Đơn đặt hàng'" [icon]="'fa-table'"></app-page-header>
     <div class="row">
         <div class="col-md-2">
@@ -47,7 +48,7 @@
         <pagination-controls maxSize="5" *ngIf="items && items.length > 0" (pageChange)="currentPage = $event"></pagination-controls>
     </div>
 
-    <ng-template #content let-c="close" let-d="dismiss" style="width: 900px">
+    <ng-template #content let-c="close" let-d="dismiss" style="width: 900px" class="no-print">
         <div class="modal-header">
             <h4 class="modal-title">Chi tiết đơn đặt hàng</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
@@ -143,8 +144,136 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-primary" *ngIf="curentItem.handle == '0'" (click)="createSale(curentItem)">Tạo đơn giao hàng</button>
+            <button type="button" class="btn btn-secondary" (click)="printDiv('printContent')">In hóa đơn</button>
             <button type="button" class="btn btn-secondary" (click)="c('Close click')">Tắt</button>
         </div>
     </ng-template>
 
+
+</div>
+<div id="printContent" *ngIf="curentItem">
+    <div style="width:100%; font-family:  'Open Sans ', -apple-system, system-ui, BlinkMacSystemFont,  'Segoe UI ', Roboto,  'Helvetica Neue ', Arial, sans-serif">
+        <div style="float:left; margin-right:10px">
+            <img src="http://halley.vn/assets/default/images/logo.png" height="70px">
+        </div>
+        <div style="float: left">
+            <strong>Hotline:</strong><span> 097.456.9396 </span>
+            <br>
+            <strong>Địa chỉ:</strong><span> 114/62 Phạm Văn Chiêu, Phường 9, Quận Gò Vấp, Tp Hồ Chí Minh</span>
+            <br>
+            <strong>Website:</strong><span> www.halley.vn</span>
+            <br>
+            <strong>Ngày lập đơn hàng:</strong><span class="ng-binding"> 20-09-2017 </span>
+            <br>
+        </div>
+        <div style="clear: left"></div>
+        <div style="text-align:center; font-size: 20px; font-weight: bold">
+            Hóa đơn giao hàng
+        </div>
+        <div>
+            <strong>Khách hàng:</strong><span> {{curentItem.customer_name}}</span>
+        </div>
+        <div>
+            <strong>Điện thoại: </strong><span>{{curentItem.customer_phone}}</span>
+        </div>
+        <div>
+            <strong>Địa chỉ giao hàng: </strong>
+            <span>
+                    {{curentItem.customer_address}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}
+                </span>
+        </div>
+        <div ng-show="note!=null" class="ng-hide">
+            <strong>Ghi chú: </strong><span></span>
+        </div>
+        <br>
+        <table style="border: 1px solid #DDD; border-collapse: collapse; background-color: transparent; width: 100%">
+            <thead style="border: 1px solid #DDD">
+            <tr style="font-weight: bold;">
+                <td style="border: 1px solid #DDD; padding: 5px; text-align: center">Sản phẩm</td>
+                <td style="border: 1px solid #DDD; padding: 5px; text-align: center">Đơn giá</td>
+                <td style="border: 1px solid #DDD; padding: 5px; text-align: center">Số lượng</td>
+                <td style="border: 1px solid #DDD; padding: 5px; text-align: center">Thành tiền</td>
+            </tr>
+            </thead>
+            <tbody style="border: 1px solid black">
+            <tr class="first last odd ng-scope" *ngFor="let item of curentItem.itemsincart ; let stt = index">
+                <td style="vertical-align:middle; border: 1px solid #DDD; padding: 5px; text-align: center">
+                    {{item.id}}
+                </td>
+                <td style="vertical-align:middle; border: 1px solid #DDD; padding: 5px; text-align: center">
+                    <div *ngIf="item.saleoff">
+                        <del>{{ item.normal_price | number : '1.0-0'}}</del>
+                        {{ item.sale_price   | number : '1.0-0'}}
+                    </div>
+                    <div *ngIf="!item.saleoff">
+                        {{ item.normal_price | number : '1.0-0'}}
+                    </div>
+                </td>
+                <td style="vertical-align:middle; border: 1px solid #DDD; padding: 5px; text-align: center"  >
+                    {{item.quantity}}
+                </td>
+                <td style="vertical-align:middle; border: 1px solid #DDD; padding: 5px; text-align: center">
+                    <div *ngIf="item.saleoff">
+                        <del>{{ item.normal_price * item.quantity | number : '1.0-0'}}</del>
+                        {{ item.sale_price * item.quantity  | number : '1.0-0'}}
+                    </div>
+                    <div *ngIf="!item.saleoff">
+                        {{ item.normal_price * item.quantity | number : '1.0-0'}}
+                    </div>
+                </td>
+            </tbody>
+        </table>
+
+        <table style="width:100%; margin-top: 10px">
+            <tbody>
+            <tr>
+                <td style="text-align:right;">
+                    <strong>Tổng tiền:</strong>
+                </td>
+                <td style="text-align:right;">
+                    <strong  >{{ curentItem.totalcal  | number : '1.0-0' }} đ</strong>
+                </td>
+            </tr>
+            <tr *ngIf="curentItem.discount">
+                <td style="text-align:right;">
+                    <strong>Giảm giá:</strong>
+                </td>
+                <td style="text-align:right;">
+                    <strong  >- {{ curentItem.discount | number : '1.0-0' }} đ</strong>
+                </td>
+            </tr>
+            <tr *ngIf="curentItem.coupon">
+                <td style="text-align:right;">
+                    <strong>Mã giảm giá:</strong>
+                </td>
+                <td style="text-align:right;">
+                    <strong  >- {{ curentItem.coupon.value | number : '1.0-0' }} đ</strong>
+                </td>
+            </tr>
+            <tr *ngIf="curentItem.fee">
+                <td style="text-align:right;">
+                    <strong>Phí giao hàng:</strong>
+                </td>
+                <td style="text-align:right;">
+                    <strong  >{{curentItem.fee | number : '1.0-0' }} đ</strong>
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align:right;">
+                    <strong>Thanh toán:</strong>
+                </td>
+                <td style="text-align:right;">
+                    <strong  >{{(curentItem.totalcal ? curentItem.totalcal : 0) - (curentItem.discount? curentItem.discount : 0)
+                        + (curentItem.fee? curentItem.fee : 0) - (curentItem.coupon? curentItem.coupon.value : 0)   | number : '1.0-0' }} đ</strong>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="text-center">
+            <span>Sản phẩm được <strong>đổi trả trong 30 ngày</strong> và <strong>bảo hành trọn đời</strong> dựa trên số điện thoại đặt hàng.</span>
+            <br>
+            <span>Cảm ơn qúy khách đã tin tưởng sản phẩm của chúng tôi. Xin chào và hẹn gặp lại!</span>
+        </div>
+    </div>
 </div>

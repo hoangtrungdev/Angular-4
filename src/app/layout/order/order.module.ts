@@ -6,6 +6,8 @@ import { OrderRoutingModule } from './order-routing.module';
 import { PageHeaderModule } from './../../shared';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { ToasterModule } from 'angular2-toaster';
+
 
 @NgModule({
     imports: [
@@ -13,6 +15,7 @@ import { FormsModule } from '@angular/forms';
         OrderRoutingModule,
         PageHeaderModule,
         FormsModule,
+        ToasterModule,
         NgxPaginationModule
     ],
     declarations: [OrderComponent]
