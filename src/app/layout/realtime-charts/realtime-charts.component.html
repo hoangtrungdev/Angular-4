@@ -4,15 +4,15 @@
         <div class="col-md-3">
             <fieldset class="form-group">
                 <label>Chọn khoảng thời gian</label>
-                    <div class="input-group"  daterangepicker
-                         [options]="options" (selected)="selectedDate($event)">
+                <div class="input-group"  daterangepicker
+                     [options]="options" (selected)="selectedDate($event)">
                         <span class="form-control uneditable-input"  name="daterange" >
                             {{ daterange.start | date:'dd/MM/y' }} - {{ daterange.end| date:'dd/MM/y' }}
                         </span>
-                        <span class="input-group-addon">
+                    <span class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </span>
-                    </div>
+                </div>
             </fieldset>
         </div>
     </div>
@@ -34,9 +34,34 @@
                     Thống kê số liệu từ {{ daterange.start | date:'dd/MM/y' }} đến  {{ daterange.end| date:'dd/MM/y' }}
                 </div>
                 <div class="card-block">
-                    <div class="div-detail"><span class="span-title">Tổng doanh thu : </span>{{dataStatistical.totalIncome | number : '1.0-0'}}</div>
-                    <div class="div-detail"><span class="span-title">Tổng lợi nhuận : </span>{{dataStatistical.totalProfit | number : '1.0-0'}}</div>
-                    <div class="div-detail"><span class="span-title">Tổng đơn hàng thành công : </span>{{dataStatistical.totalSuccess | number : '1.0-0'}}</div>
+                    <div class="div-detail">
+                        <span class="span-title">Tổng doanh thu : </span>
+                        <i class="fa fa-circle-o-notch fa-spin" *ngIf="!dataStatistical.totalIncome"></i>
+                        <span *ngIf="dataStatistical.totalIncome">{{dataStatistical.totalIncome | number : '1.0-0'}}</span>
+                    </div>
+                    <div class="div-detail">
+                        <span class="span-title">Tổng lợi nhuận : </span>
+                        <i class="fa fa-circle-o-notch fa-spin" *ngIf="!dataStatistical.totalProfit"></i>
+                        <span *ngIf="dataStatistical.totalProfit">{{dataStatistical.totalProfit | number : '1.0-0'}}</span>
+                    </div>
+                    <div class="div-detail">
+                        <span class="span-title">Tổng đơn hàng thành công : </span>
+                        <i class="fa fa-circle-o-notch fa-spin" *ngIf="!dataStatistical.totalSuccess"></i>
+                        <span *ngIf="dataStatistical.totalSuccess">{{dataStatistical.totalSuccess | number : '1.0-0'}}</span>
+                    </div>
+                    <div class="div-detail">
+                        <span class="span-title">Thống kê sản phẩm theo số lượng bán </span>
+                        <i class="fa fa-circle-o-notch fa-spin" *ngIf="!dataStatistical.detailProduct"></i>
+                        <div *ngIf="dataStatistical.detailProduct">
+                            <div *ngFor="let item of dataStatistical.detailProduct" [routerLink]="['/chi-tiet', item.key ]"  class="link-product" target="_blank">
+                                <img src="/assets/default/products/{{item.avatar}}" class="img-product">
+                                <span class="span-quantity">
+                                    {{item.quantity}}
+                                </span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

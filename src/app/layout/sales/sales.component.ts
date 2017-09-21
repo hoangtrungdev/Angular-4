@@ -67,7 +67,6 @@ export class SalesComponent implements OnInit {
         }
 
     }
-    // tạo hóa đơn
     private getData(dataRef) {
         const self = this;
         return new Promise((resolve) =>{
@@ -93,16 +92,38 @@ export class SalesComponent implements OnInit {
             });
         })
     }
-    private deleteData(dataRef, key) {
-    const self = this;
-    return new Promise((resolve) => {
-        self.db.list(dataRef).remove(key).then(function () {
-            resolve();
-        });
-    })
-}
 
-    public async deleteOrder(key) {
+    public async changeStatus(data, value) {
+        const self = this;
+        let arrayProduct: any = await this.getData('/products');
+        let dataUpdate: any = { status : value};
+        let toastType = 'success', toastString = 'Thay đổi tình trạng thành công.';
+        switch(value) {
+            case 3:
+                dataUpdate.endedAt = new Date().getTime();
+                dataUpdate.dayend =  moment().format('DD-MM-YYYY');
+                break;
+            case 4 :
+            case 5 : {
+                if ( data.itemsincart && data.itemsincart.length > 0 ) {
+                    data.itemsincart.forEach(cart => {
+                        let dataProduct : any =_.find(arrayProduct, {'pid': cart.id});
+                        let newQuantity = dataProduct.quantity + cart.quantity;
+                        self.updateData('/products/' + dataProduct.$key, {quantity : newQuantity});
+                    })
+                }
+                dataUpdate.endedAt = new Date().getTime();
+                dataUpdate.dayend =  moment().format('DD-MM-YYYY');
+                if(value == 5 ){
+                    toastType = 'success';
+                    toastString = 'Xóa hóa đơn thành công.';
+                }
+                break;
+            }
+        }
+        await this.updateData('/sales/' + data.key, dataUpdate);
+        data.status = value;
+        this.toasterService.pop(toastType, 'Thông báo !', toastString);
 
     }
     public printDiv(): any {
@@ -128,8 +149,6 @@ export class SalesComponent implements OnInit {
             return  `with: ${reason}`;
         }
     }
-
-
 
 
     public items: any[];

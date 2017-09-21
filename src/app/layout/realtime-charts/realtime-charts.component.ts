@@ -44,7 +44,6 @@ export class RealtimeChartsComponent implements OnInit {
     };
 
     public selectedDate(value: any) {
-        console.log('value.end', value.end)
         this.daterange.start = value.start;
         this.daterange.end = value.end;
         this.getValueChart()
@@ -70,7 +69,7 @@ export class RealtimeChartsComponent implements OnInit {
             let abc : any  = _.groupBy(_.sortBy(dataMap, 'endedAt') , "date");
             _.mapValues(abc, function (obj, key) {
                 let date = moment(key,'DD-MM-YYYY');
-                if(seft.daterange.start.diff(date, 'days') <= 0 && seft.daterange.end.diff(date, 'days') >= 0){
+                if(seft.daterange.start <= date &&  date <= seft.daterange.end){
                     seft.ChartLabels.push(key);
                     seft.ChartData[0].data.push(_.sumBy(obj, 'income'));
                     seft.ChartData[1].data.push(_.sumBy(obj, 'profit'));
@@ -80,18 +79,39 @@ export class RealtimeChartsComponent implements OnInit {
             let dataFilterDate = item.filter(val => {
                 if (val.endedAt) {
                     let date = moment(val.dayend,'DD-MM-YYYY');
-                    return (seft.daterange.start.diff(date, 'days') <= 0 && seft.daterange.end.diff(date, 'days') >= 0)
+                    return (seft.daterange.start <= date &&  date <= seft.daterange.end)
                 } else {
                     return false;
                 }
             });
+
             this.dataStatistical = {
                 totalIncome : _.sumBy(dataFilterDate.filter(val => val.status == 3), 'income'),
                 totalProfit : _.sumBy(dataFilterDate.filter(val => val.status == 3), 'profit'),
                 totalSuccess : dataFilterDate.filter(val => val.status == 3).length
             };
-        });
+            this.dataStatistical.totalProducts = [];
+            dataFilterDate.forEach(item => {
+                if ( item.itemsincart ) {
+                    if(typeof item.itemsincart == 'string')
+                        item.itemsincart = JSON.parse(item.itemsincart);
+                    if (item.itemsincart.length > 0 ) {
+                        item.itemsincart.forEach(cart => {
+                            this.dataStatistical.totalProducts.push(cart)
+                        })
+                    }
+                }
+            });
 
+            this.dataStatistical.detailProduct = [];
+            let sum = (total, item) => total += item.quantity;
+            this.dataStatistical.detailProduct = _.chain(this.dataStatistical.totalProducts)
+                .groupBy('code')
+                .map((group, name) => ({ key: name, quantity : _.reduce(group, sum, 0), avatar:  group[0].avatar  }))
+                .orderBy('quantity', 'desc')
+                .value();
+
+        });
     }
 
     // events

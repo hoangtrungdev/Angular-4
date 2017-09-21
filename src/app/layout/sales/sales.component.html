@@ -63,6 +63,27 @@
             <div class="div-detail"><span class="span-title">Điện thoại : </span>{{(curentItem.customerInfo && curentItem.customerInfo.phone) ? curentItem.customerInfo.phone : 'Chưa xác định'}}</div>
             <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{(curentItem.customerInfo && curentItem.customerInfo.address) ? curentItem.customerInfo.address : 'Chưa xác định'}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}</div>
             <div class="div-detail"><span class="span-title">Ghi chú :</span>{{curentItem.note}}</div>
+            <div class="div-detail">
+                <span class="span-title">Tình trạng :</span>
+                <div ngbDropdown style="display : inline-block" >
+                    <span *ngIf="curentItem.status == '1'" ngbDropdownToggle>Đã xác nhận</span>
+                    <span *ngIf="curentItem.status == '2'" ngbDropdownToggle>Đang giao hàng</span>
+                    <span *ngIf="curentItem.status == '3'" ngbDropdownToggle>Hoàn tất</span>
+                    <span *ngIf="curentItem.status == '4'" ngbDropdownToggle>Khách hủy</span>
+                    <span *ngIf="curentItem.status == '5'" ngbDropdownToggle>Xóa</span>
+                    <div class="dropdown-menu status-action" aria-labelledby="dropdownMenu">
+                        <button class="dropdown-item" (click)="changeStatus(curentItem, 2)"
+                                *ngIf="curentItem.status != 2"><i class="fa fa-road"></i> Đang giao hàng</button>
+                        <button class="dropdown-item" (click)="changeStatus(curentItem, 3)"
+                                *ngIf="curentItem.status != 3"><i class="fa fa-check"></i> Hoàn tất</button>
+                        <button class="dropdown-item" (click)="changeStatus(curentItem, 4)"
+                                *ngIf="curentItem.status != 4"><i class="fa fa-repeat"></i> Khách hủy</button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" (click)="changeStatus(curentItem, 5)"><i class="fa fa-trash"></i> Xóa đơn hàng</button>
+                    </div>
+                </div>
+
+            </div>
             <div class="row row-detail">
                 <table class="table table-bordered tbl-cart-detail">
                     <tbody>
@@ -75,12 +96,12 @@
                     </tr>
                     <tr *ngFor="let item of curentItem.itemsincart ; let stt = index">
                         <td>
-                            <a [routerLink]="['/chi-tiet', item.id ]" target="_blank">
+                            <a [routerLink]="['/chi-tiet', item.code ]" target="_blank">
                                 <img src="/assets/default/products/{{item.avatar}}" class="img-cart">
                             </a>
                         </td>
                         <td>
-                            <a [routerLink]="['/chi-tiet', item.id ]" target="_blank">{{item.id}}</a>
+                            <a [routerLink]="['/chi-tiet', item.code ]" target="_blank">{{item.code}}</a>
                         </td>
                         <td class="hide-in-mobile">
                             <div *ngIf="item.saleoff">
