@@ -107,7 +107,7 @@ export class RealtimeChartsComponent implements OnInit {
             let sum = (total, item) => total += item.quantity;
             this.dataStatistical.detailProduct = _.chain(this.dataStatistical.totalProducts)
                 .groupBy('code')
-                .map((group, name) => ({ key: name, quantity : _.reduce(group, sum, 0), avatar:  group[0].avatar  }))
+                .map((group, name) => ({ key: name, quantity : _.reduce(group, sum, 0), avatar:  group[group.length - 1].avatar  }))
                 .orderBy('quantity', 'desc')
                 .value();
 

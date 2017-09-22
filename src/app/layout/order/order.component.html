@@ -72,7 +72,7 @@
         <div class="modal-body">
             <div class="div-detail"><span class="span-title">Tên : </span>{{curentItem.customer_name}}</div>
             <div class="div-detail"><span class="span-title">Điện thoại : </span>{{curentItem.customer_phone}}</div>
-            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{curentItem.customer_address}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}</div>
+            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{curentItem.customer_address}}, {{currentDistrict.name}}, {{currentTown.name}}, {{currentCity.name}}</div>
             <div class="row row-detail">
                 <table class="table table-bordered tbl-cart-detail">
                     <tbody>
@@ -150,7 +150,7 @@
                 <div class="col-12 col-md-6 col-lg-6">
                     <div class="form-group">
                         <label >Ghi chú xử lý</label>
-                        <textarea class="form-control" rows="5"></textarea>
+                        <textarea class="form-control" rows="5" [(ngModel)]="curentItem.note"></textarea>
                         <small id="emailHelp" class="form-text text-muted">Cập nhật ghi chú nếu có.</small>
                     </div>
                 </div>

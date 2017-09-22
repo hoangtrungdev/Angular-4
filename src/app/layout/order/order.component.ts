@@ -144,7 +144,7 @@ export class OrderComponent implements OnInit {
 
         await this.addData('/sales',salesInput);
         await this.updateData('/newOrder/' + data.key,{ handle: 3 });
-        window.print()
+        window.print();
         this.currentModal.close();
         this.toasterService.pop('success', 'Thông báo !', 'Tạo hóa đơn thành công.');
 

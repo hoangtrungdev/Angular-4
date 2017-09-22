@@ -4,12 +4,18 @@
     <div class="row">
         <div class="col-md-2">
             <fieldset class="form-group">
-                <input [(ngModel)]="phoneInput" (input)="filterPhone(phoneInput)" type="text" class="form-control" placeholder="Tìm theo số điện thoại" />
+                <input [(ngModel)]="nameInput" (input)="filterName(nameInput)" type="text" class="form-control" placeholder="Tìm theo tên khách hàng" />
             </fieldset>
         </div>
         <div class="col-md-2">
             <fieldset class="form-group">
-                <input [(ngModel)]="nameInput" (input)="filterName(nameInput)" type="text" class="form-control" placeholder="Tìm theo tên khách hàng" />
+                <select class="form-control" #t (change)="filterStatus(t.value)">
+                    <option [value]="'tatca'">Tất cả</option>
+                    <option [value]="'1'">Đã xác nhận</option>
+                    <option [value]="'2'">Đang giao hàng</option>
+                    <option [value]="'3'">Hoàn tất</option>
+                    <option [value]="'4'">Khách hủy</option>
+                </select>
             </fieldset>
         </div>
     </div>

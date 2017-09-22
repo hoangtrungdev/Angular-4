@@ -99,31 +99,55 @@ export class SalesComponent implements OnInit {
         let dataUpdate: any = { status : value};
         let toastType = 'success', toastString = 'Thay đổi tình trạng thành công.';
         switch(value) {
+            case 2:
+                if(data.status == 4 || data.status == 5 ){
+                    if ( data.itemsincart && data.itemsincart.length > 0 ) {
+                        data.itemsincart.forEach(cart => {
+                            let dataProduct : any =_.find(arrayProduct, {'pid': cart.id});
+                            let newQuantity = dataProduct.quantity - cart.quantity;
+                            self.updateData('/products/' + dataProduct.$key, {quantity : newQuantity});
+                        })
+                    }
+                }
+                break;
             case 3:
+                if(data.status == 4 || data.status == 5 ){
+                    if ( data.itemsincart && data.itemsincart.length > 0 ) {
+                        data.itemsincart.forEach(cart => {
+                            let dataProduct : any =_.find(arrayProduct, {'pid': cart.id});
+                            let newQuantity = dataProduct.quantity - cart.quantity;
+                            self.updateData('/products/' + dataProduct.$key, {quantity : newQuantity});
+                        })
+                    }
+                }
                 dataUpdate.endedAt = new Date().getTime();
                 dataUpdate.dayend =  moment().format('DD-MM-YYYY');
                 break;
             case 4 :
             case 5 : {
-                if ( data.itemsincart && data.itemsincart.length > 0 ) {
-                    data.itemsincart.forEach(cart => {
-                        let dataProduct : any =_.find(arrayProduct, {'pid': cart.id});
-                        let newQuantity = dataProduct.quantity + cart.quantity;
-                        self.updateData('/products/' + dataProduct.$key, {quantity : newQuantity});
-                    })
+                if(data.status != 4 && data.status != 5 ){
+                    if ( data.itemsincart && data.itemsincart.length > 0 ) {
+                        data.itemsincart.forEach(cart => {
+                            let dataProduct : any =_.find(arrayProduct, {'pid': cart.id});
+                            let newQuantity = dataProduct.quantity + cart.quantity;
+                            self.updateData('/products/' + dataProduct.$key, {quantity : newQuantity});
+                        })
+                    }
                 }
                 dataUpdate.endedAt = new Date().getTime();
                 dataUpdate.dayend =  moment().format('DD-MM-YYYY');
-                if(value == 5 ){
-                    toastType = 'success';
-                    toastString = 'Xóa hóa đơn thành công.';
-                }
                 break;
             }
         }
         await this.updateData('/sales/' + data.key, dataUpdate);
+        if(value == 5 ){
+            toastType = 'success';
+            toastString = 'Xóa hóa đơn thành công.';
+            this.currentModal.close();
+        }
         data.status = value;
         this.toasterService.pop(toastType, 'Thông báo !', toastString);
+
 
     }
     public printDiv(): any {
@@ -156,14 +180,16 @@ export class SalesComponent implements OnInit {
 
     /* filter */
     public filteredItems : any[];
-    public filterPhone (value) {
-        if(!value) this.assignCopy(); //when nothing has typed
-        this.filteredItems = this.items.slice().filter(
-            item => this.removeTV(item.customer_phone).includes(this.removeTV(value))
-        )
+    public filterStatus (value) {
+        if(value != 'tatca') {
+            this.filteredItems = this.items.slice().filter(
+                item => item.status == value
+            )
+        } else {
+            this.filteredItems = this.items.slice();
+        }
     }
     public filterName (value) {
-        if(!value) this.assignCopy(); //when nothing has typed
         this.filteredItems = this.items.slice().filter(
             item => this.removeTV(item.customer_name).includes(this.removeTV(value))
         )
