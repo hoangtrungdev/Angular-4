@@ -11,6 +11,7 @@
                 "assets",
                 "favicon.ico",
                 ".htaccess",
+                "0.0.0_page_seo.php",
                 "service-worker.js"
             ],
             "index": "index.html",

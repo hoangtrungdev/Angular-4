@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet|Google)
+  RewriteRule ^chi-tiet/(.*)$ /0.0.0_page_seo.php?type=chi-tiet&id=$1 [L]
+
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet|Google)
+  RewriteRule ^danh-muc/(.*)$ /0.0.0_page_seo.php?type=danh-muc&id=$1 [L]
+
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+Redirect 301 /quantri http://quantri.halley.vn

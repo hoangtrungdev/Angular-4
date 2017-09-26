@@ -72,7 +72,7 @@
         <div class="modal-body">
             <div class="div-detail"><span class="span-title">Tên : </span>{{curentItem.customer_name}}</div>
             <div class="div-detail"><span class="span-title">Điện thoại : </span>{{curentItem.customer_phone}}</div>
-            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{curentItem.customer_address}}, {{currentDistrict.name}}, {{currentTown.name}}, {{currentCity.name}}</div>
+            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{curentItem.customer_address}}, {{currentTown.name}}, {{currentDistrict.name}}, {{currentCity.name}}</div>
             <div class="row row-detail">
                 <table class="table table-bordered tbl-cart-detail">
                     <tbody>
@@ -200,7 +200,7 @@
         <div>
             <strong>Địa chỉ giao hàng: </strong>
             <span>
-                    {{curentItem.customer_address}}, {{currentCity.name}}, {{currentDistrict.name}}, {{currentTown.name}}
+                    {{curentItem.customer_address}}, {{currentTown.name}}, {{currentDistrict.name}}, {{currentCity.name}}
                 </span>
         </div>
         <div ng-show="note!=null" class="ng-hide">
