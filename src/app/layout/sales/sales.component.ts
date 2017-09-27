@@ -23,6 +23,9 @@ export class SalesComponent implements OnInit {
     public currentDistrict : any = {} ;
     public currentTown : any  = {};
     public arrayCustomer : any ;
+    public items: any[];
+    public selectStatus: any = 'tatca';
+
 
     private toasterService: ToasterService;
     constructor(toasterService: ToasterService, db: AngularFireDatabase, private modalService: NgbModal  ) {
@@ -33,6 +36,7 @@ export class SalesComponent implements OnInit {
         this.toasterService = toasterService;
         this.arrayCustomer =  await this.getData('/customers');
         db.list('/sales').subscribe(items => {
+
             items = items.filter(item => item.status != '5');
             this.items = items.slice().reverse();
             this.items.map(item => {
@@ -43,6 +47,7 @@ export class SalesComponent implements OnInit {
 
             });
             this.assignCopy()
+            this.filterStatus();
         });
     }
     // xem chi tiết đơn đặt hàng
@@ -175,12 +180,12 @@ export class SalesComponent implements OnInit {
     }
 
 
-    public items: any[];
     public currentPage: number = 1;
 
     /* filter */
     public filteredItems : any[];
-    public filterStatus (value) {
+    public filterStatus () {
+        let value = this.selectStatus;
         if(value != 'tatca') {
             this.filteredItems = this.items.slice().filter(
                 item => item.status == value
@@ -188,22 +193,6 @@ export class SalesComponent implements OnInit {
         } else {
             this.filteredItems = this.items.slice();
         }
-    }
-    public filterName (value) {
-        this.filteredItems = this.items.slice().filter(
-            item => this.removeTV(item.customer_name).includes(this.removeTV(value))
-        )
-    }
-    private removeTV(str) {
-        str = str.toLowerCase();
-        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-        str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-        str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-        str = str.replace(/đ/g, "d");
-        return str;
     }
 
 

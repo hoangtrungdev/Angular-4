@@ -4,12 +4,7 @@
     <div class="row">
         <div class="col-md-2">
             <fieldset class="form-group">
-                <input [(ngModel)]="nameInput" (input)="filterName(nameInput)" type="text" class="form-control" placeholder="Tìm theo tên khách hàng" />
-            </fieldset>
-        </div>
-        <div class="col-md-2">
-            <fieldset class="form-group">
-                <select class="form-control" #t (change)="filterStatus(t.value)">
+                <select class="form-control" [(ngModel)]="selectStatus" #t (change)="filterStatus()">
                     <option [value]="'tatca'">Tất cả</option>
                     <option [value]="'1'">Đã xác nhận</option>
                     <option [value]="'2'">Đang giao hàng</option>
