@@ -6,8 +6,8 @@
         </div>
         <div class="row">
             <div class="col-sm-3"  *ngFor="let product of productArray; let i = index" [hidden]="i >= numberShow" >
-                <div class="div-product animated fadeIn hvr-underline-from-center">
-                    <a [routerLink]="['/chi-tiet', product.pid ]" title="" class="product-image">
+                <div [routerLink]="['/chi-tiet', product.pid ]" class="div-product animated fadeIn hvr-underline-from-center">
+                    <a class="product-image">
                         <img [src]="'/assets/default/products/'+product.avatar" [ngClass]="{'sold-out':product.quantity == '0'}" class="img-fluid" style="margin: 0px auto;">
                     </a>
                     <div class="details-area text-center">

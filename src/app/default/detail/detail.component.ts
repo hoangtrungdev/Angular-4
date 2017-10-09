@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { FacebookService, InitParams } from 'ngx-facebook';
 
 @Component({
     selector: 'app-detail',
@@ -14,37 +13,53 @@ export class DetailComponent implements OnInit, OnDestroy{
     private sub: any;
     public detailInfo: any;
     public loading = false;
+    public db : any ;
+    public arrayProducts : any = [] ;
 
-
-    constructor(private fb: FacebookService,private router: Router, private route: ActivatedRoute, db: AngularFireDatabase) {
-
-        this.sub = this.route.params.subscribe(params => {
-            this.id = params['id'];
-            this.detailInfo = null;
-            this.loading = true;
-            db.list('/products',{
+    constructor(private router: Router, private route: ActivatedRoute, db: AngularFireDatabase) {
+        this.db = db ;
+        this.constructorFunction();
+    }
+    private async constructorFunction () {
+        let self = this ;
+        self.arrayProducts =  await self.getData('/products');
+        self.sub =  self.route.params.subscribe(params => {
+            self.id = params['id'];
+            self.detailInfo = null;
+            self.loading = true;
+            self.db.list('/products',{
                 query: {
                     orderByChild: 'pid',
-                    equalTo: this.id
+                    equalTo: self.id
                 }
             }).subscribe(items => {
-                this.detailInfo = items && items[0] ? items[0] : null ;
-                if(this.detailInfo && this.detailInfo.detail_img){
-                    this.detailInfo.detail_img = this.detailInfo.detail_img.split(';');
+                self.detailInfo = items && items[0] ? items[0] : null ;
+                if(self.detailInfo && self.detailInfo.detail_img){
+                    self.detailInfo.detail_img = self.detailInfo.detail_img.split(';');
                 }
-                this.loading = false;
-                // init facebook
-                let initParams: InitParams = {
-                    appId: '127095484689647',
-                    xfbml: true,
-                    version: 'v2.8'
-                };
+                if(self.detailInfo && self.detailInfo.group){
+                    self.detailInfo.group = self.detailInfo.group.split(';');
+                    self.detailInfo.groupProductList = self.arrayProducts.filter( item => {
+                        return self.detailInfo.group.includes(item.pid)
+                    });
+                    console.log(self.detailInfo.groupProductList );
 
-                fb.init(initParams);
+                }
+                self.loading = false;
             });
         });
-
     }
+
+    private getData(dataRef) {
+        const self = this;
+        return new Promise((resolve) =>{
+                self.db.list(dataRef).subscribe(val => {
+                    resolve(val) ;
+                });
+            }
+        )
+    }
+
     public addToCart(detailInfo): void {
         let cartArray: any = [];
         if (localStorage.getItem('cartInfo')) {

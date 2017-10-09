@@ -91,7 +91,7 @@ export class RealtimeChartsComponent implements OnInit {
                 totalSuccess : dataFilterDate.filter(val => val.status == 3).length
             };
             this.dataStatistical.totalProducts = [];
-            dataFilterDate.forEach(item => {
+            dataFilterDate.filter(val => val.status == 3).forEach(item => {
                 if ( item.itemsincart ) {
                     if(typeof item.itemsincart == 'string')
                         item.itemsincart = JSON.parse(item.itemsincart);

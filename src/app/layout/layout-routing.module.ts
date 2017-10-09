@@ -11,6 +11,7 @@ const routes: Routes = [
             { path: 'realtime-charts', loadChildren: './realtime-charts/realtime-charts.module#RealtimeChartsModule' },
             { path: 'order', loadChildren: './order/order.module#OrderModule' },
             { path: 'sales', loadChildren: './sales/sales.module#SalesModule' },
+            { path: 'products', loadChildren: './products/products.module#ProductsModule' },
             { path: 'position', loadChildren: './position/position.module#PositionModule' },
             { path: 'coupon', loadChildren: './coupon/coupon.module#CouponModule' },
             { path: 'charts', loadChildren: './charts/charts.module#ChartsModule' },

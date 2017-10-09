@@ -170,3 +170,39 @@
         }
     }
 }
+
+.div-product {
+    margin: 15px 10px;
+    border: 1px solid #F2F2F2;
+    cursor: pointer;
+    outline: none;
+    .product-name {
+        font-size: 1.5em;
+        font-weight: bold;
+        padding-bottom: 10px;
+        position: relative;
+        &:before {
+            background: #000;
+            bottom: 0;
+            content: "";
+            height: 1px;
+            left: 50%;
+            margin-left: -15px;
+            position: absolute;
+            width: 30px;
+        }
+    }
+    .product-price {
+        margin-top: 20px;
+        .sale-price {
+            color: #333;
+            font-size: 15px;
+            padding: 2px 5px;
+        }
+        .price {
+            font-size: 20px;
+            font-weight: 300;
+            color: #834453;
+        }
+    }
+}
