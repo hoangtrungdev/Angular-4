@@ -12,7 +12,7 @@ export class LayoutComponent implements OnInit {
 
     ngOnInit() {
         if (this.router.url === '/admin') {
-            this.router.navigate(['/admin/dashboard']);
+            this.router.navigate(['/admin/realtime-charts']);
         }
     }
 

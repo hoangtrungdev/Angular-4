@@ -1,10 +1,22 @@
 :host ::ng-deep .ngx-pagination {
     padding-left: 0;
 }
+
+.div-product-parent {
+    position: relative;
+    .link-delete {
+        position: absolute;
+        font-size: 24px;
+        right: 9px;
+        top: -5px;
+        z-index: 10;
+    }
+}
 .div-product {
     margin: 15px 10px;
     border: 1px solid #F2F2F2;
     cursor: pointer;
+
     .product-name {
         font-size: 1.5em;
         font-weight: bold;
@@ -32,6 +44,14 @@
             font-size: 20px;
             font-weight: 300;
             color: #834453;
+        }
+    }
+}
+.table-form-product {
+    width: 100%;
+    tr {
+        td {
+            padding : 5px ;
         }
     }
 }

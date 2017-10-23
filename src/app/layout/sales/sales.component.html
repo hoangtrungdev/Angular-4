@@ -62,7 +62,11 @@
         <div class="modal-body">
             <div class="div-detail"><span class="span-title">Tên : </span>{{(curentItem.customerInfo && curentItem.customerInfo.name) ? curentItem.customerInfo.name : 'Chưa xác định'}}</div>
             <div class="div-detail"><span class="span-title">Điện thoại : </span>{{(curentItem.customerInfo && curentItem.customerInfo.phone) ? curentItem.customerInfo.phone : 'Chưa xác định'}}</div>
-            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{(curentItem.customerInfo && curentItem.customerInfo.address) ? curentItem.customerInfo.address : 'Chưa xác định'}}, {{currentTown.name}}, {{currentDistrict.name}}, {{currentCity.name}}</div>
+            <div class="div-detail"><span class="span-title">Địa chỉ :</span>{{(curentItem.customerInfo && curentItem.customerInfo.address) ? curentItem.customerInfo.address : 'Chưa xác định'}}
+                <span *ngIf="curentItem.type != 1">
+                , {{currentTown.name}}, {{currentDistrict.name}}, {{currentCity.name}}
+                </span>
+            </div>
             <div class="div-detail"><span class="span-title">Ghi chú :</span>{{curentItem.note}}</div>
             <div class="div-detail">
                 <span class="span-title">Tình trạng :</span>
@@ -203,8 +207,11 @@
         <div>
             <strong>Địa chỉ giao hàng: </strong>
             <span>
-                    {{(curentItem.customerInfo && curentItem.customerInfo.address) ? curentItem.customerInfo.address : 'Chưa xác định'}}, {{currentTown.name}}, {{currentDistrict.name}}, {{currentCity.name}}
-                </span>
+                    {{(curentItem.customerInfo && curentItem.customerInfo.address) ? curentItem.customerInfo.address : 'Chưa xác định'}}
+                    <span *ngIf="curentItem.type != 1">
+                     , {{currentTown.name}}, {{currentDistrict.name}}, {{currentCity.name}}
+                    </span>
+            </span>
         </div>
         <div ng-show="note!=null" class="ng-hide">
             <strong>Ghi chú: </strong><span></span>

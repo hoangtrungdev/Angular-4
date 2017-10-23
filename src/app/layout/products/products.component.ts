@@ -4,9 +4,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ToasterService } from 'angular2-toaster';
 
 
-import * as _ from "lodash";
-import * as moment from 'moment';
-
 @Component({
     selector: 'app-products',
     templateUrl: './products.component.html',
@@ -17,10 +14,7 @@ export class ProductsComponent implements OnInit {
     public closeResult: string;
     public curentItem: any;
     public db : any ;
-    public currentCity : any = {};
-    public currentDistrict : any = {} ;
-    public currentTown : any  = {};
-    public arrayCustomer : any ;
+    public arrayCate : any ;
     public items: any[];
     public selectStatus: any = 'tatca';
 
@@ -32,32 +26,35 @@ export class ProductsComponent implements OnInit {
     async contructorFunction(toasterService, db ) {
         this.db = db ;
         this.toasterService = toasterService;
-        this.arrayCustomer =  await this.getData('/customers');
         db.list('/products').subscribe(items => {
             this.items = items.slice().reverse();
             this.assignCopy();
-            this.filterStatus();
         });
+
+        this.arrayCate =  await this.getData('/cates');
     }
-    // xem chi tiết đơn đặt hàng
+
+
     public selectItem(item) {
-        const self = this;
         let itemClone = {...item};
         itemClone.key = item.$key;
-        if(typeof itemClone.itemsincart == 'string')
-            itemClone.itemsincart = JSON.parse(itemClone.itemsincart);
         this.curentItem = itemClone;
-
-        if(itemClone.customerInfo) {
-            self.db.object('/city/' + itemClone.customerInfo.city).subscribe(val => {
-                self.currentCity = val ;
-            });
-            self.db.object('/district/' + itemClone.customerInfo.district).subscribe(val => {
-                self.currentDistrict = val ;
-            });
-            self.db.object('/town/' + itemClone.customerInfo.town).subscribe(val => {
-                self.currentTown = val ;
-            })
+    }
+    public resetCurentItem() {
+        this.curentItem = {
+            cate : null
+        };
+    }
+    public async addOrUpdateProduct() {
+        if(this.curentItem && this.curentItem.key){
+            await this.updateData('/products/' + this.curentItem.key, this.curentItem);
+            this.currentModal.close();
+            this.toasterService.pop('success', 'Thông báo !', 'Cập nhật sản phẩm thành công.');
+        } else {
+            this.curentItem.sortValue = 0 ;
+            await this.addData('/products/', this.curentItem);
+            this.currentModal.close();
+            this.toasterService.pop('success', 'Thông báo !', 'Thêm sản phẩm thành công.');
         }
 
     }
@@ -100,9 +97,6 @@ export class ProductsComponent implements OnInit {
         this.toasterService.pop('success', 'Thông báo !', 'Xóa sản phẩm hàng thành công.');
     }
 
-    public printDiv(): any {
-        window.print()
-    }
     /* modal*/
     public currentModal: any;
     public open(content) {
@@ -139,7 +133,6 @@ export class ProductsComponent implements OnInit {
             this.filteredItems = this.items.slice();
         }
     }
-
 
     public assignCopy(){
         this.filteredItems = this.items.slice();

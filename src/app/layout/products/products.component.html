@@ -1,21 +1,22 @@
 <toaster-container></toaster-container>
 <div class="animated bounceInDown no-print">
     <app-page-header [heading]="'Danh sách sản phẩm'"></app-page-header>
-    <div class="row">
-        <div class="col-md-2">
-            <fieldset class="form-group">
-                <select class="form-control" [(ngModel)]="selectStatus" #t (change)="filterStatus()">
-                    <option [value]="'tatca'">Tất cả</option>
-                    <option [value]="'1'">Đã xác nhận</option>
-                    <option [value]="'2'">Đang giao hàng</option>
-                    <option [value]="'3'">Hoàn tất</option>
-                    <option [value]="'4'">Khách hủy</option>
-                </select>
-            </fieldset>
-        </div>
+    <div class="row" style="padding: 0 15px">
+        <button class="btn btn-primary" (click)="resetCurentItem(); open(content)">Thêm sản phẩm</button>
     </div>
     <div class="row">
-        <div class="col-lg-2 col-md-4 col-12"  *ngFor="let item of filteredItems | paginate: { itemsPerPage: 12, currentPage: currentPage } ; let stt = index" >
+        <div class="col-lg-2 col-md-4 col-12 div-product-parent"  *ngFor="let item of filteredItems | paginate: { itemsPerPage: 12, currentPage: currentPage } ; let stt = index" >
+            <a class="link-delete"
+               mwlConfirmationPopover
+               [title]="'Thông báo'"
+               [message]="'Bạn muốn chắc chắn muốn xóa dữ liệu này ?'"
+               [confirmText]="'Có'"
+               [cancelText]="'Không'"
+               placement="left"
+               (confirm)="deleteProduct(item.$key)"
+            >
+                <i class="fa fa-times-circle-o"></i>
+            </a>
             <div class="div-product animated fadeIn hvr-underline-from-center">
                 <a (click)="selectItem(item); open(content)" class="product-image">
                     <img [src]="'/assets/default/products/'+item.avatar" [ngClass]="{'sold-out':item.quantity == '0'}" class="img-fluid" style="margin: 0px auto;">
@@ -45,26 +46,74 @@
 
     <ng-template #content let-c="close" let-d="dismiss" style="width: 900px">
         <div class="modal-header">
-            <h4 class="modal-title">Chi tiết đơn đặt hàng</h4>
+            <h4 class="modal-title">
+                <span *ngIf="!curentItem">Thêm sản phẩm</span>
+                <span *ngIf="curentItem">Cập nhật sản phẩm</span>
+            </h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            <form role="form">
-                <fieldset class="form-group">
-                    <label>Danh mục sản phẩm</label>
-                    <input class="form-control">
-                </fieldset>
-                <fieldset class="form-group">
-                    <label>Mã sản phẩm</label>
-                    <input class="form-control">
-                </fieldset>
-            </form>
+            <table class="table-form-product">
+                <tr>
+                    <td style="width: 170px"> Danh mục </td>
+                    <td>
+                        <select class="form-control" [(ngModel)]="curentItem.cate">
+                            <option [value]="null" >Chọn danh mục</option>
+                            <option *ngFor="let cate of arrayCate" [ngValue]="cate.$key">{{cate.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mô tả </td>
+                    <td><input class="form-control" [(ngModel)]="curentItem.desc" placeholder="Mô tả sản phẩm"></td>
+                </tr>
+                <tr>
+                    <td> Mã sản phẩm </td>
+                    <td><input class="form-control" [(ngModel)]="curentItem.pid" placeholder="Mã sản phẩm"></td>
+                </tr>
+                <tr>
+                    <td> Cùng loại </td>
+                    <td><input class="form-control" [(ngModel)]="curentItem.group" placeholder="Cùng loại"></td>
+                </tr>
+                <tr>
+                    <td> Giá bán thường </td>
+                    <td><input class="form-control" [(ngModel)]="curentItem.price" placeholder="Giá bán thường"></td>
+                </tr>
+                <tr>
+                    <td> Giá bán khuyến mãi </td>
+                    <td><input class="form-control" [(ngModel)]="curentItem.sale_price" placeholder="Giá bán khuyến mãi"></td>
+                </tr>
+                <tr>
+                    <td> Giá vốn </td>
+                    <td><input class="form-control" [(ngModel)]="curentItem.inprice" placeholder="Giá vốn"></td>
+                </tr>
+                <tr>
+                    <td> Số lượng </td>
+                    <td><input class="form-control" [(ngModel)]="curentItem.quantity" placeholder="Số lượng"></td>
+                </tr>
+                <tr>
+                    <td> Ảnh đại diện </td>
+                    <td> <input class="form-control" [(ngModel)]="curentItem.avatar" placeholder="Ảnh đại diện"></td>
+                </tr>
+                <tr>
+                    <td> Ảnh chi tiết </td>
+                    <td> <input class="form-control" [(ngModel)]="curentItem.detail_img" placeholder="Ảnh chi tiết"></td>
+                </tr>
+                <tr>
+                    <td> Khuyến mãi </td>
+                    <td><input type="checkbox" [(ngModel)]="curentItem.saleoff"></td>
+                </tr>
+                <tr>
+                    <td> Hiển thị </td>
+                    <td><input type="checkbox" [(ngModel)]="curentItem.show"></td>
+                </tr>
+            </table>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary">Cập nhật</button>
-            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Tắt</button>
+            <button type="button" class="btn btn-primary" (click)="addOrUpdateProduct()">Xác nhận</button>
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Thoát</button>
         </div>
     </ng-template>
 
