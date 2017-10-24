@@ -44,9 +44,11 @@ export class SalesComponent implements OnInit {
                 if (dataCustomer) {
                     item.customerInfo = dataCustomer;
                 }
+                if(typeof item.itemsincart == 'string')
+                    item.listcart = JSON.parse(item.itemsincart);
 
             });
-            this.assignCopy()
+            this.assignCopy();
             this.filterStatus();
         });
     }

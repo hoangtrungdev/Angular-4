@@ -16,27 +16,33 @@
     </div>
     <div class="row">
         <div class="col col-12">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-list-sales">
                 <tbody>
                 <tr>
                     <th class="hide-in-mobile">#</th>
                     <th>Thời gian</th>
                     <th>Tên khách hàng</th>
                     <th class="hide-in-mobile">Tổng thu</th>
+                    <th class="hide-in-mobile text-center">Sản phẩm</th>
                     <th class="text-center">Hình thức</th>
-                    <th class="text-center" class="hide-in-mobile">Tình trạng</th>
+                    <th class="text-center hide-in-mobile">Tình trạng</th>
                 </tr>
                 <tr class="text" *ngFor="let item of filteredItems | paginate: { itemsPerPage: 10, currentPage: currentPage } ; let stt = index">
                     <td class="hide-in-mobile" (click)="open(content); selectItem(item)">{{stt + 1}}</td>
                     <td (click)="open(content); selectItem(item)">{{item.startedAt | date: 'dd/MM/yyyy'}}</td>
                     <td (click)="open(content); selectItem(item)">{{(item.customerInfo && item.customerInfo.name) ? item.customerInfo.name : 'Chưa xác định'}}</td>
                     <td class="hide-in-mobile" (click)="open(content); selectItem(item)">{{item.income | number : '1.0-0' }}</td>
+                    <td class="text-center hide-in-mobile">
+                        <a *ngFor="let cart of item.listcart" [routerLink]="['/chi-tiet', cart.id ]" target="_blank">
+                            <img src="/assets/default/products/{{cart.avatar}}" style="height: 30px">
+                        </a>
+                    </td>
                     <td class="text-center" (click)="open(content); selectItem(item)">
                         <span *ngIf="item.type == '1'">Cửa hàng</span>
                         <span *ngIf="item.type == '2'">Tự giao</span>
                         <span *ngIf="item.type == '4'">Bên thứ 3</span>
                     </td>
-                    <td class="text-center"  class="hide-in-mobile" (click)="open(content); selectItem(item)">
+                    <td class="text-center hide-in-mobile" (click)="open(content); selectItem(item)">
                         <span *ngIf="item.status == '1'">Đã xác nhận</span>
                         <span *ngIf="item.status == '2'">Đang giao hàng</span>
                         <span *ngIf="item.status == '3'">Hoàn tất</span>

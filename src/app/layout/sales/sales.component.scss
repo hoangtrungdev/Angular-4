@@ -1,6 +1,13 @@
 :host ::ng-deep .ngx-pagination {
     padding-left: 0;
 }
+.table-list-sales {
+    tr {
+        td {
+            vertical-align: middle;
+        }
+    }
+}
 .td-action {
     font-size: 15px;
     span {
