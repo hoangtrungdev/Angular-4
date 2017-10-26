@@ -1,0 +1,48 @@
+.container {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.tab-title {
+    h2.title, .title.h2 {
+        color: #834453;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0;
+        line-height: 20px;
+        margin: 0 0 10px;
+        padding: 7px 50px;
+        position: relative;
+        text-transform: uppercase;
+        border: 1px dashed #dddddd;
+    }
+    h2.title:before, .title.h2:before {
+        background: transparent;
+        border: 1px solid #834453;
+        color: #834453;
+        content: "\f005";
+        font-family: 'FontAwesome';
+        font-size: 13px;
+        left: -1px;
+        padding: 8px 7px 5px;
+        position: absolute;
+        text-align: center;
+        top: -1px;
+        width: 36px;
+        height: 36px;
+
+    }
+}
+.ship-text {
+    padding: 5px 15px 10px 15px;
+}
+.ship-fee-detail {
+    padding: 5px 10px;
+    border: 1px solid #CCC;
+    .div-bold {
+        font-weight: bold;
+        padding: 3px 0px;
+        span {
+            margin-right: 5px;
+        }
+    }
+}

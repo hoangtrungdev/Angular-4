@@ -1,0 +1,43 @@
+<div class="animated bounceInDown">
+    <div class="main container">
+        <div class="tab-title clearfix">
+            <h2 class="title">Phí giao hàng</h2>
+        </div>
+        <div class="row">
+            <div class="col-12 ship-text">Vui lòng chọn thành phố, quận, huyện để biết chi tiết giao hàng</div>
+            <div class="col-12 col-lg-4">
+                <fieldset class="form-group">
+                    <select type="text" class="form-control"
+                            name="customerCity" [(ngModel)]="city" (change)="changeCity(city)">
+                        <option value="">--- Chọn thành phố ---</option>
+                        <option  *ngFor="let city of cityArray | async;"  [ngValue]="city">{{city.name}}</option>
+                    </select>
+                </fieldset>
+            </div>
+            <div class="col-12 col-lg-4">
+                <fieldset class="form-group">
+                    <select type="text" class="form-control"
+                            name="customerDistrict" [(ngModel)]="district">
+                        <option value="">--- Chọn quận, huyện ---</option>
+                        <option  *ngFor="let district of districtArray | async;"  [ngValue]="district">{{district.name}}</option>
+                    </select>
+                </fieldset>
+            </div>
+            <div class="col-12 ">
+                <fieldset class="form-group ship-fee-detail animated fadeIn" *ngIf="district != ''">
+
+                    <div class="div-bold"><span class="fa fa-yen"></span> Phí giao: {{district.fee | number : '1.0-0'}}</div>
+                    <div class="div-bold"><span class="fa fa-clock-o"></span> Thời gian giao: Trong vòng {{district.time}} tiếng</div>
+                    <div class="div-bold"><span class="fa fa-exclamation-circle"></span> Lưu ý:</div>
+                    <div style="margin-left: 10px;">
+                        <p><span class="fa fa-check"></span> Để đẩy nhanh tốc độ giao hàng, Halley sẽ <strong>KHÔNG</strong> gọi điện xác nhận, bạn vui lòng kiểm tra kỹ thông tin đặt hàng.</p>
+                        <p><span class="fa fa-check"></span> Halley giao hàng thông qua đối tác, cam kết giao trong 24h(nội thành) hoặc 48h(ngoại thành), nhưng có đôi chút bất tiện là không thể hẹn giờ giao cụ thể, bạn thông cảm đợi đến khi shipper liên hệ(có thể hẹn giao lại lúc khác nếu không tiện nhận).</p>
+                        <p><span class="fa fa-check"></span> Bạn có quyền từ chối nhận hàng nếu không vừa ý.</p>
+                    </div>
+
+                </fieldset>
+
+            </div>
+        </div>
+    </div>
+</div>
