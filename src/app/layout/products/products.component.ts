@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { ToasterService } from 'angular2-toaster';
+import  *  as _ from 'lodash';
+
 
 
 @Component({
@@ -27,7 +29,7 @@ export class ProductsComponent implements OnInit {
         this.db = db ;
         this.toasterService = toasterService;
         db.list('/products').subscribe(items => {
-            this.items = items.slice().reverse();
+            this.items = _.orderBy(items, ['sortValue'], ['asc']);
             this.assignCopy();
         });
 

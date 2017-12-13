@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     onLoggedin() {
         if (this.name == 'hoangtrungdev' && this.password == 'trungdeptrai') {
             localStorage.setItem('isLoggedin', 'true');
-            this.router.navigate(['/admin/dashboard']);
+            this.router.navigate(['/admin/products']);
         } else{
             this.toasterService.pop('error', 'Thông báo !', 'Sai thông tin .Xin thử lại !!!!');
         }
